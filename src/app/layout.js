@@ -1,6 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
 import Navbar from "./components/Navbar";
+import BottomNavigation from "./components/BottomNavigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,7 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "DocManager - Premium Document Management System",
-  description: "Manage your service requests and documents securely in one place.",
+  description:
+    "Manage your service requests and documents securely in one place.",
 };
 
 export default function RootLayout({ children }) {
@@ -23,14 +26,17 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="h-full bg-[#F9FAFB] text-[#0F172A] flex flex-col font-sans">
-        {/* Modern Navbar Top Section */}
+      <body className="min-h-screen bg-slate-50 text-slate-900 font-sans">
+        {/* Top Navbar */}
         <Navbar />
-        
-        {/* Dynamic Body Content */}
-        <main className="flex-grow flex flex-col">
+
+        {/* Page Content */}
+        <main className="min-h-screen pt-16 pb-24">
           {children}
         </main>
+
+        {/* Bottom Navigation */}
+        <BottomNavigation />
       </body>
     </html>
   );

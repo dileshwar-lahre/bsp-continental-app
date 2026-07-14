@@ -2,113 +2,200 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
-import { FiHome, FiLayers, FiCompass, FiInfo, FiPhone, FiLogIn } from "react-icons/fi";
+import { FiHome, FiInfo, FiBriefcase, FiFileText, FiShield, FiBell, FiLogIn } from "react-icons/fi";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  // 🔐 Auth States (Back-end logic connect karne ke liye)
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Login hone par isko true kar dena
+  const userImageUrl = ""; // User ki profile image ka URL yahan aayega
 
   const menuItems = [
-    { name: "Home", href: "/", icon: <FiHome className="text-xl" /> },
-    { name: "Features", href: "/features", icon: <FiLayers className="text-xl" /> },
-    { name: "Plan", href: "/plan", icon: <FiCompass className="text-xl" /> },
-    { name: "About", href: "/about", icon: <FiInfo className="text-xl" /> },
-    { name: "Contact", href: "/contact", icon: <FiPhone className="text-xl" /> },
+    { name: "Home", href: "/", icon: <FiHome size={22} /> },
+    { name: "About", href: "/about", icon: <FiInfo size={22} /> },
+    { name: "Service", href: "/service", icon: <FiBriefcase size={22} /> },
+    { name: "Terms", href: "/terms", icon: <FiFileText size={22} /> },
+    { name: "Policy", href: "/policy", icon: <FiShield size={22} /> },
   ];
 
   return (
     <>
-      {/* Standard Header Navbar Layout - Premium White Glassmorphism */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-100 text-[#0F172A] transition-all duration-300">
-        <div className="max-w-7xl mx-auto h-20 px-6 flex items-center justify-between">
-          
-          {/* Main Brand Logo */}
+      {/* ─── 3D MODERN WHITE NAVBAR ─── */}
+      <nav className="fixed top-0 left-0 right-0 h-24 bg-white z-40 px-6 md:px-20 lg:px-32 flex items-center justify-between select-none shadow-[0_10px_30px_rgba(0,0,0,0.05)] border-b border-slate-100/80 transition-all duration-300">
+        
+        {/* Left Side: Simple Branding */}
+        <div className="flex items-center">
           <Link 
             href="/" 
-            className="text-2xl font-black tracking-wider bg-gradient-to-r from-[#0F172A] via-slate-800 to-slate-600 bg-clip-text text-transparent uppercase group flex items-center"
+            className="text-2xl md:text-3xl font-extrabold tracking-tight text-black active:scale-95 transition-transform"
+            style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}
           >
-            Adyverse
+            BSP <span className="font-light text-slate-500">Continental</span>
           </Link>
+        </div>
 
-          {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wide uppercase text-slate-500">
-            {menuItems.map((item) => (
-              <Link 
-                key={item.name} 
-                href={item.href} 
-                className="hover:text-[#4F46E5] transition-all duration-300 relative after:absolute after:bottom-[-6px] after:left-0 after:w-0 after:h-[2px] after:bg-[#4F46E5] hover:after:w-full after:transition-all after:duration-300"
+        {/* Center: Desktop Menu Links */}
+        <div className="hidden md:flex items-center gap-10 lg:gap-14">
+          {menuItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`text-base md:text-lg font-bold transition-colors relative py-2 ${
+                  isActive ? "text-black" : "text-slate-500 hover:text-black"
+                }`}
               >
                 {item.name}
+                {isActive && (
+                  <motion.div 
+                    layoutId="modern3DTab"
+                    className="absolute bottom-0 left-0 right-0 h-[3px] bg-black rounded-full"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
               </Link>
-            ))}
-          </div>
+            );
+          })}
+        </div>
 
-          {/* Desktop Login Button */}
-          <div className="hidden md:block">
+        {/* Right Side: Actions (Notification, Profile, Login & Toggle) */}
+        <div className="flex items-center gap-3 md:gap-5">
+          
+          {/* Notification Bell */}
+          <button 
+            className="relative w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-slate-700 hover:text-black hover:bg-slate-100 transition-all active:scale-95"
+            aria-label="Notifications"
+          >
+            <FiBell size={22} />
+            <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white" />
+          </button>
+
+          {/* Desktop Login Button (Hidden when Logged In) */}
+          {!isLoggedIn && (
             <Link
               href="/login"
-              className="relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-[#0F172A] rounded-full transition-all duration-300 hover:bg-[#4F46E5] active:scale-95 shadow-[0_4px_20px_rgba(15,23,42,0.15)] hover:shadow-indigo-100"
+              className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full border border-slate-900 text-black font-extrabold text-sm hover:bg-black hover:text-white transition-all active:scale-95 shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
             >
+              <FiLogIn size={16} />
               Login
             </Link>
-          </div>
+          )}
 
-          {/* Mobile Toggler Button */}
-          <button 
-            onClick={() => setIsOpen(!isOpen)} 
-            className="md:hidden text-2xl p-2 text-slate-700 hover:text-[#0F172A] transition-all duration-300 focus:outline-none z-50 relative"
+          {/* Profile Badge (With Question Mark Placeholder) */}
+          <Link 
+            href="/profile" 
+            className="relative w-12 h-12 rounded-full overflow-hidden flex items-center justify-center bg-slate-100 hover:bg-slate-200 transition-all active:scale-95 border border-slate-200"
+            aria-label="User Profile"
+          >
+            {isLoggedIn && userImageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={userImageUrl} alt="Profile" className="w-full h-full object-cover" />
+            ) : (
+              <span className="text-xl font-black text-slate-600 select-none">?</span>
+            )}
+          </Link>
+
+          {/* Mobile Menu Burger Icon */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-3xl p-1 text-black active:scale-90 focus:outline-none"
             aria-label="Toggle Menu"
           >
-            {isOpen ? <HiX className="scale-110 rotate-90 text-[#0F172A]" /> : <HiMenuAlt3 />}
+            {isOpen ? <HiX /> : <HiMenuAlt3 />}
           </button>
         </div>
       </nav>
 
-      {/* Backdrop Dark Overlay */}
-      <div 
-        className={`fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 transition-opacity duration-300 md:hidden ${
-          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={() => setIsOpen(false)}
-      />
-
-      {/* Drawer Menu Panel - Slides from Left, Pure White Background */}
-      <div 
-        className={`fixed top-0 left-0 bottom-0 w-[85%] max-w-[320px] bg-white border-r border-slate-100 z-40 p-6 pt-24 flex flex-col justify-between transition-transform duration-300 ease-out md:hidden shadow-[10px_0_40px_rgba(0,0,0,0.06)] ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        {/* Menu Items with Icons */}
-        <div className="flex flex-col gap-1.5">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 px-4 mb-2">Navigation</p>
-          {menuItems.map((item) => (
-            <Link 
-              key={item.name}
-              href={item.href} 
+      {/* ─── PREMIUM MOBILE LEFT DRAWER MENU ─── */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-4 text-base font-semibold text-slate-700 hover:text-[#4F46E5] hover:bg-slate-50 px-4 py-3 rounded-xl transition-all duration-200 group active:scale-98"
+              className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 md:hidden"
+            />
+
+            {/* Baya Side Menu Layer */}
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 250 }}
+              className="fixed top-0 left-0 bottom-0 w-[85%] max-w-[340px] bg-white z-50 p-6 flex flex-col justify-between md:hidden rounded-r-[2.5rem] shadow-[30px_0_60px_rgba(0,0,0,0.12)]"
             >
-              <span className="text-slate-400 group-hover:text-[#4F46E5] transition-colors">
-                {item.icon}
-              </span>
-              <span>{item.name}</span>
-            </Link>
-          ))}
-        </div>
-        
-        {/* Bottom Login Button */}
-        <div className="flex flex-col gap-4 mb-4">
-          <div className="h-[1px] bg-slate-100 w-full" />
-          <Link
-            href="/login"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center justify-center gap-3 w-full bg-[#4F46E5] text-white font-semibold py-3.5 rounded-xl hover:bg-indigo-700 transition-colors active:scale-95 shadow-lg shadow-indigo-100"
-          >
-            <FiLogIn className="text-lg" />
-            <span>Login</span>
-          </Link>
-        </div>
-      </div>
+              <div className="flex flex-col gap-6">
+                {/* Header inside Drawer */}
+                <div className="flex items-center justify-between pb-5 border-b border-slate-100">
+                  <span className="text-2xl font-black tracking-tight text-black">
+                    BSP <span className="font-light text-slate-500">Continental</span>
+                  </span>
+                  <button 
+                    onClick={() => setIsOpen(false)}
+                    className="text-3xl text-black p-1 active:scale-90 transition-transform"
+                  >
+                    <HiX />
+                  </button>
+                </div>
+
+                {/* Mobile Login Section inside Drawer (Hidden when Logged In) */}
+                {!isLoggedIn && (
+                  <div className="px-2 pt-2">
+                    <Link
+                      href="/login"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl bg-black text-white font-black text-lg shadow-[0_10px_20px_rgba(0,0,0,0.15)] active:scale-[0.98] transition-all"
+                    >
+                      <FiLogIn size={20} />
+                      Login Account
+                    </Link>
+                  </div>
+                )}
+
+                {/* Navigation Links */}
+                <div className="flex flex-col gap-1 mt-2">
+                  {menuItems.map((item) => {
+                    const isActive = pathname === item.href;
+                    return (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className={`flex items-center gap-5 text-xl font-black px-5 py-4 rounded-2xl transition-all duration-200 active:scale-[0.97] ${
+                          isActive 
+                            ? "bg-slate-50 text-black shadow-sm" 
+                            : "text-slate-800 hover:text-black hover:bg-slate-50/60"
+                        }`}
+                      >
+                        <span className="text-black">
+                          {item.icon}
+                        </span>
+                        {item.name}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Drawer Footer */}
+              <div className="text-center pt-4 border-t border-slate-100">
+                <p className="text-sm text-slate-400 font-bold tracking-wide">
+                  © 2026 BSP Continental
+                </p>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }
