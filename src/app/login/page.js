@@ -23,7 +23,7 @@ export default function LoginPage() {
     try {
       const res = await signIn("credentials", {
         redirect: false,
-        email,
+        email: email.toLowerCase(),
         password,
       });
 
@@ -52,18 +52,8 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[#F3F4F6] text-black flex items-center justify-center pb-28 font-sans antialiased select-none px-4 relative overflow-hidden">
       
-      <style jsx global>{`
-        @keyframes isometric-3d-pop {
-          0% { transform: scale(0.95) translateY(30px); opacity: 0; }
-          100% { transform: scale(1) translateY(0px); opacity: 1; }
-        }
-        .animate-3d-popup {
-          animation: isometric-3d-pop 0.5s cubic-bezier(0.34, 1.6, 0.64, 1) forwards;
-        }
-      `}</style>
-
-      {/* 🌟 PREMIUM 3D WHITE CARD CONTAINER */}
-      <div className="w-full max-w-[400px] bg-white rounded-[2.5rem] p-8 md:p-10 relative z-50 animate-3d-popup shadow-[0_20px_50px_rgba(0,0,0,0.1),0_4px_12px_rgba(0,0,0,0.05)] border border-neutral-100">
+      {/* 🌟 PREMIUM 3D WHITE CARD CONTAINER (Tailwind Transition & Shadows Handled) */}
+      <div className="w-full max-w-[400px] bg-white rounded-[2.5rem] p-8 md:p-10 relative z-50 shadow-[0_20px_50px_rgba(0,0,0,0.1),0_4px_12px_rgba(0,0,0,0.05)] border border-neutral-100 transition-all duration-300 transform scale-100 hover:scale-[1.01]">
         
         {/* Floating Mini Close Cross */}
         <Link 
@@ -120,11 +110,14 @@ export default function LoginPage() {
               <FiLock className="absolute right-5 text-neutral-400 text-sm pointer-events-none" />
             </div>
 
-            {/* Forget Password */}
+            {/* 🔗 FORGET PASSWORD SECURE LINK LINKED */}
             <div className="text-right pr-2">
-              <a href="#" className="text-[10px] font-bold text-neutral-400 tracking-tight hover:text-black transition-colors">
+              <Link 
+                href="/forget-password" 
+                className="text-[10px] font-bold text-neutral-400 tracking-tight hover:text-black transition-colors"
+              >
                 Forget Your Password ?
-              </a>
+              </Link>
             </div>
           </div>
 

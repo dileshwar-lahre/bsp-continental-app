@@ -1,8 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import Navbar from "./components/Navbar";
-import BottomNavigation from "./components/BottomNavigation";
+import NextAuthProvider from "../providers/NextAuthProvider"; 
+import NavShell from "./components/NavShell";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,27 +16,29 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "DocManager - Premium Document Management System",
-  description:
-    "Manage your service requests and documents securely in one place.",
+  description: "Manage your service requests and documents securely in one place.",
 };
 
 export default function RootLayout({ children }) {
   return (
+    // ✅ THE SYSTEM OVERRIDE: Added light color scheme properties to disable dynamic dark mode bugs
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
+      style={{ colorScheme: "light" }} 
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth bg-slate-50`}
     >
-      <body className="min-h-screen bg-slate-50 text-slate-900 font-sans">
-        {/* Top Navbar */}
-        <Navbar />
-
-        {/* Page Content */}
-        <main className="min-h-screen pt-16 pb-24">
-          {children}
-        </main>
-
-        {/* Bottom Navigation */}
-        <BottomNavigation />
+      <body className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased">
+        
+        {/* 🔥 DYNAMIC WRAPPER ENGINE LOCK */}
+        <NextAuthProvider>
+          
+          {/* Dynamic Nav Switcher */}
+          <NavShell>
+            {children}
+          </NavShell>
+          
+        </NextAuthProvider>
+        
       </body>
     </html>
   );

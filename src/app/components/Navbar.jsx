@@ -2,61 +2,81 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
-import { FiHome, FiInfo, FiBriefcase, FiFileText, FiShield, FiBell, FiLogIn } from "react-icons/fi";
+import { FiHome, FiInfo, FiBriefcase, FiFileText, FiShield, FiBell, FiLogIn, FiLogOut, FiUser } from "react-icons/fi";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  // 🔐 Auth States (Back-end logic connect karne ke liye)
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Login hone par isko true kar dena
-  const userImageUrl = ""; // User ki profile image ka URL yahan aayega
+  // 🔥 ADMIN ROUTE GUARD: Agar admin page hai toh Navbar render hi nahi hoga
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
+  const { data: session, status } = useSession();
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  const isLoggedIn = status === "authenticated";
+  const userImageUrl = session?.user?.image || "";
+  const userName = session?.user?.name || "User";
+
+  const brandColor = "#4933e6";
 
   const menuItems = [
-    { name: "Home", href: "/", icon: <FiHome size={22} /> },
-    { name: "About", href: "/about", icon: <FiInfo size={22} /> },
-    { name: "Service", href: "/service", icon: <FiBriefcase size={22} /> },
-    { name: "Terms", href: "/terms", icon: <FiFileText size={22} /> },
-    { name: "Policy", href: "/policy", icon: <FiShield size={22} /> },
+    { name: "Home", href: "/", icon: <FiHome size={20} /> },
+    { name: "About", href: "/about", icon: <FiInfo size={20} /> },
+    { name: "Service", href: "/service", icon: <FiBriefcase size={20} /> },
+    { name: "Terms", href: "/terms", icon: <FiFileText size={20} /> },
+    { name: "Policy", href: "/policy", icon: <FiShield size={20} /> },
   ];
+
+  const handleProfileClick = () => {
+    if (isLoggedIn) {
+      router.push("/profile");
+    } else {
+      router.push("/login");
+    }
+  };
 
   return (
     <>
-      {/* ─── 3D MODERN WHITE NAVBAR ─── */}
-      <nav className="fixed top-0 left-0 right-0 h-24 bg-white z-40 px-6 md:px-20 lg:px-32 flex items-center justify-between select-none shadow-[0_10px_30px_rgba(0,0,0,0.05)] border-b border-slate-100/80 transition-all duration-300">
+      {/* ─── OPTIMIZED CLEAN WHITE NAVBAR (h-20) ─── */}
+      <nav className="fixed top-0 left-0 right-0 h-20 bg-white z-40 px-6 md:px-16 lg:px-28 flex items-center justify-between select-none shadow-[0_4px_25px_rgba(0,0,0,0.03)] border-b border-slate-100 transition-all duration-300">
         
-        {/* Left Side: Simple Branding */}
+        {/* Branding Logo */}
         <div className="flex items-center">
           <Link 
             href="/" 
-            className="text-2xl md:text-3xl font-extrabold tracking-tight text-black active:scale-95 transition-transform"
-            style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}
+            className="text-2xl font-black tracking-tight text-black active:scale-95 transition-transform"
           >
-            BSP <span className="font-light text-slate-500">Continental</span>
+            BSP <span className="font-light text-slate-400">Continental</span>
           </Link>
         </div>
 
-        {/* Center: Desktop Menu Links */}
-        <div className="hidden md:flex items-center gap-10 lg:gap-14">
+        {/* Center Links (Desktop Version) */}
+        <div className="hidden md:flex items-center gap-10">
           {menuItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-base md:text-lg font-bold transition-colors relative py-2 ${
-                  isActive ? "text-black" : "text-slate-500 hover:text-black"
-                }`}
+                className="text-base font-bold transition-colors relative py-1.5"
+                style={{ color: isActive ? brandColor : "#94A3B8" }}
+                onMouseEnter={(e) => !isActive && (e.target.style.color = brandColor)}
+                onMouseLeave={(e) => !isActive && (e.target.style.color = "#94A3B8")}
               >
                 {item.name}
                 {isActive && (
                   <motion.div 
-                    layoutId="modern3DTab"
-                    className="absolute bottom-0 left-0 right-0 h-[3px] bg-black rounded-full"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    layoutId="modernNavbarTab"
+                    className="absolute bottom-0 left-0 right-0 h-[2.5px] rounded-full"
+                    style={{ backgroundColor: brandColor }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
               </Link>
@@ -64,105 +84,148 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Right Side: Actions (Notification, Profile, Login & Toggle) */}
-        <div className="flex items-center gap-3 md:gap-5">
+        {/* Right Side Utility Actions Console */}
+        <div className="flex items-center gap-3">
           
-          {/* Notification Bell */}
-          <button 
-            className="relative w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-slate-700 hover:text-black hover:bg-slate-100 transition-all active:scale-95"
-            aria-label="Notifications"
-          >
-            <FiBell size={22} />
-            <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white" />
+          {/* Notification Engine */}
+          <button className="relative w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:text-black hover:bg-slate-100 transition-all active:scale-95 cursor-pointer">
+            <FiBell size={19} />
+            <span className="absolute top-3 right-3 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white" />
           </button>
 
-          {/* Desktop Login Button (Hidden when Logged In) */}
+          {/* Desktop Login Button */}
           {!isLoggedIn && (
             <Link
               href="/login"
-              className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full border border-slate-900 text-black font-extrabold text-sm hover:bg-black hover:text-white transition-all active:scale-95 shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
+              className="hidden md:flex items-center gap-1.5 px-5 py-2.5 rounded-full text-white font-black text-xs uppercase tracking-wider transition-all active:scale-95 shadow-xs"
+              style={{ backgroundColor: brandColor }}
+              onMouseEnter={(e) => e.target.style.filter = "brightness(1.1)"}
+              onMouseLeave={(e) => e.target.style.filter = "none"}
             >
-              <FiLogIn size={16} />
+              <FiLogIn size={13} />
               Login
             </Link>
           )}
 
-          {/* Profile Badge (With Question Mark Placeholder) */}
-          <Link 
-            href="/profile" 
-            className="relative w-12 h-12 rounded-full overflow-hidden flex items-center justify-center bg-slate-100 hover:bg-slate-200 transition-all active:scale-95 border border-slate-200"
-            aria-label="User Profile"
+          {/* Profile Access Badge */}
+          <button 
+            onClick={handleProfileClick}
+            className="relative w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-slate-50 border border-slate-200/60 transition-all active:scale-95 cursor-pointer"
           >
-            {isLoggedIn && userImageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={userImageUrl} alt="Profile" className="w-full h-full object-cover" />
+            {isLoggedIn ? (
+              userImageUrl ? (
+                <img src={userImageUrl} alt="Profile" referrerPolicy="no-referrer" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-base font-black uppercase select-none" style={{ color: brandColor }}>
+                  {userName.trim().charAt(0)}
+                </span>
+              )
             ) : (
-              <span className="text-xl font-black text-slate-600 select-none">?</span>
+              <span className="text-base font-bold text-slate-400 select-none">?</span>
             )}
-          </Link>
+          </button>
 
-          {/* Mobile Menu Burger Icon */}
+          {/* Desktop Direct Instant Logout Trigger */}
+          {isLoggedIn && (
+            <button
+              onClick={() => signOut({ callbackUrl: "/login" })}
+              className="hidden md:flex w-10 h-10 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-500 hover:text-rose-600 items-center justify-center transition-all active:scale-95 border border-rose-100/40 cursor-pointer"
+            >
+              <FiLogOut size={16} />
+            </button>
+          )}
+
+          {/* Hamburger Menu Trigger (Mobile Version) */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-3xl p-1 text-black active:scale-90 focus:outline-none"
-            aria-label="Toggle Menu"
+            className="md:hidden text-2xl p-2 text-black bg-slate-50 active:scale-90 rounded-full transition-all focus:outline-none"
           >
             {isOpen ? <HiX /> : <HiMenuAlt3 />}
           </button>
         </div>
       </nav>
 
-      {/* ─── PREMIUM MOBILE LEFT DRAWER MENU ─── */}
+      {/* ─── PREMIUM SLIDE DRAWER MENU (CLEAN & MINIMALIST ONLY) ─── */}
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
+            {/* Backdrop Layer */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 md:hidden"
+              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
             />
 
-            {/* Baya Side Menu Layer */}
+            {/* Side Menu Drawer Container Block */}
             <motion.div
-              initial={{ x: "-100%" }}
+              initial={{ x: "100%" }}
               animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 250 }}
-              className="fixed top-0 left-0 bottom-0 w-[85%] max-w-[340px] bg-white z-50 p-6 flex flex-col justify-between md:hidden rounded-r-[2.5rem] shadow-[30px_0_60px_rgba(0,0,0,0.12)]"
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 28, stiffness: 220 }}
+              className="fixed top-0 right-0 bottom-0 w-[85%] max-w-[320px] bg-white border-l border-slate-100 z-50 p-6 flex flex-col justify-between md:hidden shadow-[-20px_0_50px_rgba(0,0,0,0.05)]"
             >
-              <div className="flex flex-col gap-6">
-                {/* Header inside Drawer */}
-                <div className="flex items-center justify-between pb-5 border-b border-slate-100">
-                  <span className="text-2xl font-black tracking-tight text-black">
-                    BSP <span className="font-light text-slate-500">Continental</span>
+              <div className="space-y-6">
+                
+                {/* Drawer Top Heading */}
+                <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                  <span className="text-lg font-black tracking-tight text-black">
+                    BSP <span className="font-light text-slate-400">Continental</span>
                   </span>
                   <button 
                     onClick={() => setIsOpen(false)}
-                    className="text-3xl text-black p-1 active:scale-90 transition-transform"
+                    className="text-xl text-black bg-slate-50 p-1.5 rounded-full active:scale-90"
                   >
                     <HiX />
                   </button>
                 </div>
 
-                {/* Mobile Login Section inside Drawer (Hidden when Logged In) */}
-                {!isLoggedIn && (
-                  <div className="px-2 pt-2">
-                    <Link
-                      href="/login"
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl bg-black text-white font-black text-lg shadow-[0_10px_20px_rgba(0,0,0,0.15)] active:scale-[0.98] transition-all"
-                    >
-                      <FiLogIn size={20} />
-                      Login Account
-                    </Link>
+                {/* 🔒 PURE CLEAN USER CARD HUD */}
+                <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-full bg-white border border-slate-200 overflow-hidden flex items-center justify-center shadow-3xs">
+                      {isLoggedIn ? (
+                        userImageUrl ? (
+                          <img src={userImageUrl} alt="Avatar" className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="text-base font-black uppercase" style={{ color: brandColor }}>{userName.trim().charAt(0)}</span>
+                        )
+                      ) : (
+                        <span className="text-base font-bold text-slate-400">?</span>
+                      )}
+                    </div>
+                    <div className="overflow-hidden flex-1">
+                      <h3 className="text-sm font-black text-slate-950 truncate uppercase tracking-tight">
+                        {isLoggedIn ? userName : "Guest"}
+                      </h3>
+                    </div>
                   </div>
-                )}
 
-                {/* Navigation Links */}
-                <div className="flex flex-col gap-1 mt-2">
+                  {/* Dynamic Action Buttons Trigger Inside Upper Card Context */}
+                  <div>
+                    {isLoggedIn ? (
+                      <button
+                        onClick={() => { setIsOpen(false); signOut({ callbackUrl: "/login" }); }}
+                        className="flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-black text-xs uppercase tracking-wider active:scale-[0.98] transition-all border border-rose-100/40 cursor-pointer"
+                      >
+                        <FiLogOut size={14} /> Log Out
+                      </button>
+                    ) : (
+                      <Link
+                        href="/login"
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl text-white font-black text-xs uppercase tracking-wider shadow-sm active:scale-[0.98] transition-all text-center"
+                        style={{ backgroundColor: brandColor }}
+                      >
+                        <FiLogIn size={14} /> Login
+                      </Link>
+                    )}
+                  </div>
+                </div>
+
+                {/* Mobile Menu List Links */}
+                <div className="flex flex-col gap-1">
                   {menuItems.map((item) => {
                     const isActive = pathname === item.href;
                     return (
@@ -170,28 +233,45 @@ export default function Navbar() {
                         key={item.name}
                         href={item.href}
                         onClick={() => setIsOpen(false)}
-                        className={`flex items-center gap-5 text-xl font-black px-5 py-4 rounded-2xl transition-all duration-200 active:scale-[0.97] ${
-                          isActive 
-                            ? "bg-slate-50 text-black shadow-sm" 
-                            : "text-slate-800 hover:text-black hover:bg-slate-50/60"
-                        }`}
+                        className="flex items-center gap-4 text-base font-black px-4 py-3 rounded-xl transition-all duration-150 active:scale-[0.98]"
+                        style={{ 
+                          backgroundColor: isActive ? `${brandColor}10` : "transparent",
+                          color: isActive ? brandColor : "#334155"
+                        }}
                       >
-                        <span className="text-black">
+                        <span style={{ color: isActive ? brandColor : "#94A3B8" }}>
                           {item.icon}
                         </span>
                         {item.name}
                       </Link>
                     );
                   })}
+
+                  {/* Mobile Profile View Trigger */}
+                  {isLoggedIn && (
+                    <Link
+                      href="/profile"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-4 text-base font-black px-4 py-3 rounded-xl transition-all duration-150 active:scale-[0.98]"
+                      style={{ 
+                        backgroundColor: pathname === "/profile" ? `${brandColor}10` : "transparent",
+                        color: pathname === "/profile" ? brandColor : "#334155"
+                      }}
+                    >
+                      <span style={{ color: pathname === "/profile" ? brandColor : "#94A3B8" }}><FiUser size={20} /></span>
+                      My Profile
+                    </Link>
+                  )}
                 </div>
               </div>
 
-              {/* Drawer Footer */}
+              {/* Fixed Footer */}
               <div className="text-center pt-4 border-t border-slate-100">
-                <p className="text-sm text-slate-400 font-bold tracking-wide">
+                <p className="text-[10px] text-slate-400 font-bold tracking-wider uppercase">
                   © 2026 BSP Continental
                 </p>
               </div>
+
             </motion.div>
           </>
         )}

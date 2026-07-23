@@ -1,9 +1,18 @@
 "use client";
+
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
-import { Home, FileCheck, Landmark, ShieldCheck, ChevronLeft, ChevronRight, GripVertical } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  Home, 
+  FileCheck, 
+  Landmark, 
+  ShieldCheck, 
+  ChevronLeft, 
+  ChevronRight, 
+  GripVertical 
+} from "lucide-react";
 
 const menus = [
   { title: "Home", href: "/", icon: Home },
@@ -14,33 +23,40 @@ const menus = [
 
 export default function BottomNavigation() {
   const pathname = usePathname();
-  const [hoveredTab, setHoveredTab] = useState(null);
+
+  // 🔥 ADMIN ROUTE GUARD: Admin routes par render nahi hoga
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   const [isMinimized, setIsMinimized] = useState(false);
 
   return (
     <>
-      {/* ================= DESKTOP SIDEBAR WIDGET (Kahin bhi drag karo) ================= */}
+      {/* ================= DESKTOP DRAGGABLE SIDEBAR DOCK ================= */}
       <motion.div
         drag
         dragMomentum={false}
         dragElastic={0.1}
-        initial={{ x: 30, y: 150 }}
-        className="hidden md:flex fixed z-50 bg-white border border-slate-200 shadow-[0_10px_40px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,1)] rounded-2xl p-3 flex-col items-center gap-4 cursor-grab active:cursor-grabbing select-none"
+        initial={{ x: 24, y: 140 }}
+        className="hidden md:flex fixed z-50 bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-[0_12px_40px_rgba(0,0,0,0.12)] rounded-2xl p-2.5 flex-col items-center gap-3 cursor-grab active:cursor-grabbing select-none"
         style={{ touchAction: "none" }}
       >
-        {/* Drag Handle & Minimize Trigger */}
-        <div className="flex items-center justify-between w-full border-b border-slate-100 pb-2 text-slate-400">
-          <GripVertical size={16} className="opacity-50" />
+        {/* Drag Handle & Minimize Toggle Header */}
+        <div className="flex items-center justify-between w-full border-b border-slate-100 pb-2 px-1 text-slate-400">
+          <GripVertical size={16} className="opacity-60 text-slate-500" />
           <button 
+            type="button"
             onClick={() => setIsMinimized(!isMinimized)}
-            className="p-1 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+            className="p-1 hover:bg-slate-100/80 rounded-lg transition-colors cursor-pointer text-slate-700 hover:text-black"
+            title={isMinimized ? "Expand Dock" : "Collapse Dock"}
           >
-            {isMinimized ? <ChevronRight size={16} className="text-black" /> : <ChevronLeft size={16} className="text-black" />}
+            {isMinimized ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
           </button>
         </div>
 
-        {/* Navigation Stack (Top to Bottom) */}
-        <div className={`flex flex-col gap-2 transition-all duration-300 ${isMinimized ? "w-12" : "w-40"}`}>
+        {/* Navigation Items Vertical Stack */}
+        <div className={`flex flex-col gap-1.5 transition-all duration-300 ${isMinimized ? "w-12" : "w-44"}`}>
           {menus.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
             const IconComponent = item.icon;
@@ -49,28 +65,27 @@ export default function BottomNavigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative flex items-center p-3 rounded-xl transition-all select-none overflow-hidden group ${
-                  isActive ? "bg-slate-100" : "hover:bg-slate-50"
+                className={`relative flex items-center p-2.5 rounded-xl transition-all select-none group ${
+                  isActive ? "bg-slate-900 text-white shadow-xs" : "hover:bg-slate-100/80 text-slate-700"
                 }`}
-                onMouseEnter={() => setHoveredTab(item.href)}
-                onMouseLeave={() => setHoveredTab(null)}
               >
-                {/* Active Indicator Line */}
+                {/* Active Glow Indicator */}
                 {isActive && (
                   <motion.div 
-                    layoutId="activeIndicatorDesktop"
-                    className="absolute left-0 top-1/4 bottom-1/4 w-[4px] bg-black rounded-r-md" 
+                    layoutId="desktopActivePill"
+                    className="absolute inset-0 bg-slate-900 rounded-xl -z-10"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
 
-                {/* Bold Black Icon */}
-                <div className="text-black flex items-center justify-center">
-                  <IconComponent size={22} strokeWidth={isActive ? 2.8 : 2.2} />
+                {/* Icon Box */}
+                <div className={`flex items-center justify-center shrink-0 ${isActive ? "text-white" : "text-slate-900 group-hover:text-black"}`}>
+                  <IconComponent size={20} strokeWidth={isActive ? 2.5 : 2} />
                 </div>
 
-                {/* Text Label Hidden on Minimize */}
+                {/* Text Label (Hidden when Minimized) */}
                 {!isMinimized && (
-                  <span className={`ml-3 text-sm tracking-wide transition-colors ${isActive ? "font-bold text-black" : "font-medium text-slate-700"}`}>
+                  <span className={`ml-3 text-xs tracking-wide truncate ${isActive ? "font-extrabold text-white" : "font-bold text-slate-800"}`}>
                     {item.title}
                   </span>
                 )}
@@ -80,9 +95,9 @@ export default function BottomNavigation() {
         </div>
       </motion.div>
 
-      {/* ================= MOBILE BOTTOM BAR (Attached to screen) ================= */}
-      <div className="block md:hidden fixed bottom-0 left-0 right-0 z-50 w-full">
-        <div className="relative flex items-center justify-around bg-white border-t border-slate-200/80 px-2 pt-3 pb-6 rounded-t-[24px] shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
+      {/* ================= MOBILE BOTTOM BAR ================= */}
+      <div className="block md:hidden fixed bottom-0 left-0 right-0 z-50 w-full px-3 pb-3">
+        <div className="relative flex items-center justify-around bg-white/95 backdrop-blur-xl border border-slate-200/90 py-2.5 px-2 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
           
           {menus.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
@@ -94,22 +109,28 @@ export default function BottomNavigation() {
                 href={item.href}
                 className="relative flex-1 flex flex-col items-center justify-center py-1 outline-none select-none group"
               >
-                {/* Active Bar Indicator */}
+                {/* Active Background Pill Animation */}
                 {isActive && (
-                  <div className="absolute -top-[13px] left-1/2 -translate-x-1/2 w-10 h-[3px] bg-black rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.3)]" />
+                  <motion.div 
+                    layoutId="mobileActivePill"
+                    className="absolute inset-x-1 top-0 bottom-0 bg-slate-100 rounded-xl -z-10 border border-slate-200/60"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  />
                 )}
 
-                {/* Pure Bold Black Icon */}
-                <motion.div whileTap={{ scale: 0.92 }} className="text-black p-0.5">
+                {/* Icon Container */}
+                <motion.div 
+                  whileTap={{ scale: 0.92 }} 
+                  className={`p-1 transition-all ${isActive ? "text-blue-600" : "text-slate-700"}`}
+                >
                   <IconComponent 
-                    size={24} 
-                    strokeWidth={isActive ? 2.8 : 2.2} 
-                    className="transition-transform duration-200"
+                    size={22} 
+                    strokeWidth={isActive ? 2.6 : 2} 
                   />
                 </motion.div>
 
-                {/* Bold Labels */}
-                <span className={`mt-1 text-[11px] tracking-wide transition-all ${isActive ? "text-black font-extrabold" : "text-slate-600 font-semibold"}`}>
+                {/* Larger Bold Labels */}
+                <span className={`mt-0.5 text-xs tracking-tight transition-all ${isActive ? "text-slate-950 font-black" : "text-slate-600 font-bold"}`}>
                   {item.title}
                 </span>
               </Link>
