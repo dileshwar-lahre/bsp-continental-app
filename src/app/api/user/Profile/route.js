@@ -1,7 +1,7 @@
-import connectDB from "../../lib/db"; // ⚡ Relative Path mapping
-import Profile from "../../../model/Profile"; // ⚡ Direct relative resolve
+import connectDB from "../../../../lib/db"; // ⚡ Relative Path mapping
+import Profile from "../../../../model/profile"; // ⚡ Direct relative resolve
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]/route"; // ⚡ Direct reference linkage
+import { authOptions } from "../../auth/[...nextauth]/route"; // ⚡ Direct reference linkage
 import { NextResponse } from "next/server";
 
 // 📋 GET: Session Cookie read karke accurate client matching profile fetch karna
