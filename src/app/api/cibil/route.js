@@ -1,89 +1,102 @@
 import { NextResponse } from 'next/server';
 
-export async function POST(request) {
-  console.log("=====================================================");
-  console.log("🚀 PRODUCTION DEBUG: Correcting Sandbox Endpoint Node");
-  
+export async function POST(req) {
   try {
-    const body = await request.json();
-    const { fullName, panCard, dob, mobile } = body;
+    const body = await req.json();
+    const { pan } = body;
 
-    if (!fullName || !panCard || !mobile) {
-      return NextResponse.json({ error: 'Required identity fields missing.' }, { status: 400 });
+    if (!pan) {
+      return NextResponse.json({ error: 'PAN Number required hai' }, { status: 400 });
     }
 
-    const cleanPan = panCard.trim().toUpperCase();
+    const cleanPan = pan.trim().toUpperCase();
 
-    // =========================================================================
-    // 🎯 CORRECT LIVE ENDPOINT DISPATCH (Experian Core Route Integration)
-    // =========================================================================
-    // Note: If /bureau/credit-report/experian gives 404, Sandbox uses the standard bureau asset path:
-    const targetUrl = 'https://api.sandbox.co.in/bureau/experian/report';
-    
-    console.log(`🌐 Hitting Live Destination Gateway: ${targetUrl}`);
-    
-    const response = await fetch(targetUrl, {
+    // 1. Authenticate & Get Access Token
+    const authRes = await fetch('https://api.sandbox.co.in/authenticate', {
       method: 'POST',
       headers: {
-        'Authorization': process.env.SANDBOX_API_KEY,
-        'x-api-key': process.env.SANDBOX_SECRET_KEY,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.SANDBOX_API_KEY,
+        'x-api-secret': process.env.SANDBOX_API_SECRET,
         'x-api-version': '1.0',
-        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        consent: "Y",
-        consent_text: "I hereby authorize BSP Continental to fetch my credit score routing profile.",
-        pan: cleanPan,
-        name: fullName,
-        mobile: mobile,
-        dob: dob // Expected format standard: DD/MM/YYYY
-      })
+      cache: 'no-store',
     });
 
-    let data = await response.json();
-    console.log("📥 Raw Server Status:", response.status);
-    console.log("📥 Raw Data Object:", JSON.stringify(data));
+    const authData = await authRes.json();
+    const token = authData.access_token || authData.data?.access_token;
 
-    // Alternative Route Check Strategy: If still 404, we process a standard clean fallback payload
-    if (response.status === 404) {
-      console.log("⚠️ Target endpoint returned 404. Activating Sandbox Account Core Fallback...");
-      
-      // Sandbox dummy response framework for live testing profiles
+    if (!token) {
+      return NextResponse.json({ error: "Auth failed - Credentials check karo" }, { status: 401 });
+    }
+
+    // 2. Teeno Standard Sandbox Formats Array
+    const payloadsToTry = [
+      // Format A: Standard Sandbox Entity Format
+      {
+        "@entity": "in.co.sandbox.kyc.pan.verify",
+        "pan": cleanPan,
+        "consent": "y",
+        "reason": "For KYC Verification"
+      },
+      // Format B: Direct KYC Format (Without @entity)
+      {
+        "pan": cleanPan,
+        "consent": "y",
+        "reason": "KYC Verification"
+      },
+      // Format C: Minimal Required Payload
+      {
+        "pan": cleanPan,
+        "consent": "y"
+      }
+    ];
+
+    let successResponse = null;
+    let lastError = null;
+
+    // Loop through formats until one returns non-400
+    for (let i = 0; i < payloadsToTry.length; i++) {
+      const currentPayload = payloadsToTry[i];
+      console.log(`Trying Payload Variant ${i + 1}:`, JSON.stringify(currentPayload));
+
+      const panRes = await fetch('https://api.sandbox.co.in/kyc/pan/verify', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': token,
+          'x-api-key': process.env.SANDBOX_API_KEY,
+          'x-api-version': '1.0',
+        },
+        body: JSON.stringify(currentPayload),
+        cache: 'no-store',
+      });
+
+      const panData = await panRes.json();
+      console.log(`Variant ${i + 1} Sandbox Response:`, panData);
+
+      if (panData.code !== 400 && panRes.status !== 400) {
+        console.log(`✅ SUCCESS! Variant ${i + 1} worked!`);
+        successResponse = panData;
+        break;
+      } else {
+        lastError = panData;
+      }
+    }
+
+    if (!successResponse) {
       return NextResponse.json({
-        success: true,
-        score: 742, // Live baseline profile setup calculation
-        rating: 'GOOD',
-        reportId: `BSP-SANDBOX-TEST`
-      }, { status: 200 });
+        error: "Sandbox API rejected all 3 payload formats",
+        details: lastError
+      }, { status: 400 });
     }
 
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: data.message || 'Bureau system network validation error.' },
-        { status: response.status }
-      );
-    }
-
-    // Extracting actual value from active verified bundle fields
-    const finalScore = data.score || data.data?.score || data.credit_score || 765;
-    
-    let rating = 'AVERAGE';
-    if (finalScore >= 750) rating = 'EXCELLENT';
-    else if (finalScore >= 700) rating = 'GOOD';
-    else if (finalScore >= 650) rating = 'FAIR';
-    else rating = 'POOR';
-
-    return NextResponse.json({
-      success: true,
-      score: finalScore,
-      rating: rating,
-      reportId: data.request_id || data.transaction_id || `BSP-LIVE`
-    }, { status: 200 });
+    return NextResponse.json({ success: true, data: successResponse });
 
   } catch (error) {
-    console.error("💥 SYSTEM RUNTIME CRASH:", error);
-    return NextResponse.json({ error: 'Internal system connection timeout.' }, { status: 500 });
-  } finally {
-    console.log("=====================================================");
+    console.error("Route Error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

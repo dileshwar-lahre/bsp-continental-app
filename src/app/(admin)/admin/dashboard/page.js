@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { 
   FiRefreshCw, 
   FiSearch, 
@@ -15,10 +16,13 @@ import {
   FiX, 
   FiActivity,
   FiEye,
-  FiCalendar
+  FiCalendar,
+  FiExternalLink
 } from 'react-icons/fi';
 
-export default function AdminDashboardPage() {
+export default function AdminDashboardAnalytics() {
+  const router = useRouter();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('ALL'); // ALL, CIBIL, REJECTIONS, PROPERTY
   const [chartMetric, setChartMetric] = useState('total'); // total, cibil, rejections, property
@@ -35,7 +39,7 @@ export default function AdminDashboardPage() {
     todayTotal: 0
   });
 
-  // Generate Past 7 Days Labels
+  // 📅 Rolling Past 7 Days Window (Never Ends / Automatically Updates with Date)
   const past7Days = useMemo(() => {
     const days = [];
     for (let i = 6; i >= 0; i--) {
@@ -49,7 +53,7 @@ export default function AdminDashboardPage() {
     return days;
   }, []);
 
-  // Compute 7-Day Trend Chart Data
+  // Compute 7-Day Trend Chart Data from Real MongoDB Records
   const chartData = useMemo(() => {
     return past7Days.map(day => {
       const dayRequests = requests.filter(r => {
@@ -58,9 +62,9 @@ export default function AdminDashboardPage() {
       });
 
       const total = dayRequests.length;
-      const cibil = dayRequests.filter(r => r.requestType === 'CIBIL_SCORE').length;
-      const rejections = dayRequests.filter(r => r.requestType === 'REJECTED_LOAN_APPEAL' || r.requestType === 'LOAN_SOLUTION').length;
-      const property = dayRequests.filter(r => r.requestType === 'PROPERTY_VETTING').length;
+      const cibil = dayRequests.filter(r => r.serviceType === 'CIBIL Audit' || r.serviceType === 'CIBIL_SCORE').length;
+      const rejections = dayRequests.filter(r => r.serviceType === 'Loan Rejection Solution' || r.serviceType === 'LOAN_SOLUTION').length;
+      const property = dayRequests.filter(r => r.serviceType === 'Property Vetting' || r.serviceType === 'PROPERTY_VETTING').length;
 
       return {
         ...day,
@@ -79,84 +83,21 @@ export default function AdminDashboardPage() {
     return max < 5 ? 5 : max;
   }, [chartData, chartMetric]);
 
-  // Fetch Requests Ledger
+  // 📥 Fetch REAL Requests Data from Central Mongo DB
   const fetchLedgerData = async () => {
     setIsLoading(true);
     try {
       const res = await fetch('/api/requests');
       const data = await res.json();
 
-      if (res.ok && data.success && data.data?.length > 0) {
-        processLedgerData(data.data);
+      if (res.ok && data.success) {
+        processLedgerData(data.data || []);
       } else {
-        // High-Tech Mock Data Fallback
-        const now = new Date();
-        const mockData = [
-          {
-            _id: "REQ-88101",
-            clientName: "Amit Lahre",
-            mobileNumber: "98271 23456",
-            email: "amit@cginfrax.com",
-            requestType: "CIBIL_SCORE",
-            status: "COMPLETED",
-            createdAt: new Date(now.getTime() - 2 * 3600 * 1000).toISOString(),
-            metaDataLogs: { score: 780, pan: "ABCDE1234F", auditDate: "2026-07-20" }
-          },
-          {
-            _id: "REQ-88102",
-            clientName: "Rahul Sharma",
-            mobileNumber: "91234 56789",
-            email: "rahul@gmail.com",
-            requestType: "REJECTED_LOAN_APPEAL",
-            status: "PENDING",
-            createdAt: new Date(now.getTime() - 24 * 3600 * 1000).toISOString(),
-            metaDataLogs: { bankName: "SBI", rejectionReason: "Low Vintage / Paper Mismatch", loanAmount: "₹25,00,000" }
-          },
-          {
-            _id: "REQ-88103",
-            clientName: "Priya Singh",
-            mobileNumber: "99887 76655",
-            email: "priya@outlook.com",
-            requestType: "PROPERTY_VETTING",
-            status: "PROCESSING",
-            createdAt: new Date(now.getTime() - 48 * 3600 * 1000).toISOString(),
-            metaDataLogs: { propertyLocation: "Bilaspur Sector-4 Plot #12", registryType: "Khasra Legal Check" }
-          },
-          {
-            _id: "REQ-88104",
-            clientName: "Vikram Sahu",
-            mobileNumber: "94252 11223",
-            email: "vikram@gmail.com",
-            requestType: "LOAN_SOLUTION",
-            status: "PENDING",
-            createdAt: new Date(now.getTime() - 72 * 3600 * 1000).toISOString(),
-            metaDataLogs: { cibilScore: 620, debtRatio: "45%", bank: "HDFC" }
-          },
-          {
-            _id: "REQ-88105",
-            clientName: "Dileshwar Patel",
-            mobileNumber: "98765 43210",
-            email: "dileshwar@stonenox.com",
-            requestType: "CIBIL_SCORE",
-            status: "COMPLETED",
-            createdAt: new Date(now.getTime() - 96 * 3600 * 1000).toISOString(),
-            metaDataLogs: { score: 745, pan: "XYZPD9876K" }
-          },
-          {
-            _id: "REQ-88106",
-            clientName: "Sonia Verma",
-            mobileNumber: "91112 33445",
-            email: "sonia@gmail.com",
-            requestType: "PROPERTY_VETTING",
-            status: "COMPLETED",
-            createdAt: new Date(now.getTime() - 120 * 3600 * 1000).toISOString(),
-            metaDataLogs: { propertyLocation: "Raipur Main Road Plaza", verificationStatus: "Clear Title" }
-          }
-        ];
-        processLedgerData(mockData);
+        setRequests([]);
       }
     } catch (err) {
-      console.log("Mock fallback mode active.");
+      console.error("Fetch Live Ledger Error:", err);
+      setRequests([]);
     } finally {
       setIsLoading(false);
     }
@@ -167,9 +108,9 @@ export default function AdminDashboardPage() {
     const todayStr = new Date().toISOString().split('T')[0];
     
     const total = data.length;
-    const cibil = data.filter(r => r.requestType === 'CIBIL_SCORE').length;
-    const rejections = data.filter(r => r.requestType === 'REJECTED_LOAN_APPEAL' || r.requestType === 'LOAN_SOLUTION').length;
-    const property = data.filter(r => r.requestType === 'PROPERTY_VETTING').length;
+    const cibil = data.filter(r => r.serviceType === 'CIBIL Audit' || r.serviceType === 'CIBIL_SCORE').length;
+    const rejections = data.filter(r => r.serviceType === 'Loan Rejection Solution' || r.serviceType === 'LOAN_SOLUTION').length;
+    const property = data.filter(r => r.serviceType === 'Property Vetting' || r.serviceType === 'PROPERTY_VETTING').length;
     const todayTotal = data.filter(r => new Date(r.createdAt || Date.now()).toISOString().split('T')[0] === todayStr).length;
 
     setMetrics({ total, cibil, rejections, property, todayTotal });
@@ -179,27 +120,32 @@ export default function AdminDashboardPage() {
     fetchLedgerData();
   }, []);
 
-  // Search & Tab Filter Logic
+  // Search & Tab Filter Logic for Real Data Table
   const filteredRequests = useMemo(() => {
     return requests.filter(item => {
       const matchesSearch = 
-        item.clientName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.mobileNumber?.includes(searchQuery) ||
-        item.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (item.userName || item.clientName)?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (item.userPhone || item.mobileNumber)?.includes(searchQuery) ||
+        (item.userEmail || item.email)?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item._id?.toLowerCase().includes(searchQuery.toLowerCase());
 
       if (!matchesSearch) return false;
 
       if (activeFilter === 'ALL') return true;
-      if (activeFilter === 'CIBIL') return item.requestType === 'CIBIL_SCORE';
-      if (activeFilter === 'REJECTIONS') return item.requestType === 'REJECTED_LOAN_APPEAL' || item.requestType === 'LOAN_SOLUTION';
-      if (activeFilter === 'PROPERTY') return item.requestType === 'PROPERTY_VETTING';
+      if (activeFilter === 'CIBIL') return item.serviceType === 'CIBIL Audit' || item.serviceType === 'CIBIL_SCORE';
+      if (activeFilter === 'REJECTIONS') return item.serviceType === 'Loan Rejection Solution' || item.serviceType === 'LOAN_SOLUTION';
+      if (activeFilter === 'PROPERTY') return item.serviceType === 'Property Vetting' || item.serviceType === 'PROPERTY_VETTING';
       return true;
     });
   }, [requests, searchQuery, activeFilter]);
 
+  // 🚀 Graph Bar Click Navigation
+  const handleBarClick = (dateStr) => {
+    router.push(`/admin/dashboard/requests?date=${dateStr}`);
+  };
+
   return (
-    <div className="max-w-7xl mx-auto space-y-6 select-none font-sans pb-12">
+    <div className="max-w-7xl mx-auto space-y-6 select-none font-sans pb-12 antialiased text-slate-900">
       
       {/* 1. Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-2xs">
@@ -304,7 +250,7 @@ export default function AdminDashboardPage() {
                 <h3 className="text-base font-black text-slate-950">7-Day Activity Volume</h3>
               </div>
               <p className="text-[11px] font-semibold text-slate-400 mt-0.5">
-                Daily incoming request trends over the past 7 days.
+                Daily incoming request trends over the past 7 days. Click bar to inspect.
               </p>
             </div>
 
@@ -347,15 +293,21 @@ export default function AdminDashboardPage() {
               const heightPercent = Math.max(Math.round((val / maxChartVal) * 100), 8);
 
               return (
-                <div key={idx} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group z-10">
+                <div 
+                  key={idx} 
+                  onClick={() => handleBarClick(day.fullDate)}
+                  className="flex-1 flex flex-col items-center gap-2 h-full justify-end group z-10 cursor-pointer"
+                  title={`Click to inspect requests for ${day.displayDate}`}
+                >
                   
                   {/* Tooltip Hover Value */}
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-slate-900 text-white text-[10px] font-black px-2 py-1 rounded-md shadow-md mb-1 pointer-events-none">
-                    {val} Req
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-slate-900 text-white text-[10px] font-black px-2 py-1 rounded-md shadow-md mb-1 pointer-events-none flex items-center gap-1">
+                    <span>{val} Req</span>
+                    <FiExternalLink size={9} />
                   </div>
 
                   {/* Animated Bar */}
-                  <div className="w-full max-w-[36px] bg-slate-100 rounded-2xl overflow-hidden p-1 flex items-end h-full">
+                  <div className="w-full max-w-[36px] bg-slate-100 rounded-2xl overflow-hidden p-1 flex items-end h-full group-hover:ring-2 group-hover:ring-[#4933e6] transition-all">
                     <motion.div 
                       initial={{ height: "0%" }}
                       animate={{ height: `${heightPercent}%` }}
@@ -369,7 +321,7 @@ export default function AdminDashboardPage() {
                   </div>
 
                   {/* Date Label */}
-                  <span className="text-[10px] font-black text-slate-500 tracking-tight mt-1">
+                  <span className="text-[10px] font-black text-slate-500 tracking-tight mt-1 group-hover:text-[#4933e6]">
                     {day.displayDate}
                   </span>
                 </div>
@@ -484,7 +436,7 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* 5. Requests Data Table */}
+      {/* 5. Real Requests Data Table */}
       <div className="bg-white rounded-3xl border border-slate-200/80 shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
@@ -495,7 +447,7 @@ export default function AdminDashboardPage() {
                 <th className="p-4">Service Category</th>
                 <th className="p-4">Status</th>
                 <th className="p-4">Date Logged</th>
-                <th className="p-4 pr-6 text-right">Action</th>
+                <th className="p-4 pr-6 text-right">Inspect</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-xs font-medium">
@@ -504,42 +456,42 @@ export default function AdminDashboardPage() {
                   
                   {/* Applicant */}
                   <td className="p-4 pl-6">
-                    <div className="font-mono text-[11px] font-bold text-slate-400">{req._id}</div>
-                    <div className="font-extrabold text-slate-900 mt-0.5">{req.clientName || "N/A"}</div>
+                    <div className="font-mono text-[11px] font-bold text-slate-400">#{req._id.substring(18)}</div>
+                    <div className="font-extrabold text-slate-900 mt-0.5">{req.userName || req.clientName || "Anonymous"}</div>
                   </td>
 
                   {/* Contact */}
                   <td className="p-4">
-                    <div className="font-bold text-slate-800">{req.mobileNumber}</div>
-                    <div className="text-[11px] text-slate-400 font-mono truncate max-w-[150px]">{req.email}</div>
+                    <div className="font-bold text-slate-800 font-mono">{req.userPhone || req.mobileNumber || 'N/A'}</div>
+                    <div className="text-[11px] text-slate-400 font-mono truncate max-w-[150px]">{req.userEmail || req.email}</div>
                   </td>
 
                   {/* Category */}
                   <td className="p-4">
                     <span className={`text-[10px] font-black px-2.5 py-1 rounded-md uppercase ${
-                      req.requestType === 'CIBIL_SCORE' 
+                      req.serviceType === 'CIBIL Audit' || req.serviceType === 'CIBIL_SCORE'
                         ? 'bg-blue-50 text-blue-600'
-                        : req.requestType === 'PROPERTY_VETTING'
+                        : req.serviceType === 'Property Vetting' || req.serviceType === 'PROPERTY_VETTING'
                         ? 'bg-amber-50 text-amber-600'
                         : 'bg-rose-50 text-rose-600'
                     }`}>
-                      {req.requestType}
+                      {req.serviceType || 'Property Vetting'}
                     </span>
                   </td>
 
                   {/* Status */}
                   <td className="p-4">
-                    <span className={`inline-flex items-center gap-1 text-[10px] font-extrabold px-2.5 py-1 rounded-full ${
-                      req.status === 'COMPLETED'
+                    <span className={`inline-flex items-center gap-1 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase ${
+                      req.status === 'Approved' || req.status === 'COMPLETED'
                         ? 'bg-emerald-50 text-emerald-600 border border-emerald-100'
-                        : req.status === 'PROCESSING'
+                        : req.status === 'In Review' || req.status === 'PROCESSING'
                         ? 'bg-blue-50 text-blue-600 border border-blue-100'
                         : 'bg-amber-50 text-amber-600 border border-amber-100'
                     }`}>
-                      {req.status === 'COMPLETED' && <FiCheckCircle size={12} />}
-                      {req.status === 'PROCESSING' && <FiClock size={12} />}
-                      {req.status === 'PENDING' && <FiAlertCircle size={12} />}
-                      <span>{req.status}</span>
+                      {(req.status === 'Approved' || req.status === 'COMPLETED') && <FiCheckCircle size={12} />}
+                      {(req.status === 'In Review' || req.status === 'PROCESSING') && <FiClock size={12} />}
+                      {(req.status === 'Pending' || req.status === 'PENDING') && <FiAlertCircle size={12} />}
+                      <span>{req.status || 'Pending'}</span>
                     </span>
                   </td>
 
@@ -564,7 +516,7 @@ export default function AdminDashboardPage() {
               {filteredRequests.length === 0 && (
                 <tr>
                   <td colSpan="6" className="p-8 text-center text-slate-400 font-bold">
-                    {isLoading ? "Fetching data metrics..." : "No records match the selected search query."}
+                    {isLoading ? "Fetching data metrics..." : "No records match the selected query."}
                   </td>
                 </tr>
               )}
@@ -594,12 +546,12 @@ export default function AdminDashboardPage() {
             >
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div>
-                  <h3 className="text-base font-black text-slate-900">Record Payload Details</h3>
+                  <h3 className="text-base font-black text-slate-900 uppercase">Record Payload Inspection</h3>
                   <p className="text-xs text-slate-400 font-mono">ID: {selectedRecord._id}</p>
                 </div>
                 <button
                   onClick={() => setSelectedRecord(null)}
-                  className="p-1.5 text-slate-400 hover:text-black rounded-full bg-slate-50"
+                  className="p-1.5 text-slate-400 hover:text-black rounded-full bg-slate-50 cursor-pointer"
                 >
                   <FiX size={18} />
                 </button>
@@ -609,20 +561,41 @@ export default function AdminDashboardPage() {
                 <div className="grid grid-cols-2 gap-2 bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
                   <div>
                     <span className="text-slate-400 font-bold block uppercase text-[9px]">Applicant Name</span>
-                    <span className="font-extrabold text-slate-900">{selectedRecord.clientName}</span>
+                    <span className="font-extrabold text-slate-900">{selectedRecord.userName || selectedRecord.clientName || 'N/A'}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 font-bold block uppercase text-[9px]">Mobile Contact</span>
-                    <span className="font-mono font-bold text-slate-800">{selectedRecord.mobileNumber}</span>
+                    <span className="text-slate-400 font-bold block uppercase text-[9px]">Mobile / Email</span>
+                    <span className="font-mono font-bold text-slate-800">{selectedRecord.userPhone || selectedRecord.mobileNumber || selectedRecord.userEmail}</span>
                   </div>
                 </div>
 
                 <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-100 space-y-1">
-                  <span className="text-slate-400 font-bold block uppercase text-[9px]">Attached Metadata JSON</span>
-                  <pre className="text-emerald-600 bg-white p-3 rounded-xl font-mono text-[10px] border border-slate-200 overflow-x-auto max-h-40">
-                    {JSON.stringify(selectedRecord.metaDataLogs, null, 2)}
+                  <span className="text-slate-400 font-bold block uppercase text-[9px]">Form Details JSON Object</span>
+                  <pre className="text-indigo-600 bg-white p-3 rounded-xl font-mono text-[10px] border border-slate-200 overflow-x-auto max-h-40">
+                    {JSON.stringify(selectedRecord.details || selectedRecord.metaDataLogs || {}, null, 2)}
                   </pre>
                 </div>
+
+                {selectedRecord.documentsList?.length > 0 && (
+                  <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-100 space-y-1">
+                    <span className="text-slate-400 font-bold block uppercase text-[9px]">AWS S3 Attached Files</span>
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      {selectedRecord.documentsList.map((doc, i) => (
+                        <a 
+                          key={i} 
+                          href={doc.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="inline-flex items-center gap-1.5 bg-white text-indigo-600 border border-slate-200 px-3 py-1.5 rounded-xl font-bold text-[10px]"
+                        >
+                          <FiFileText size={12} />
+                          <span className="truncate max-w-[130px]">{doc.name}</span>
+                          <FiExternalLink size={10} />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="pt-2 flex justify-end">

@@ -4,28 +4,25 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { 
   FiTrendingUp, FiFileText, FiAlertTriangle, FiCheckCircle, 
-  FiArrowRight, FiArrowLeft, FiRefreshCw, FiSearch, FiMessageSquare, FiX, FiShield, FiSend,
+  FiArrowRight, FiArrowLeft, FiMessageSquare, FiX, FiShield, FiSend,
   FiUser, FiCreditCard, FiCalendar, FiPhone
 } from 'react-icons/fi';
 
 export default function PremiumBalancedDashboard() {
   const [currentSlide, setCurrentSlide] = useState(0);
   
-  // Custom Floating Chatbot State Integrations
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // ==================== LIVE INTEGRATED CIBIL SYSTEM STATES ====================
   const [showCibilModal, setShowCibilForm] = useState(false);
   const [cibilLoading, setCibilLoading] = useState(false);
   const [cibilError, setCibilError] = useState('');
   const [cibilForm, setCibilForm] = useState({ fullName: '', panCard: '', dob: '', mobile: '' });
   const [liveReport, setLiveReport] = useState({ score: 785, rating: 'EXCELLENT', hasFetched: false });
 
-  // Dynamic Matching Animated Placeholder state
   const [placeholderText, setPlaceholderText] = useState('★ Ask anything...');
 
   useEffect(() => {
@@ -42,7 +39,6 @@ export default function PremiumBalancedDashboard() {
     return () => clearInterval(interval);
   }, []);
 
-  // Hero Slider Auto Scroll Setup
   useEffect(() => {
     const slideInterval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -66,7 +62,6 @@ export default function PremiumBalancedDashboard() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
-  // ==================== LIVE ACTIVE BACKEND CIBIL API CALL ====================
   const handleFetchCibilReport = async (e) => {
     e.preventDefault();
     setCibilLoading(true);
@@ -87,7 +82,7 @@ export default function PremiumBalancedDashboard() {
         rating: data.rating,
         hasFetched: true
       });
-      setShowCibilForm(false); // Success hone par close form context sheet
+      setShowCibilForm(false);
     } catch (err) {
       setCibilError(err.message);
     } finally {
@@ -95,7 +90,6 @@ export default function PremiumBalancedDashboard() {
     }
   };
 
-  // Chat Bot execution system pipeline
   const sendMessage = async (textToSend) => {
     const currentQuery = textToSend || input;
     if (!currentQuery.trim() || isLoading) return;
@@ -135,31 +129,48 @@ export default function PremiumBalancedDashboard() {
     { label: '🏢 BSP Continental kya hai?', text: 'BSP Continental kya hai? Mujhe details chahiye.' },
     { label: '🛠️ Hamari Services', text: 'Aap log kaun-kaun si services provide karte hain?' },
     { label: '❌ Loan nahi mila, kya karein?', text: 'Mera loan reject ho gaya hai, ab mujhe kya karna chahiye?' },
-    { label: '📞 Contact / Support Number', text: 'BSP Continental ka official contact aur support number share karein.' }
+    { label: '📞 Contact Support', text: 'BSP Continental ka official contact aur support number share karein.' }
   ];
 
   const slides = [
-    { tag: "★ Personal Loan", title: "Apply Without Any Rejections", sub: "100% Digital Realtime Workflow" },
-    { tag: "⚡ MSME Credit Line", title: "Got A Fast Growing Startup? Need Capital?", sub: "Collateral-Free Institutional Funding" },
-    { tag: "🏠 Property Backed", title: "Unlock Instant Wealth Against Assets", sub: "Lowest Interest Rates Assured" }
+    { 
+      tag: "★ Personal Loan", 
+      title: "Apply Without Any Rejections", 
+      sub: "100% Digital Realtime Workflow",
+      img: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=1200"
+    },
+    { 
+      tag: "⚡ MSME Credit Line", 
+      title: "Got A Fast Growing Business? Need Capital?", 
+      sub: "Collateral-Free Institutional Funding",
+      img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=1200"
+    },
+    { 
+      tag: "🏠 Property Backed", 
+      title: "Unlock Instant Wealth Against Assets", 
+      sub: "Lowest Interest Rates Assured",
+      img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=1200"
+    }
   ];
 
   return (
-    <div className="w-full min-h-screen bg-slate-50 text-slate-800 antialiased pt-8 pb-8 px-4 md:px-6 flex flex-col justify-start relative">
-      <div className="w-full max-w-md mx-auto space-y-5">
+    <div className="w-full min-h-screen bg-slate-50 text-slate-800 antialiased pt-4 md:pt-6 pb-24 md:pb-12 px-4 md:px-6 flex flex-col justify-start relative">
+      
+      {/* 🔥 Tight Margin Offset to pull page closer to left Sidebar */}
+      <div className="w-full max-w-7xl space-y-6 md:pl-[300px] transition-all duration-200">
         
-        {/* ==================== 1. FIXED TOP HERO: CIBIL CHECKER TRIGGER SECTION ==================== */}
+        {/* 1. CIBIL CHECKER */}
         <section className="pt-1">
           <div 
             onClick={() => setShowCibilForm(true)}
-            className="bg-white p-4.5 rounded-2xl flex items-center justify-between shadow-[0_15px_35px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.09)] transform active:scale-[0.99] transition-all duration-300 cursor-pointer group"
+            className="bg-white p-4.5 md:p-5 rounded-2xl flex items-center justify-between shadow-[0_10px_25px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.07)] transform active:scale-[0.99] transition-all duration-300 cursor-pointer group border border-slate-200/80"
           >
             <div className="flex items-center gap-3.5 flex-1">
               <div className="h-11 w-11 bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-xl flex items-center justify-center text-white shadow-md shadow-indigo-100 group-hover:scale-105 transition-transform flex-shrink-0">
                 <FiShield className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="text-base font-black text-slate-950 tracking-wide">CIBIL Score Checker</h4>
+                <h4 className="text-base md:text-lg font-black text-slate-950 tracking-wide">CIBIL Score Checker</h4>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
                   <p className="text-xs text-slate-500 font-bold leading-tight">
@@ -169,7 +180,6 @@ export default function PremiumBalancedDashboard() {
               </div>
             </div>
             
-            {/* Visual Mini Progress Circle Graph */}
             <div className="relative flex items-center justify-center w-12 h-12 flex-shrink-0 ml-2">
               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                 <path className="text-slate-100" strokeWidth="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
@@ -188,7 +198,7 @@ export default function PremiumBalancedDashboard() {
           </div>
         </section>
 
-        {/* ==================== ACTIVE CIBIL INTERFACE SHEET POPUP WINDOW ==================== */}
+        {/* CIBIL FORM MODAL */}
         {showCibilModal && (
           <div className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
             <div className="w-full max-w-sm bg-white rounded-3xl p-5 shadow-2xl space-y-4 border border-slate-100" onClick={(e) => e.stopPropagation()}>
@@ -227,9 +237,9 @@ export default function PremiumBalancedDashboard() {
           </div>
         )}
 
-        {/* ==================== 2. INTERACTIVE LOAN HERO SLIDER CARD ==================== */}
+        {/* 2. HERO SLIDER */}
         <section className="space-y-2 relative group/slider">
-          <div className="relative overflow-hidden rounded-2xl shadow-[0_12px_30px_rgba(79,70,229,0.15)]">
+          <div className="relative overflow-hidden rounded-2xl shadow-[0_12px_30px_rgba(79,70,229,0.12)] border border-slate-200/80 bg-slate-900">
             <div 
               className="flex transition-transform duration-500 ease-out" 
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -237,23 +247,28 @@ export default function PremiumBalancedDashboard() {
               {slides.map((slide, index) => (
                 <div key={index} className="w-full flex-shrink-0">
                   <Link href="/loan" className="block transform active:scale-[0.99] transition-all duration-150">
-                    <div className="relative bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-700 text-white min-h-[135px] flex flex-col justify-between p-5 border-b-2 border-indigo-900/40">
-                      <div className="absolute inset-0 z-0 opacity-20 mix-blend-overlay pointer-events-none">
-                        <img src="https://images.unsplash.com/photo-1591605503774-82ab8184f092?auto=format&fit=crop&q=80&w=600" alt="Financial Growth" className="w-full h-full object-cover object-center" />
+                    <div className="relative h-[190px] md:h-[240px] flex flex-col justify-between p-6 md:p-8 text-white overflow-hidden">
+                      <div className="absolute inset-0 z-0">
+                        <img src={slide.img} alt={slide.title} className="w-full h-full object-cover object-center" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-950/90 via-indigo-900/80 to-slate-900/70" />
                       </div>
-                      <div className="relative z-10 flex justify-between items-start gap-4">
-                        <div className="space-y-1">
-                          <div className="inline-flex bg-white/20 text-white text-[9px] font-black tracking-widest px-3 py-0.5 rounded-full backdrop-blur-md border border-white/10 uppercase">{slide.tag}</div>
-                          <h2 className="text-xl font-black leading-tight tracking-tight drop-shadow-xs line-clamp-2">{slide.title}</h2>
+
+                      <div className="relative z-10 space-y-2 max-w-2xl">
+                        <div className="inline-flex bg-white/20 text-white text-[10px] font-black tracking-widest px-3 py-1 rounded-full backdrop-blur-md border border-white/20 uppercase">
+                          {slide.tag}
                         </div>
+                        <h2 className="text-xl md:text-3xl font-black leading-tight tracking-tight drop-shadow-md">
+                          {slide.title}
+                        </h2>
                       </div>
-                      <div className="relative z-10 flex justify-between items-center pt-2 mt-2 border-t border-white/10 text-[11px]">
-                        <span className="text-indigo-100 font-semibold tracking-wide flex items-center gap-1.5">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+
+                      <div className="relative z-10 flex justify-between items-center pt-3 mt-2 border-t border-white/20 text-xs md:text-sm">
+                        <span className="text-indigo-100 font-semibold tracking-wide flex items-center gap-2">
+                          <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
                           {slide.sub}
                         </span>
-                        <span className="font-black bg-white text-indigo-700 px-3.5 py-1 rounded-lg shadow-sm flex items-center gap-1">
-                          Apply Now <FiArrowRight className="w-3 h-3" />
+                        <span className="font-black bg-white text-indigo-700 px-4 py-1.5 rounded-xl shadow-md flex items-center gap-1.5 text-xs md:text-sm">
+                          Apply Now <FiArrowRight className="w-4 h-4" />
                         </span>
                       </div>
                     </div>
@@ -262,47 +277,83 @@ export default function PremiumBalancedDashboard() {
               ))}
             </div>
 
-            <button onClick={prevSlide} className="absolute left-2 top-1/2 -translate-y-1/2 h-8 w-8 bg-black/20 hover:bg-black/40 text-white rounded-full flex items-center justify-center backdrop-blur-xs transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
-              <FiArrowLeft className="w-4 h-4" />
+            <button onClick={prevSlide} className="absolute left-3 top-1/2 -translate-y-1/2 h-9 w-9 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
+              <FiArrowLeft className="w-5 h-5" />
             </button>
-            <button onClick={nextSlide} className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 bg-black/20 hover:bg-black/40 text-white rounded-full flex items-center justify-center backdrop-blur-xs transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
-              <FiArrowRight className="w-4 h-4" />
+            <button onClick={nextSlide} className="absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
+              <FiArrowRight className="w-5 h-5" />
             </button>
           </div>
 
           <div className="flex justify-center items-center gap-2 pt-1">
             {slides.map((_, index) => (
-              <button key={index} onClick={() => setCurrentSlide(index)} className={`transition-all duration-300 rounded-full ${currentSlide === index ? 'w-5 h-1.5 bg-indigo-600 shadow-xs' : 'w-1.5 h-1.5 bg-slate-300'}`} />
+              <button key={index} onClick={() => setCurrentSlide(index)} className={`transition-all duration-300 rounded-full ${currentSlide === index ? 'w-6 h-1.5 bg-indigo-600 shadow-xs' : 'w-1.5 h-1.5 bg-slate-300'}`} />
             ))}
           </div>
         </section>
 
-        {/* ==================== 3. REQUEST OTHER SERVICES GRID ==================== */}
-        <section className="space-y-2">
-          <div className="px-0.5"><h3 className="text-xs font-black tracking-wider text-slate-400 uppercase">Request Other Services</h3></div>
-          <div className="grid grid-cols-2 gap-3.5">
-            <div className="bg-blue-50/60 p-4 rounded-xl border border-blue-100 flex flex-col justify-between min-h-[120px] transform active:scale-[0.97] transition-all cursor-pointer shadow-sm hover:shadow-md hover:bg-blue-50 group">
-              <div className="h-10 w-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-sm shadow-blue-200 group-hover:scale-105 transition-transform"><FiTrendingUp className="w-5 h-5" /></div>
-              <div className="mt-4"><h4 className="text-sm font-black text-slate-950 tracking-wide">Property Check</h4><p className="text-[11px] text-slate-500 font-bold mt-0.5 leading-tight">Instant valuation status</p></div>
-            </div>
-            <div className="bg-amber-50/60 p-4 rounded-xl border border-amber-100 flex flex-col justify-between min-h-[120px] transform active:scale-[0.97] transition-all cursor-pointer shadow-sm hover:shadow-md hover:bg-amber-50 group">
-              <div className="h-10 w-10 bg-amber-500 rounded-xl flex items-center justify-center text-white shadow-sm shadow-amber-200 group-hover:scale-105 transition-transform"><FiFileText className="w-5 h-5" /></div>
-              <div className="mt-4"><h4 className="text-sm font-black text-slate-950 tracking-wide">Paper Checker</h4><p className="text-[11px] text-slate-500 font-bold mt-0.5 leading-tight">AI document validation</p></div>
-            </div>
-            <div className="bg-rose-50/60 p-4 rounded-xl border border-rose-100 flex flex-col justify-between min-h-[120px] transform active:scale-[0.97] transition-all cursor-pointer shadow-sm hover:shadow-md hover:bg-rose-50 group">
-              <div className="h-10 w-10 bg-rose-500 rounded-xl flex items-center justify-center text-white shadow-sm shadow-rose-200 group-hover:scale-105 transition-transform"><FiAlertTriangle className="w-5 h-5" /></div>
-              <div className="mt-4"><h4 className="text-sm font-black text-slate-950 tracking-wide">Avoid Rejection</h4><p className="text-[11px] text-slate-500 font-bold mt-0.5 leading-tight">Profile risk mitigation</p></div>
-            </div>
-            <div className="bg-emerald-50/60 p-4 rounded-xl border border-emerald-100 flex flex-col justify-between min-h-[120px] transform active:scale-[0.97] transition-all cursor-pointer shadow-sm hover:shadow-md hover:bg-emerald-50 group">
-              <div className="h-10 w-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white shadow-sm shadow-emerald-200 group-hover:scale-105 transition-transform"><FiCheckCircle className="w-5 h-5" /></div>
-              <div className="mt-4"><h4 className="text-sm font-black text-slate-950 tracking-wide">Guaranteed Pass</h4><p className="text-[11px] text-slate-500 font-bold mt-0.5 leading-tight">High-pass processing</p></div>
-            </div>
+        {/* 3. REQUEST OTHER SERVICES */}
+        <section className="space-y-3 pt-2">
+          <div className="px-0.5 flex items-center justify-between">
+            <h3 className="text-xs font-black tracking-wider text-slate-400 uppercase">Request Other Services</h3>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            
+            <Link href="/property-vetting" className="block group">
+              <div className="bg-blue-50/60 p-4.5 rounded-2xl border border-blue-100/90 flex flex-col justify-between min-h-[145px] transform active:scale-[0.98] transition-all cursor-pointer shadow-xs hover:shadow-md hover:bg-blue-50 group">
+                <div className="h-10 w-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-sm shadow-blue-200 group-hover:scale-105 transition-transform">
+                  <FiTrendingUp className="w-5 h-5" />
+                </div>
+                <div className="mt-4">
+                  <h4 className="text-sm md:text-base font-black text-slate-950 tracking-wide">Property Check</h4>
+                  <p className="text-[11px] text-slate-500 font-bold mt-0.5 leading-tight">Property Compliance Services</p>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/loan-solution" className="block group">
+              <div className="bg-amber-50/60 p-4.5 rounded-2xl border border-amber-100/90 flex flex-col justify-between min-h-[145px] transform active:scale-[0.98] transition-all cursor-pointer shadow-xs hover:shadow-md hover:bg-amber-50 group">
+                <div className="h-10 w-10 bg-amber-500 rounded-xl flex items-center justify-center text-white shadow-sm shadow-amber-200 group-hover:scale-105 transition-transform">
+                  <FiFileText className="w-5 h-5" />
+                </div>
+                <div className="mt-4">
+                  <h4 className="text-sm md:text-base font-black text-slate-950 tracking-wide">Paper Checker</h4>
+                  <p className="text-[11px] text-slate-500 font-bold mt-0.5 leading-tight">Loan Readiness Assistance</p>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/cibil" className="block group">
+              <div className="bg-rose-50/60 p-4.5 rounded-2xl border border-rose-100/90 flex flex-col justify-between min-h-[145px] transform active:scale-[0.98] transition-all cursor-pointer shadow-xs hover:shadow-md hover:bg-rose-50 group">
+                <div className="h-10 w-10 bg-rose-500 rounded-xl flex items-center justify-center text-white shadow-sm shadow-rose-200 group-hover:scale-105 transition-transform">
+                  <FiAlertTriangle className="w-5 h-5" />
+                </div>
+                <div className="mt-4">
+                  <h4 className="text-sm md:text-base font-black text-slate-950 tracking-wide">Avoid Rejection</h4>
+                  <p className="text-[11px] text-slate-500 font-bold mt-0.5 leading-tight">CIBIL Score Management</p>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/finance" className="block group">
+              <div className="bg-emerald-50/60 p-4.5 rounded-2xl border border-emerald-100/90 flex flex-col justify-between min-h-[145px] transform active:scale-[0.98] transition-all cursor-pointer shadow-xs hover:shadow-md hover:bg-emerald-50 group">
+                <div className="h-10 w-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white shadow-sm shadow-emerald-200 group-hover:scale-105 transition-transform">
+                  <FiCheckCircle className="w-5 h-5" />
+                </div>
+                <div className="mt-4">
+                  <h4 className="text-sm md:text-base font-black text-slate-950 tracking-wide">Guaranteed Pass</h4>
+                  <p className="text-[11px] text-slate-500 font-bold mt-0.5 leading-tight">Financial Consulting</p>
+                </div>
+              </div>
+            </Link>
+
           </div>
         </section>
 
       </div>
 
-      {/* ==================== 4. MODERNISED MATCHING AI FLOATING CHAT SYSTEM ==================== */}
+      {/* FLOATING AI CHATBOT */}
       <div className="fixed md:right-6 md:bottom-6 right-4 bottom-28 z-50 font-sans flex flex-col items-end">
         {isOpen && (
           <div className="w-[340px] md:w-[380px] h-[460px] bg-white border border-slate-200 rounded-3xl shadow-[0_20px_50px_rgba(79,70,229,0.15)] overflow-hidden flex flex-col mb-4 transform transition-all duration-300 ease-in-out scale-100 origin-bottom-right">
