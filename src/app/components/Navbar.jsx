@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
-import { FiHome, FiInfo, FiBriefcase, FiFileText, FiShield, FiBell, FiLogIn, FiLogOut, FiUser } from "react-icons/fi";
+import { FiHome, FiInfo, FiBriefcase, FiFileText, FiShield, FiBell, FiLogIn, FiLogOut, FiUser, FiPhoneCall } from "react-icons/fi";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -29,9 +29,10 @@ export default function Navbar() {
   const menuItems = [
     { name: "Home", href: "/", icon: <FiHome size={20} /> },
     { name: "About", href: "/about", icon: <FiInfo size={20} /> },
-    { name: "Service", href: "/service", icon: <FiBriefcase size={20} /> },
+    { name: "Services", href: "/services", icon: <FiBriefcase size={20} /> },
+    { name: "Contact", href: "/contact", icon: <FiPhoneCall size={20} /> },
     { name: "Terms", href: "/terms", icon: <FiFileText size={20} /> },
-    { name: "Policy", href: "/policy", icon: <FiShield size={20} /> },
+    { name: "Privacy", href: "/privacy", icon: <FiShield size={20} /> },
   ];
 
   const handleProfileClick = () => {
@@ -58,7 +59,7 @@ export default function Navbar() {
         </div>
 
         {/* Center Links (Desktop Version) */}
-        <div className="hidden md:flex items-center gap-10">
+        <div className="hidden md:flex items-center gap-8">
           {menuItems.map((item) => {
             const isActive = pathname === item.href;
             return (

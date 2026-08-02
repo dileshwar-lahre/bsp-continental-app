@@ -2,13 +2,15 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { 
   FiTrendingUp, FiFileText, FiAlertTriangle, FiCheckCircle, 
   FiArrowRight, FiArrowLeft, FiMessageSquare, FiX, FiShield, FiSend,
-  FiUser, FiCreditCard, FiCalendar, FiPhone
+  FiUser, FiCreditCard, FiCalendar, FiPhone, FiZap
 } from 'react-icons/fi';
 
 export default function PremiumBalancedDashboard() {
+  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +26,9 @@ export default function PremiumBalancedDashboard() {
   const [liveReport, setLiveReport] = useState({ score: 785, rating: 'EXCELLENT', hasFetched: false });
 
   const [placeholderText, setPlaceholderText] = useState('★ Ask anything...');
+
+  // Double-Click Detector for Admin Redirection
+  const clickTimeoutRef = useRef(null);
 
   useEffect(() => {
     const placeholders = [
@@ -125,6 +130,22 @@ export default function PremiumBalancedDashboard() {
     sendMessage();
   };
 
+  // 🔥 Smart Single & Double Click Handler for AI Chatbot Icon
+  const handleChatbotClick = () => {
+    if (clickTimeoutRef.current) {
+      // Double Click Detected -> Go to Admin Page
+      clearTimeout(clickTimeoutRef.current);
+      clickTimeoutRef.current = null;
+      router.push('/admin');
+    } else {
+      // Single Click Handler -> Toggle Chatbot Window
+      clickTimeoutRef.current = setTimeout(() => {
+        setIsOpen((prev) => !prev);
+        clickTimeoutRef.current = null;
+      }, 250);
+    }
+  };
+
   const quickActions = [
     { label: '🏢 BSP Continental kya hai?', text: 'BSP Continental kya hai? Mujhe details chahiye.' },
     { label: '🛠️ Hamari Services', text: 'Aap log kaun-kaun si services provide karte hain?' },
@@ -154,33 +175,37 @@ export default function PremiumBalancedDashboard() {
   ];
 
   return (
-    <div className="w-full min-h-screen bg-slate-50 text-slate-800 antialiased pt-4 md:pt-6 pb-24 md:pb-12 px-4 md:px-6 flex flex-col justify-start relative">
+    <div className="w-full min-h-screen bg-slate-50 text-slate-800 antialiased pt-4 md:pt-6 pb-28 md:pb-12 px-4 md:px-6 flex flex-col justify-start relative">
       
-      {/* 🔥 Tight Margin Offset to pull page closer to left Sidebar */}
-      <div className="w-full max-w-7xl space-y-6 md:pl-[300px] transition-all duration-200">
+      {/* 🎯 Adjusted Left Margin Offset to align closer to Sidebar */}
+      <div className="w-full max-w-7xl space-y-6 md:pl-[200px] lg:pl-[220px] transition-all duration-200 mx-auto">
         
-        {/* 1. CIBIL CHECKER */}
+        {/* 1. CIBIL CHECKER BANNER */}
         <section className="pt-1">
           <div 
             onClick={() => setShowCibilForm(true)}
-            className="bg-white p-4.5 md:p-5 rounded-2xl flex items-center justify-between shadow-[0_10px_25px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.07)] transform active:scale-[0.99] transition-all duration-300 cursor-pointer group border border-slate-200/80"
+            className="bg-white p-5 rounded-3xl flex items-center justify-between shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_15px_40px_rgba(79,70,229,0.08)] transform active:scale-[0.99] transition-all duration-300 cursor-pointer group border border-slate-200/90 relative overflow-hidden"
           >
-            <div className="flex items-center gap-3.5 flex-1">
-              <div className="h-11 w-11 bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-xl flex items-center justify-center text-white shadow-md shadow-indigo-100 group-hover:scale-105 transition-transform flex-shrink-0">
-                <FiShield className="w-5 h-5" />
+            <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl"></div>
+
+            <div className="flex items-center gap-4 flex-1 z-10">
+              <div className="h-12 w-12 bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 rounded-2xl flex items-center justify-center text-white shadow-md shadow-indigo-200 group-hover:scale-105 transition-transform flex-shrink-0">
+                <FiShield className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="text-base md:text-lg font-black text-slate-950 tracking-wide">CIBIL Score Checker</h4>
-                <div className="flex items-center gap-1.5 mt-0.5">
+                <h4 className="text-base md:text-lg font-black text-slate-950 tracking-wide flex items-center gap-2">
+                  CIBIL Score Checker <FiZap className="text-indigo-600 text-xs animate-pulse" />
+                </h4>
+                <div className="flex items-center gap-2 mt-0.5">
                   <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
                   <p className="text-xs text-slate-500 font-bold leading-tight">
-                    {liveReport.hasFetched ? 'Report Loaded Successfully' : 'Tap to Verify PAN Card Details'}
+                    {liveReport.hasFetched ? 'Report Loaded Successfully' : 'Tap to Verify PAN Card & Instant Credit Audit'}
                   </p>
                 </div>
               </div>
             </div>
             
-            <div className="relative flex items-center justify-center w-12 h-12 flex-shrink-0 ml-2">
+            <div className="relative flex items-center justify-center w-14 h-14 flex-shrink-0 ml-2 z-10">
               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                 <path className="text-slate-100" strokeWidth="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 <path 
@@ -193,7 +218,7 @@ export default function PremiumBalancedDashboard() {
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" 
                 />
               </svg>
-              <div className="absolute text-[10px] font-black text-slate-950">{liveReport.score}</div>
+              <div className="absolute text-xs font-black text-slate-950">{liveReport.score}</div>
             </div>
           </div>
         </section>
@@ -201,35 +226,35 @@ export default function PremiumBalancedDashboard() {
         {/* CIBIL FORM MODAL */}
         {showCibilModal && (
           <div className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
-            <div className="w-full max-w-sm bg-white rounded-3xl p-5 shadow-2xl space-y-4 border border-slate-100" onClick={(e) => e.stopPropagation()}>
-              <div className="flex justify-between items-center pb-2 border-b border-slate-100">
-                <h3 className="text-sm font-black text-slate-950 uppercase tracking-wide flex items-center gap-1.5">
+            <div className="w-full max-w-sm bg-white rounded-3xl p-6 shadow-2xl space-y-4 border border-slate-100" onClick={(e) => e.stopPropagation()}>
+              <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                <h3 className="text-sm font-black text-slate-950 uppercase tracking-wide flex items-center gap-2">
                   <FiShield className="text-indigo-600" /> Verify Identity Form
                 </h3>
-                <button type="button" onClick={() => setShowCibilForm(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer"><FiX className="w-4 h-4" /></button>
+                <button type="button" onClick={() => setShowCibilForm(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer p-1 rounded-full hover:bg-slate-50"><FiX className="w-5 h-5" /></button>
               </div>
 
               {cibilError && <p className="text-[11px] text-rose-600 bg-rose-50 px-3 py-1.5 rounded-xl font-bold">{cibilError}</p>}
 
               <form onSubmit={handleFetchCibilReport} className="space-y-3">
                 <div className="relative flex items-center">
-                  <FiUser className="absolute left-3 text-slate-400 w-3.5 h-3.5" />
-                  <input required type="text" placeholder="Full Name (As per PAN)" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-9 py-2.5 text-xs text-slate-700 outline-none focus:border-indigo-500 font-medium" value={cibilForm.fullName} onChange={(e)=>setCibilForm({...cibilForm, fullName: e.target.value})} />
+                  <FiUser className="absolute left-3.5 text-slate-400 w-4 h-4" />
+                  <input required type="text" placeholder="Full Name (As per PAN)" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-10 py-3 text-xs text-slate-800 outline-none focus:border-indigo-600 font-semibold" value={cibilForm.fullName} onChange={(e)=>setCibilForm({...cibilForm, fullName: e.target.value})} />
                 </div>
                 <div className="relative flex items-center">
-                  <FiCreditCard className="absolute left-3 text-slate-400 w-3.5 h-3.5" />
-                  <input required type="text" maxLength={10} placeholder="PAN Card Number" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-9 py-2.5 text-xs text-slate-700 outline-none focus:border-indigo-500 uppercase font-bold tracking-wider" value={cibilForm.panCard} onChange={(e)=>setCibilForm({...cibilForm, panCard: e.target.value})} />
+                  <FiCreditCard className="absolute left-3.5 text-slate-400 w-4 h-4" />
+                  <input required type="text" maxLength={10} placeholder="PAN Card Number" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-10 py-3 text-xs text-slate-800 outline-none focus:border-indigo-600 uppercase font-black tracking-wider" value={cibilForm.panCard} onChange={(e)=>setCibilForm({...cibilForm, panCard: e.target.value})} />
                 </div>
                 <div className="relative flex items-center">
-                  <FiCalendar className="absolute left-3 text-slate-400 w-3.5 h-3.5" />
-                  <input required type="text" placeholder="DOB (DD/MM/YYYY)" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-9 py-2.5 text-xs text-slate-700 outline-none focus:border-indigo-500 font-medium" value={cibilForm.dob} onChange={(e)=>setCibilForm({...cibilForm, dob: e.target.value})} />
+                  <FiCalendar className="absolute left-3.5 text-slate-400 w-4 h-4" />
+                  <input required type="text" placeholder="DOB (DD/MM/YYYY)" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-10 py-3 text-xs text-slate-800 outline-none focus:border-indigo-600 font-semibold" value={cibilForm.dob} onChange={(e)=>setCibilForm({...cibilForm, dob: e.target.value})} />
                 </div>
                 <div className="relative flex items-center">
-                  <FiPhone className="absolute left-3 text-slate-400 w-3.5 h-3.5" />
-                  <input required type="tel" maxLength={10} placeholder="Linked Mobile Number" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-9 py-2.5 text-xs text-slate-700 outline-none focus:border-indigo-500 font-medium" value={cibilForm.mobile} onChange={(e)=>setCibilForm({...cibilForm, mobile: e.target.value})} />
+                  <FiPhone className="absolute left-3.5 text-slate-400 w-4 h-4" />
+                  <input required type="tel" maxLength={10} placeholder="Linked Mobile Number" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-10 py-3 text-xs text-slate-800 outline-none focus:border-indigo-600 font-semibold" value={cibilForm.mobile} onChange={(e)=>setCibilForm({...cibilForm, mobile: e.target.value})} />
                 </div>
 
-                <button type="submit" disabled={cibilLoading} className="w-full bg-indigo-600 text-white font-black text-xs py-3 rounded-xl shadow-md flex items-center justify-center gap-1 cursor-pointer disabled:bg-slate-200 uppercase tracking-wider transition-all">
+                <button type="submit" disabled={cibilLoading} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs py-3.5 rounded-xl shadow-lg shadow-indigo-200 flex items-center justify-center gap-1 cursor-pointer disabled:bg-slate-200 uppercase tracking-wider transition-all">
                   {cibilLoading ? 'Contacting Bureau Network...' : 'Fetch Active Report'}
                 </button>
               </form>
@@ -239,7 +264,7 @@ export default function PremiumBalancedDashboard() {
 
         {/* 2. HERO SLIDER */}
         <section className="space-y-2 relative group/slider">
-          <div className="relative overflow-hidden rounded-2xl shadow-[0_12px_30px_rgba(79,70,229,0.12)] border border-slate-200/80 bg-slate-900">
+          <div className="relative overflow-hidden rounded-3xl shadow-[0_12px_35px_rgba(79,70,229,0.12)] border border-slate-200/80 bg-slate-900">
             <div 
               className="flex transition-transform duration-500 ease-out" 
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -247,17 +272,17 @@ export default function PremiumBalancedDashboard() {
               {slides.map((slide, index) => (
                 <div key={index} className="w-full flex-shrink-0">
                   <Link href="/loan" className="block transform active:scale-[0.99] transition-all duration-150">
-                    <div className="relative h-[190px] md:h-[240px] flex flex-col justify-between p-6 md:p-8 text-white overflow-hidden">
+                    <div className="relative h-[200px] md:h-[250px] flex flex-col justify-between p-6 md:p-8 text-white overflow-hidden">
                       <div className="absolute inset-0 z-0">
                         <img src={slide.img} alt={slide.title} className="w-full h-full object-cover object-center" />
-                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-950/90 via-indigo-900/80 to-slate-900/70" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-950/95 via-indigo-900/85 to-slate-900/75" />
                       </div>
 
                       <div className="relative z-10 space-y-2 max-w-2xl">
                         <div className="inline-flex bg-white/20 text-white text-[10px] font-black tracking-widest px-3 py-1 rounded-full backdrop-blur-md border border-white/20 uppercase">
                           {slide.tag}
                         </div>
-                        <h2 className="text-xl md:text-3xl font-black leading-tight tracking-tight drop-shadow-md">
+                        <h2 className="text-xl md:text-3xl font-black leading-tight tracking-tight drop-shadow-md uppercase">
                           {slide.title}
                         </h2>
                       </div>
@@ -267,7 +292,7 @@ export default function PremiumBalancedDashboard() {
                           <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
                           {slide.sub}
                         </span>
-                        <span className="font-black bg-white text-indigo-700 px-4 py-1.5 rounded-xl shadow-md flex items-center gap-1.5 text-xs md:text-sm">
+                        <span className="font-black bg-white hover:bg-slate-100 text-indigo-700 px-5 py-2 rounded-2xl shadow-md flex items-center gap-2 text-xs md:text-sm transition-all">
                           Apply Now <FiArrowRight className="w-4 h-4" />
                         </span>
                       </div>
@@ -277,10 +302,10 @@ export default function PremiumBalancedDashboard() {
               ))}
             </div>
 
-            <button onClick={prevSlide} className="absolute left-3 top-1/2 -translate-y-1/2 h-9 w-9 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
+            <button onClick={prevSlide} className="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 bg-black/40 hover:bg-black/70 text-white rounded-full flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
               <FiArrowLeft className="w-5 h-5" />
             </button>
-            <button onClick={nextSlide} className="absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
+            <button onClick={nextSlide} className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 bg-black/40 hover:bg-black/70 text-white rounded-full flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
               <FiArrowRight className="w-5 h-5" />
             </button>
           </div>
@@ -292,58 +317,64 @@ export default function PremiumBalancedDashboard() {
           </div>
         </section>
 
-        {/* 3. REQUEST OTHER SERVICES */}
-        <section className="space-y-3 pt-2">
+        {/* 3. REQUEST OTHER SERVICES (RESTRUCTURED TITLES & TARGET ROUTES) */}
+        <section className="space-y-4 pt-3">
           <div className="px-0.5 flex items-center justify-between">
-            <h3 className="text-xs font-black tracking-wider text-slate-400 uppercase">Request Other Services</h3>
+            <h3 className="text-xs font-black tracking-widest text-slate-400 uppercase flex items-center gap-2">
+              <FiZap className="text-indigo-600" /> Explore Core Services
+            </h3>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             
+            {/* Service 1: Property Compliance -> /property-vetting */}
             <Link href="/property-vetting" className="block group">
-              <div className="bg-blue-50/60 p-4.5 rounded-2xl border border-blue-100/90 flex flex-col justify-between min-h-[145px] transform active:scale-[0.98] transition-all cursor-pointer shadow-xs hover:shadow-md hover:bg-blue-50 group">
-                <div className="h-10 w-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-sm shadow-blue-200 group-hover:scale-105 transition-transform">
-                  <FiTrendingUp className="w-5 h-5" />
+              <div className="bg-white p-5 rounded-3xl border border-slate-200/80 hover:border-blue-500/50 flex flex-col justify-between min-h-[155px] transform active:scale-[0.98] transition-all cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1 group">
+                <div className="h-12 w-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center border border-blue-100 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
+                  <FiTrendingUp className="w-6 h-6" />
                 </div>
                 <div className="mt-4">
-                  <h4 className="text-sm md:text-base font-black text-slate-950 tracking-wide">Property Check</h4>
-                  <p className="text-[11px] text-slate-500 font-bold mt-0.5 leading-tight">Property Compliance Services</p>
+                  <h4 className="text-sm md:text-base font-black text-slate-950 uppercase tracking-tight group-hover:text-blue-600 transition-colors">Property Compliance</h4>
+                  <p className="text-[11px] text-slate-500 font-medium mt-1 leading-tight">Legal Vetting & Audit</p>
                 </div>
               </div>
             </Link>
 
+            {/* Service 2: Loan Readiness Check -> /loan-solution */}
             <Link href="/loan-solution" className="block group">
-              <div className="bg-amber-50/60 p-4.5 rounded-2xl border border-amber-100/90 flex flex-col justify-between min-h-[145px] transform active:scale-[0.98] transition-all cursor-pointer shadow-xs hover:shadow-md hover:bg-amber-50 group">
-                <div className="h-10 w-10 bg-amber-500 rounded-xl flex items-center justify-center text-white shadow-sm shadow-amber-200 group-hover:scale-105 transition-transform">
-                  <FiFileText className="w-5 h-5" />
+              <div className="bg-white p-5 rounded-3xl border border-slate-200/80 hover:border-amber-500/50 flex flex-col justify-between min-h-[155px] transform active:scale-[0.98] transition-all cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1 group">
+                <div className="h-12 w-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center border border-amber-100 group-hover:bg-amber-500 group-hover:text-white transition-all shadow-sm">
+                  <FiFileText className="w-6 h-6" />
                 </div>
                 <div className="mt-4">
-                  <h4 className="text-sm md:text-base font-black text-slate-950 tracking-wide">Paper Checker</h4>
-                  <p className="text-[11px] text-slate-500 font-bold mt-0.5 leading-tight">Loan Readiness Assistance</p>
+                  <h4 className="text-sm md:text-base font-black text-slate-950 uppercase tracking-tight group-hover:text-amber-600 transition-colors">Loan Readiness Check</h4>
+                  <p className="text-[11px] text-slate-500 font-medium mt-1 leading-tight">Document Pre-Verification</p>
                 </div>
               </div>
             </Link>
 
-            <Link href="/cibil" className="block group">
-              <div className="bg-rose-50/60 p-4.5 rounded-2xl border border-rose-100/90 flex flex-col justify-between min-h-[145px] transform active:scale-[0.98] transition-all cursor-pointer shadow-xs hover:shadow-md hover:bg-rose-50 group">
-                <div className="h-10 w-10 bg-rose-500 rounded-xl flex items-center justify-center text-white shadow-sm shadow-rose-200 group-hover:scale-105 transition-transform">
-                  <FiAlertTriangle className="w-5 h-5" />
+            {/* Service 3: Eligible Loan Audit -> /loan */}
+            <Link href="/loan" className="block group">
+              <div className="bg-white p-5 rounded-3xl border border-slate-200/80 hover:border-rose-500/50 flex flex-col justify-between min-h-[155px] transform active:scale-[0.98] transition-all cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1 group">
+                <div className="h-12 w-12 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center border border-rose-100 group-hover:bg-rose-500 group-hover:text-white transition-all shadow-sm">
+                  <FiAlertTriangle className="w-6 h-6" />
                 </div>
                 <div className="mt-4">
-                  <h4 className="text-sm md:text-base font-black text-slate-950 tracking-wide">Avoid Rejection</h4>
-                  <p className="text-[11px] text-slate-500 font-bold mt-0.5 leading-tight">CIBIL Score Management</p>
+                  <h4 className="text-sm md:text-base font-black text-slate-950 uppercase tracking-tight group-hover:text-rose-600 transition-colors">Eligible Loan Audit</h4>
+                  <p className="text-[11px] text-slate-500 font-medium mt-1 leading-tight">Prevent Loan Rejections</p>
                 </div>
               </div>
             </Link>
 
+            {/* Service 4: Finance Consultant -> /finance */}
             <Link href="/finance" className="block group">
-              <div className="bg-emerald-50/60 p-4.5 rounded-2xl border border-emerald-100/90 flex flex-col justify-between min-h-[145px] transform active:scale-[0.98] transition-all cursor-pointer shadow-xs hover:shadow-md hover:bg-emerald-50 group">
-                <div className="h-10 w-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white shadow-sm shadow-emerald-200 group-hover:scale-105 transition-transform">
-                  <FiCheckCircle className="w-5 h-5" />
+              <div className="bg-white p-5 rounded-3xl border border-slate-200/80 hover:border-emerald-500/50 flex flex-col justify-between min-h-[155px] transform active:scale-[0.98] transition-all cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1 group">
+                <div className="h-12 w-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center border border-emerald-100 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-sm">
+                  <FiCheckCircle className="w-6 h-6" />
                 </div>
                 <div className="mt-4">
-                  <h4 className="text-sm md:text-base font-black text-slate-950 tracking-wide">Guaranteed Pass</h4>
-                  <p className="text-[11px] text-slate-500 font-bold mt-0.5 leading-tight">Financial Consulting</p>
+                  <h4 className="text-sm md:text-base font-black text-slate-950 uppercase tracking-tight group-hover:text-emerald-600 transition-colors">Finance Consultant</h4>
+                  <p className="text-[11px] text-slate-500 font-medium mt-1 leading-tight">Strategic Wealth Advisory</p>
                 </div>
               </div>
             </Link>
@@ -353,10 +384,10 @@ export default function PremiumBalancedDashboard() {
 
       </div>
 
-      {/* FLOATING AI CHATBOT */}
-      <div className="fixed md:right-6 md:bottom-6 right-4 bottom-28 z-50 font-sans flex flex-col items-end">
+      {/* FLOATING AI CHATBOT (SINGLE CLICK = CHAT | DOUBLE CLICK = ADMIN) */}
+      <div className="fixed md:right-8 md:bottom-8 right-4 bottom-24 z-50 font-sans flex flex-col items-end">
         {isOpen && (
-          <div className="w-[340px] md:w-[380px] h-[460px] bg-white border border-slate-200 rounded-3xl shadow-[0_20px_50px_rgba(79,70,229,0.15)] overflow-hidden flex flex-col mb-4 transform transition-all duration-300 ease-in-out scale-100 origin-bottom-right">
+          <div className="w-[340px] md:w-[380px] h-[460px] bg-white border border-slate-200/90 rounded-3xl shadow-[0_25px_60px_rgba(79,70,229,0.18)] overflow-hidden flex flex-col mb-4 transform transition-all duration-300 ease-in-out scale-100 origin-bottom-right">
             <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 p-4 text-white flex items-center justify-between shadow-sm">
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -378,7 +409,7 @@ export default function PremiumBalancedDashboard() {
               )}
               {messages.map((m) => (
                 <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-xs leading-relaxed ${m.role === 'user' ? 'bg-indigo-600 text-white rounded-br-none shadow-sm shadow-indigo-600/10 font-medium' : 'bg-white text-slate-800 border border-slate-100 rounded-bl-none shadow-xs'}`}>{m.content}</div>
+                  <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-xs leading-relaxed ${m.role === 'user' ? 'bg-indigo-600 text-white rounded-br-none shadow-sm font-medium' : 'bg-white text-slate-800 border border-slate-100 rounded-bl-none shadow-xs'}`}>{m.content}</div>
                 </div>
               ))}
               {isLoading && <div className="flex justify-start"><div className="bg-white border border-slate-100 text-slate-400 px-3 py-2 rounded-xl text-[10px] font-bold animate-pulse">⚡ Checking database...</div></div>}
@@ -392,11 +423,19 @@ export default function PremiumBalancedDashboard() {
           </div>
         )}
         
-        <button onClick={() => setIsOpen(!isOpen)} className="h-12 w-12 bg-gradient-to-br from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-violet-800 text-white rounded-full flex items-center justify-center shadow-2xl border border-indigo-500/30 transform active:scale-90 transition-all cursor-pointer group">
-          {isOpen ? <FiX className="w-5 h-5 transition-transform duration-200 rotate-90" /> : (
+        {/* Chatbot Button */}
+        <button 
+          onClick={handleChatbotClick} 
+          title="Single click for Chat | Double click for Admin"
+          className="h-14 w-14 bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 hover:from-indigo-700 hover:to-violet-900 text-white rounded-full flex items-center justify-center shadow-2xl border border-indigo-400/30 transform active:scale-90 transition-all cursor-pointer group"
+        >
+          {isOpen ? <FiX className="w-6 h-6 transition-transform duration-200 rotate-90" /> : (
             <div className="relative">
-              <FiMessageSquare className="w-5 h-5 transition-transform duration-200 group-hover:scale-105" />
-              <span className="absolute -top-1 -right-1 flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
+              <FiMessageSquare className="w-6 h-6 transition-transform duration-200 group-hover:scale-105" />
+              <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              </span>
             </div>
           )}
         </button>

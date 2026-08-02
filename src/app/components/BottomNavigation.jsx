@@ -9,8 +9,8 @@ import {
   FileCheck, 
   Landmark, 
   HandCoins,
-  Building2,
-  UserCheck,
+  Briefcase,
+  PhoneCall,
   CircleDollarSign,
   ShieldCheck,
   FileClock,
@@ -19,14 +19,14 @@ import {
   ChevronRight
 } from "lucide-react";
 
-// Desktop Menu List (10 Items)
+// Desktop Menu List (10 Items Updated: Added Services & Contact)
 const desktopMenus = [
   { title: "Home", href: "/", icon: Home },
   { title: "Property Vetting", href: "/property-vetting", icon: FileCheck },
   { title: "Loans", href: "/loan", icon: Landmark },
   { title: "Loan Solution", href: "/loan-solution", icon: HandCoins },
-  { title: "MSME Loan", href: "/msme-loan", icon: Building2 },
-  { title: "Personal Loan", href: "/personal-loan", icon: UserCheck },
+  { title: "Services", href: "/services", icon: Briefcase },
+  { title: "Contact", href: "/contact", icon: PhoneCall },
   { title: "Finance", href: "/finance", icon: CircleDollarSign },
   { title: "CIBIL", href: "/cibil", icon: ShieldCheck },
   { title: "My Requests", href: "/my-request", icon: FileClock },

@@ -14,7 +14,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // 📋 MANUAL LOGIN HANDLER
+  // 📋 MANUAL LOGIN HANDLER -> REDIRECT TO HOME ROOT (/)
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -30,7 +30,7 @@ export default function LoginPage() {
       if (res?.error) {
         setError(res.error);
       } else {
-        router.push("/dashboard");
+        router.push("/"); // 👈 Changed from /dashboard to /
       }
     } catch (err) {
       setError("Something went wrong! Please try again.");
@@ -39,11 +39,11 @@ export default function LoginPage() {
     }
   };
 
-  // 🌐 GOOGLE OAUTH HANDLER
+  // 🌐 GOOGLE OAUTH HANDLER -> REDIRECT TO HOME ROOT (/)
   const handleGoogleLogin = async () => {
     setError("");
     try {
-      await signIn("google", { callbackUrl: "/dashboard" });
+      await signIn("google", { callbackUrl: "/" }); // 👈 Changed from /dashboard to /
     } catch (err) {
       setError("Google Authentication failed!");
     }
@@ -52,7 +52,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[#F3F4F6] text-black flex items-center justify-center pb-28 font-sans antialiased select-none px-4 relative overflow-hidden">
       
-      {/* 🌟 PREMIUM 3D WHITE CARD CONTAINER (Tailwind Transition & Shadows Handled) */}
+      {/* 🌟 PREMIUM 3D WHITE CARD CONTAINER */}
       <div className="w-full max-w-[400px] bg-white rounded-[2.5rem] p-8 md:p-10 relative z-50 shadow-[0_20px_50px_rgba(0,0,0,0.1),0_4px_12px_rgba(0,0,0,0.05)] border border-neutral-100 transition-all duration-300 transform scale-100 hover:scale-[1.01]">
         
         {/* Floating Mini Close Cross */}
@@ -69,7 +69,7 @@ export default function LoginPage() {
             LOGIN
           </h1>
           <p className="text-[11px] font-mono text-neutral-400 uppercase tracking-widest">
-            stonenox Secure Node
+            BSP Continental Secure Node
           </p>
         </div>
 
@@ -110,7 +110,7 @@ export default function LoginPage() {
               <FiLock className="absolute right-5 text-neutral-400 text-sm pointer-events-none" />
             </div>
 
-            {/* 🔗 FORGET PASSWORD SECURE LINK LINKED */}
+            {/* 🔗 FORGET PASSWORD SECURE LINK */}
             <div className="text-right pr-2">
               <Link 
                 href="/forget-password" 
