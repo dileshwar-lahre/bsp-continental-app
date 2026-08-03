@@ -11,10 +11,11 @@ import {
   ArrowRight, 
   ShieldCheck, 
   MessageSquare,
-  Phone
+  Phone,
+  ArrowLeft
 } from 'lucide-react';
 
-const WHATSAPP_NUMBER = "919131460470";
+const WHATSAPP_NUMBER = "919575059137";
 
 const loanServices = [
   {
@@ -23,9 +24,7 @@ const loanServices = [
     subtitle: "Instant Digital Sanction",
     icon: UserCheck,
     badge: "Fast Approval",
-    color: "from-blue-600 to-indigo-600",
-    bgHover: "hover:border-blue-300",
-    waMessage: "Hello BSP Continental, mujhe Personal Loan ke baare me inquiry karni hai.",
+    waMessage: "Hello CGINFRAX, mujhe Personal Loan ke baare me inquiry karni hai.",
     points: [
       "100% Paperless Realtime Workflow",
       "No Rejections Policy Assistance",
@@ -39,9 +38,7 @@ const loanServices = [
     subtitle: "Collateral-Free Capital",
     icon: Building2,
     badge: "Startup Friendly",
-    color: "from-indigo-600 to-violet-600",
-    bgHover: "hover:border-indigo-300",
-    waMessage: "Hello BSP Continental, mujhe MSME / Business Loan ke liye consultant support chahiye.",
+    waMessage: "Hello CGINFRAX, mujhe MSME / Business Loan ke liye consultant support chahiye.",
     points: [
       "Working Capital Funding",
       "Secured & Unsecured Business Lines",
@@ -55,9 +52,7 @@ const loanServices = [
     subtitle: "Unlock Asset Value",
     icon: Home,
     badge: "Lowest ROI",
-    color: "from-sky-600 to-blue-700",
-    bgHover: "hover:border-sky-300",
-    waMessage: "Hello BSP Continental, mujhe Property Backed Loan (LAP) ki details chahiye.",
+    waMessage: "Hello CGINFRAX, mujhe Property Backed Loan (LAP) ki details chahiye.",
     points: [
       "High LTV Loan Against Assets",
       "Residential & Commercial Property",
@@ -71,54 +66,62 @@ const loanServices = [
     subtitle: "Eligibility & Debt Fix",
     icon: Landmark,
     badge: "Expert Support",
-    color: "from-blue-700 to-indigo-800",
-    bgHover: "hover:border-indigo-400",
-    waMessage: "Hello BSP Continental, mera loan eligibility check aur debt restructuring karna hai.",
+    waMessage: "Hello CGINFRAX, mera loan eligibility check aur debt restructuring karna hai.",
     points: [
       "Loan Eligibility Check",
-      "Loan Restructuring",
-      "Debt Consolidation"
+      "Loan Restructuring & Debt Fix",
+      "Debt Consolidation Advisory"
     ]
   }
 ];
 
 export default function LoanPage() {
   return (
-    <div className="w-full min-h-screen bg-slate-50 text-slate-800 antialiased pt-4 md:pt-6 pb-24 md:pb-12 px-4 md:px-8">
-      <div className="w-full max-w-7xl mx-auto space-y-8 md:pl-[310px] transition-all duration-300">
+    <div className="w-full min-h-screen bg-white text-slate-900 antialiased py-6 md:py-10 px-4 sm:px-6 md:px-10 lg:pl-64 font-sans flex flex-col transition-all duration-300 select-none">
+      <div className="w-full max-w-7xl mx-auto space-y-8">
         
-        {/* Top Header */}
-        <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.03)] flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 text-xs font-black rounded-full uppercase tracking-wider mb-2">
-              <ShieldCheck size={14} /> Direct Loan Support
+        {/* Top Header Navigation */}
+        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <Link href="/" className="inline-flex items-center gap-2 text-xs font-black text-slate-500 hover:text-blue-600 uppercase tracking-wider transition-all">
+            <ArrowLeft size={16} /> Back
+          </Link>
+          <span className="text-xs font-black text-blue-600 uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-xl">
+            Loan Solutions Desk
+          </span>
+        </div>
+
+        {/* Top Header Card */}
+        <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/90 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-1.5 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black rounded-xl uppercase tracking-wider">
+              <ShieldCheck size={14} /> Direct Loan Support Engine
             </div>
-            <h1 className="text-2xl md:text-3xl font-black text-slate-950 tracking-tight">
+            <h1 className="text-2xl md:text-3xl font-black text-slate-950 uppercase tracking-tight">
               Loan Solutions & Direct Assistance
             </h1>
-            <p className="text-xs md:text-sm text-slate-500 font-semibold mt-1">
-              Kisi bhi card par click karke direct WhatsApp support par connect karein ya request submit karein.
+            <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed">
+              Kisi bhi loan card par click karke direct WhatsApp support (+91 95750 59137) par connect karein ya request submit karein.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             <a 
-              href={`tel:+919131460470`} 
-              className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-xs px-4 py-3 rounded-2xl transition-colors"
+              href={`tel:+919575059137`} 
+              className="inline-flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 text-slate-900 font-black text-xs px-4 py-3.5 rounded-2xl border border-slate-200 transition-all cursor-pointer"
             >
-              <Phone size={16} /> Call Now
+              <Phone size={15} className="text-blue-600" /> Call Support
             </a>
-            {/* Direct Contact Page Redirect */}
+            
             <Link 
               href="/contact" 
-              className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-blue-600 text-white font-bold text-xs px-5 py-3 rounded-2xl shadow-md transition-colors"
+              className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-black text-xs px-5 py-3.5 rounded-2xl shadow-sm transition-all cursor-pointer uppercase tracking-wider active:scale-95"
             >
               Submit Request
             </Link>
           </div>
         </div>
 
-        {/* Loan Cards Grid */}
+        {/* Loan Cards Grid (2 Columns) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {loanServices.map((loan) => {
             const IconComp = loan.icon;
@@ -132,31 +135,32 @@ export default function LoanPage() {
                 rel="noopener noreferrer"
                 className="block group"
               >
-                <div className={`bg-white p-6 md:p-7 rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-xl transition-all duration-300 h-full flex flex-col justify-between ${loan.bgHover}`}>
+                <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/90 shadow-2xs hover:border-blue-600 hover:shadow-md transition-all duration-300 h-full flex flex-col justify-between active:scale-[0.99]">
                   <div>
-                    {/* Top Row */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className={`p-3 bg-gradient-to-br ${loan.color} text-white rounded-2xl shadow-md group-hover:scale-105 transition-transform`}>
+                    {/* Card Header */}
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="p-3.5 bg-blue-50 text-blue-600 border border-blue-100 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-all">
                         <IconComp size={24} />
                       </div>
-                      <span className="text-[10px] font-black uppercase tracking-widest px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full border border-emerald-200">
-                        💬 WhatsApp Connect
+                      <span className="text-[10px] font-black uppercase tracking-wider px-3 py-1 bg-emerald-50 text-emerald-700 rounded-xl border border-emerald-100 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        WhatsApp Connect
                       </span>
                     </div>
 
-                    {/* Title */}
-                    <h3 className="text-lg md:text-xl font-black text-slate-950 group-hover:text-blue-600 transition-colors">
+                    {/* Titles */}
+                    <h3 className="text-lg md:text-xl font-black text-slate-950 uppercase tracking-tight group-hover:text-blue-600 transition-colors">
                       {loan.title}
                     </h3>
                     <p className="text-xs font-bold text-blue-600 mt-0.5 mb-4">
                       {loan.subtitle}
                     </p>
 
-                    {/* Points */}
-                    <ul className="space-y-2 border-t border-slate-100 pt-4">
+                    {/* Points Checklist */}
+                    <ul className="space-y-2.5 border-t border-slate-100 pt-4">
                       {loan.points.map((pt, idx) => (
-                        <li key={idx} className="text-xs font-semibold text-slate-600 flex items-center gap-2">
-                          <CheckCircle2 size={15} className="text-blue-600 shrink-0" />
+                        <li key={idx} className="text-xs font-bold text-slate-700 flex items-center gap-2">
+                          <CheckCircle2 size={15} className="text-emerald-500 shrink-0" />
                           <span>{pt}</span>
                         </li>
                       ))}
@@ -165,8 +169,8 @@ export default function LoanPage() {
 
                   {/* WhatsApp CTA Bar */}
                   <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-black text-emerald-600 group-hover:text-emerald-700">
-                    <span className="flex items-center gap-1.5">
-                      <MessageSquare size={16} /> Chat on WhatsApp (+91 9131460470)
+                    <span className="flex items-center gap-2">
+                      <MessageSquare size={16} /> Chat on WhatsApp (+91 95750 59137)
                     </span>
                     <div className="p-2 bg-emerald-50 group-hover:bg-emerald-600 group-hover:text-white rounded-xl transition-all">
                       <ArrowRight size={16} />

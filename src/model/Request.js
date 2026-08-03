@@ -21,14 +21,19 @@ const RequestSchema = new mongoose.Schema(
       monthlyIncome: { type: Number },
       rejectionReason: { type: String },
       customMessage: { type: String },
+      
+      // 🌟 CIBIL Audit Specific Fields
+      panNumber: { type: String },
+      dateOfBirth: { type: String },
     },
 
-    // Client Uploaded Documents
+    // Client Uploaded Documents (Aadhaar Front/Back, PAN, Property, Loan Papers)
     documentsList: [
       {
         name: { type: String },
         url: { type: String },
         size: { type: String },
+        docType: { type: String, default: "General" }, // 'Aadhaar Front', 'Aadhaar Back', 'PAN Card', etc.
       },
     ],
 
@@ -39,7 +44,7 @@ const RequestSchema = new mongoose.Schema(
       default: "Pending",
     },
 
-    // 🌟 NEW: Admin Reply Message & Attached Verified File
+    // Admin Reply Message & Attached Verified File
     adminReply: {
       message: { type: String, default: "" },
       document: {
