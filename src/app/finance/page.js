@@ -25,7 +25,7 @@ const financeServices = [
     subtitle: "Secured Business Financing",
     icon: CircleDollarSign,
     badge: "High Approval",
-    waMessage: "Hello CGINFRAX, mujhe Business Loan Assistance ke baare me inquiry karni hai.",
+    waMessage: "Hello BSP Continental Pvt Ltd, mujhe Business Loan Assistance ke baare me inquiry karni hai.",
     points: [
       "Lender Selection & Comparison",
       "Competitive Interest Rate Negotiation",
@@ -38,7 +38,7 @@ const financeServices = [
     subtitle: "Asset Backed Funding",
     icon: Building,
     badge: "Asset Backed",
-    waMessage: "Hello CGINFRAX, mujhe Mortgage Loan Consultation ke liye assistance chahiye.",
+    waMessage: "Hello BSP Continental Pvt Ltd, mujhe Mortgage Loan Consultation ke liye assistance chahiye.",
     points: [
       "Property Loan Structuring",
       "High LTV Processing Support",
@@ -51,7 +51,7 @@ const financeServices = [
     subtitle: "End-to-End Advisory",
     icon: Briefcase,
     badge: "Financial Advisory",
-    waMessage: "Hello CGINFRAX, mujhe Financial Documentation Support & Loan Structuring ke liye consultant chahiye.",
+    waMessage: "Hello BSP Continental Pvt Ltd, mujhe Financial Documentation Support & Loan Structuring ke liye consultant chahiye.",
     points: [
       "End-to-End Loan Processing",
       "Financial Documentation Support",
@@ -85,13 +85,13 @@ export default function FinancePage() {
               Financial Consultancy Support
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed">
-              We assist businesses and property owners in obtaining secured financing from Banks, NBFCs, and Financial Institutions with competitive terms.
+              At BSP Continental Pvt Ltd, we assist businesses and property owners in obtaining secured financing from Banks, NBFCs, and Financial Institutions with competitive terms.
             </p>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
             <a 
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hello CGINFRAX, mujhe Financial Consultation support chahiye.")}`}
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hello BSP Continental Pvt Ltd, mujhe Financial Consultation support chahiye.")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs px-4 py-3.5 rounded-2xl shadow-sm transition-all cursor-pointer uppercase tracking-wider active:scale-95"

@@ -24,7 +24,7 @@ const loanServices = [
     subtitle: "Instant Digital Sanction",
     icon: UserCheck,
     badge: "Fast Approval",
-    waMessage: "Hello CGINFRAX, mujhe Personal Loan ke baare me inquiry karni hai.",
+    waMessage: "Hello BSP Continental Pvt Ltd, mujhe Personal Loan ke baare me inquiry karni hai.",
     points: [
       "100% Paperless Realtime Workflow",
       "No Rejections Policy Assistance",
@@ -38,7 +38,7 @@ const loanServices = [
     subtitle: "Collateral-Free Capital",
     icon: Building2,
     badge: "Startup Friendly",
-    waMessage: "Hello CGINFRAX, mujhe MSME / Business Loan ke liye consultant support chahiye.",
+    waMessage: "Hello BSP Continental Pvt Ltd, mujhe MSME / Business Loan ke liye consultant support chahiye.",
     points: [
       "Working Capital Funding",
       "Secured & Unsecured Business Lines",
@@ -52,7 +52,7 @@ const loanServices = [
     subtitle: "Unlock Asset Value",
     icon: Home,
     badge: "Lowest ROI",
-    waMessage: "Hello CGINFRAX, mujhe Property Backed Loan (LAP) ki details chahiye.",
+    waMessage: "Hello BSP Continental Pvt Ltd, mujhe Property Backed Loan (LAP) ki details chahiye.",
     points: [
       "High LTV Loan Against Assets",
       "Residential & Commercial Property",
@@ -66,7 +66,7 @@ const loanServices = [
     subtitle: "Eligibility & Debt Fix",
     icon: Landmark,
     badge: "Expert Support",
-    waMessage: "Hello CGINFRAX, mera loan eligibility check aur debt restructuring karna hai.",
+    waMessage: "Hello BSP Continental Pvt Ltd, mera loan eligibility check aur debt restructuring karna hai.",
     points: [
       "Loan Eligibility Check",
       "Loan Restructuring & Debt Fix",
@@ -100,7 +100,7 @@ export default function LoanPage() {
               Loan Solutions & Direct Assistance
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 font-semibold leading-relaxed">
-              Kisi bhi loan card par click karke direct WhatsApp support (+91 95750 59137) par connect karein ya request submit karein.
+              At BSP Continental Pvt Ltd, kisi bhi loan card par click karke direct WhatsApp support (+91 95750 59137) par connect karein ya request submit karein.
             </p>
           </div>
 
