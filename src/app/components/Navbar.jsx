@@ -7,7 +7,19 @@ import { usePathname, useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
-import { FiHome, FiInfo, FiBriefcase, FiFileText, FiShield, FiBell, FiLogIn, FiLogOut, FiUser, FiPhoneCall } from "react-icons/fi";
+import { 
+  FiHome, 
+  FiInfo, 
+  FiBriefcase, 
+  FiFileText, 
+  FiShield, 
+  FiBell, 
+  FiLogIn, 
+  FiLogOut, 
+  FiUser, 
+  FiPhoneCall,
+  FiList
+} from "react-icons/fi";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -25,7 +37,7 @@ export default function Navbar() {
   const userImageUrl = session?.user?.image || "";
   const userName = session?.user?.name || "User";
 
-  const brandColor = "#4933e6";
+  const brandColor = "#217044";
 
   const menuItems = [
     { name: "Home", href: "/", icon: <FiHome size={20} /> },
@@ -49,7 +61,7 @@ export default function Navbar() {
       {/* ─── OPTIMIZED EXTRA TALL NAVBAR (h-28 for Big Logo) ─── */}
       <nav className="fixed top-0 left-0 right-0 h-28 bg-white z-40 px-4 md:px-10 lg:px-16 flex items-center justify-between select-none shadow-[0_4px_25px_rgba(0,0,0,0.04)] border-b border-slate-100 transition-all duration-300">
         
-        {/* Branding Logo Container - MEGA BADA DISPLAY */}
+        {/* Branding Logo Container */}
         <div className="flex items-center">
           <Link 
             href="/" 
@@ -97,18 +109,18 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           
           {/* Notification Engine */}
-          <button className="relative w-11 h-11 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:text-black hover:bg-slate-100 transition-all active:scale-95 cursor-pointer">
+          <button className="relative w-11 h-11 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:text-[#217044] hover:bg-emerald-50 transition-all active:scale-95 cursor-pointer">
             <FiBell size={20} />
-            <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-rose-500 rounded-full ring-2 ring-white" />
+            <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-[#217044] rounded-full ring-2 ring-white" />
           </button>
 
           {/* Desktop Login Button */}
           {!isLoggedIn && (
             <Link
               href="/login"
-              className="hidden md:flex items-center gap-1.5 px-6 py-3 rounded-full text-white font-black text-xs uppercase tracking-wider transition-all active:scale-95 shadow-xs"
+              className="hidden md:flex items-center gap-1.5 px-6 py-3 rounded-full text-white font-black text-xs uppercase tracking-wider transition-all active:scale-95 shadow-xs cursor-pointer"
               style={{ backgroundColor: brandColor }}
-              onMouseEnter={(e) => e.target.style.filter = "brightness(1.1)"}
+              onMouseEnter={(e) => e.target.style.filter = "brightness(0.9)"}
               onMouseLeave={(e) => e.target.style.filter = "none"}
             >
               <FiLogIn size={14} />
@@ -188,7 +200,7 @@ export default function Navbar() {
                   />
                   <button 
                     onClick={() => setIsOpen(false)}
-                    className="text-xl text-black bg-slate-50 p-1.5 rounded-full active:scale-90"
+                    className="text-xl text-black bg-slate-50 p-1.5 rounded-full active:scale-90 cursor-pointer"
                   >
                     <HiX />
                   </button>
@@ -260,6 +272,24 @@ export default function Navbar() {
                     );
                   })}
 
+                  {/* 📋 MY REQUESTS LINK FOR LOGGED IN USERS */}
+                  {isLoggedIn && (
+                    <Link
+                      href="/my-requests"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-4 text-base font-black px-4 py-3 rounded-xl transition-all duration-150 active:scale-[0.98]"
+                      style={{ 
+                        backgroundColor: pathname === "/my-requests" ? `${brandColor}10` : "transparent",
+                        color: pathname === "/my-requests" ? brandColor : "#334155"
+                      }}
+                    >
+                      <span style={{ color: pathname === "/my-requests" ? brandColor : "#94A3B8" }}>
+                        <FiList size={20} />
+                      </span>
+                      My Requests
+                    </Link>
+                  )}
+
                   {/* Mobile Profile View Trigger */}
                   {isLoggedIn && (
                     <Link
@@ -281,7 +311,7 @@ export default function Navbar() {
               {/* Fixed Footer */}
               <div className="text-center pt-4 border-t border-slate-100">
                 <p className="text-[10px] text-slate-400 font-bold tracking-wider uppercase">
-                  © 2026 BSP Continental
+                  © 2026 BSP CCONTINENTAL
                 </p>
               </div>
 

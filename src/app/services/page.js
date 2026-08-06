@@ -2,218 +2,198 @@
 
 import Link from "next/link";
 import { 
-  FiDollarSign, 
   FiHome, 
   FiShield, 
-  FiFileText, 
-  FiAlertTriangle, 
   FiTrendingUp, 
-  FiArrowUpRight,
+  FiArrowRight,
   FiZap,
-  FiCheckCircle
+  FiCheckCircle,
+  FiArrowUpRight,
+  FiGrid,
+  FiChevronRight
 } from "react-icons/fi";
 
 export default function ServicesPage() {
-  const allServices = [
+  const primaryServices = [
     {
+      id: "credit-score-management",
       number: "01",
-      icon: <FiTrendingUp className="text-2xl text-black" />,
-      title: "Credit Score Improvement",
-      tagline: "Boost Eligibility & Health",
-      desc: "Comprehensive credit reporting, score restoration, and strategic financial counseling to improve overall loan eligibility."
+      icon: <FiTrendingUp className="text-2xl" />,
+      title: "Credit Score Management & Advisory",
+      subtitle: "CIBIL Restructuring & Dispute Bureau Advisory",
+      desc: "Hum CIBIL aur Credit Report ki deep technical audit karte hain taaki aapke loan rejection ke risks khatam ho sakein aur bank eligibility maximize ho.",
+      link: "/credit-score-management",
+      badge: "Credit Advisory",
+      subServices: [
+        "CIBIL & CRIF Report Technical Audit",
+        "Dispute Filing & Error Rectification",
+        "Loan Rejection Analysis & Bureau Cleanup",
+        "Credit Score Restoration Strategy"
+      ]
     },
     {
+      id: "loan-advisory",
       number: "02",
-      icon: <FiHome className="text-2xl text-black" />,
-      title: "Loan Readiness Consulting",
-      tagline: "Hassle-free Approvals",
-      desc: "Pre-application evaluation, documentation alignment, and bank criteria matching for seamless loan processing."
+      icon: <FiHome className="text-2xl" />,
+      title: "Home, MSME & Business Loan Advisory",
+      subtitle: "Loan Readiness, DPR & Corporate Debt Structuring",
+      desc: "Bank application se pehle file audit aur Loan Readiness Solution ke dwara MSME, Business, Term Loan aur Property Loans fast approve karwane me advisory support.",
+      link: "/finance",
+      badge: "Financial Consultancy",
+      subServices: [
+        "Loan Readiness File Audit & Pre-Check",
+        "Detailed Project Report (DPR) & CMA Data",
+        "Business, MSME & Working Capital (CC/OD)",
+        "Mortgage Loan (LAP) & Project Finance"
+      ]
     },
     {
+      id: "property-vetting",
       number: "03",
-      icon: <FiShield className="text-2xl text-black" />,
-      title: "Property Compliance Service",
-      tagline: "100% Secure Real Estate",
-      desc: "Deep legal vetting, property title verification, and regulatory compliance checks to protect buyers from fraud."
-    },
-    {
-      number: "04",
-      icon: <FiDollarSign className="text-2xl text-black" />,
-      title: "Mortgage, MSME & Other Loans",
-      tagline: "Tailored Financing Solutions",
-      desc: "End-to-end advisory for securing competitive home, commercial, business, MSME, and personal financing options."
-    },
-    {
-      number: "05",
-      icon: <FiAlertTriangle className="text-2xl text-black" />,
-      title: "Loan Difficulties & Solutions",
-      tagline: "Rejection Resolution",
-      desc: "Expert resolution for rejected applications, high-risk flags, debt restructuring, and complex banking roadblocks."
-    },
-    {
-      number: "06",
-      icon: <FiFileText className="text-2xl text-black" />,
-      title: "Trusted Financial Advisory",
-      tagline: "Strategic Wealth Growth",
-      desc: "Integrated financial and legal consultancy designed to minimize risks and enable sustainable long-term wealth."
+      icon: <FiShield className="text-2xl" />,
+      title: "Property Due Diligence & Legal Vetting",
+      desc: "Property khareedne ya invest karne se pehle Registry, Khasra, B-1 aur Title verification dwara legal disputes aur property frauds se bachat.",
+      link: "/property-vetting",
+      badge: "Legal Verification",
+      subServices: [
+        "Registry & Sale Deed Copy Legal Audit",
+        "Khasra, Khatauni & B-1 Land Verification",
+        "Encumbrance & Ownership Search Report",
+        "Fake Property & Dispute Detection"
+      ]
     }
   ];
 
-  const highlights = [
-    "End-to-End Legal Due Diligence",
-    "Bank & NBFC Criteria Matching",
-    "Tailored MSME & Home Financing",
-    "Transparent & Compliant Process"
-  ];
-
   return (
-    <div className="min-h-screen bg-white text-black font-sans antialiased selection:bg-black selection:text-white pb-20">
+    <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased font-sans select-none lg:pl-64 transition-all duration-300 pb-16">
       
-      {/* 🚀 Header Section */}
-      <section className="pt-20 pb-16 px-4 md:px-8 max-w-5xl mx-auto text-center space-y-6">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neutral-200 bg-neutral-50 text-neutral-800 text-[11px] font-mono uppercase tracking-widest shadow-sm">
-          <FiZap className="text-black" /> Integrated Solutions
-        </div>
+      {/* 🎯 SIDEBAR CLEARANCE & MATCHED CONTAINER (max-w-6xl) */}
+      <div className="w-full max-w-6xl mx-auto space-y-6 pt-8 px-4 sm:px-6 md:px-8">
         
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05] uppercase max-w-4xl mx-auto">
-          FINANCIAL & PROPERTY <br />
-          <span className="text-neutral-400">COMPLIANCE SERVICES</span>
-        </h1>
-
-        <p className="text-neutral-600 text-sm md:text-base max-w-2xl mx-auto leading-relaxed font-normal">
-          By combining financial expertise with legal due diligence, BSP Continental reduces risks, improves loan eligibility, and creates confidence in every transaction[cite: 1].
-        </p>
-
-        {/* Redirects to /contact */}
-        <div className="pt-2 flex justify-center">
-          <Link
-            href="/contact"
-            className="bg-black hover:bg-neutral-800 text-white font-black text-xs uppercase tracking-widest px-8 py-4 rounded-full transition-all flex items-center gap-2 shadow-xl active:scale-95"
-          >
-            <span>Get Free Consultation</span>
-            <FiArrowUpRight className="text-lg" />
+        {/* Navigation Bar */}
+        <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs">
+          <Link href="/" className="inline-flex items-center gap-2 text-xs font-black text-slate-600 hover:text-[#217044] uppercase tracking-wider transition-all">
+            <FiHome size={15} className="text-[#217044]" /> Back to Home
           </Link>
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl bg-[#217044] text-white text-[10px] font-black uppercase tracking-widest shadow-2xs">
+            <FiZap size={12} /> BSP CCONTINENTAL PVT LTD
+          </span>
         </div>
-      </section>
 
-      {/* 📊 Badges Grid */}
-      <section className="max-w-5xl mx-auto px-4 md:px-8 mb-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-neutral-50 rounded-3xl border border-neutral-200/80">
-          <div className="space-y-1 text-center md:text-left border-r border-neutral-200/60 last:border-none pr-2">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 font-bold block">MODEL</span>
-            <span className="text-sm font-black uppercase text-black">PropTech & FinTech[cite: 1]</span>
-          </div>
-          <div className="space-y-1 text-center md:text-left border-r border-neutral-200/60 last:border-none pr-2">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 font-bold block">EXPERTISE</span>
-            <span className="text-sm font-black uppercase text-black">Legal & Credit[cite: 1]</span>
-          </div>
-          <div className="space-y-1 text-center md:text-left border-r border-neutral-200/60 last:border-none pr-2">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 font-bold block">NETWORK</span>
-            <span className="text-sm font-black uppercase text-black">Banks & NBFCs[cite: 1]</span>
-          </div>
-          <div className="space-y-1 text-center md:text-left">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 font-bold block">GUARANTEE</span>
-            <span className="text-sm font-black uppercase text-black">100% Compliant[cite: 1]</span>
-          </div>
-        </div>
-      </section>
+        {/* 🚀 Top Header Section */}
+        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+            <div className="space-y-1 max-w-2xl">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#217044]/10 text-[#217044] text-[10px] font-black uppercase tracking-wider border border-[#217044]/20">
+                <FiZap size={12} /> Core Advisory Portfolio
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-slate-950">
+                Financial & Property <span className="text-[#217044]">Advisory Solutions</span>
+              </h1>
+            </div>
 
-      {/* 💼 Services Grid (6 Core Cards -> Redirects to /contact) */}
-      <section className="py-8 px-4 md:px-8 max-w-5xl mx-auto space-y-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {allServices.map((srv, idx) => (
-            <Link 
-              key={idx}
+            <Link
               href="/contact"
-              className="bg-neutral-50 p-8 rounded-3xl border border-neutral-200/80 hover:border-black transition-all group flex flex-col justify-between space-y-6 shadow-sm hover:shadow-xl cursor-pointer hover:-translate-y-1"
+              className="bg-[#217044] hover:bg-[#185332] text-white font-black text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition-all flex items-center gap-2 shadow-sm active:scale-95 shrink-0"
             >
-              <div className="flex items-start justify-between">
-                <div className="w-12 h-12 bg-white border border-neutral-200 rounded-2xl flex items-center justify-center shadow-sm group-hover:bg-black group-hover:text-white transition-all">
-                  {srv.icon}
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-black text-neutral-300 group-hover:text-black transition-colors">{srv.number}</span>
-                  <FiArrowUpRight className="text-lg text-neutral-400 group-hover:text-black transition-colors" />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 font-bold block">
-                  {srv.tagline}
-                </span>
-                <h3 className="font-black text-lg text-black uppercase tracking-wide group-hover:underline">
-                  {srv.title}
-                </h3>
-                <p className="text-xs text-neutral-500 leading-relaxed font-normal">{srv.desc}</p>
-              </div>
+              <span>Get Free Advisory</span>
+              <FiArrowUpRight className="text-sm" />
             </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* 🏛️ Value Proposition Block */}
-      <section className="py-16 my-12 bg-neutral-50 border-y border-neutral-200/80 px-4 md:px-8">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
-          
-          <div className="md:col-span-7 space-y-5">
-            <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest font-bold block">
-              WHY CHOOSE BSP CONTINENTAL
-            </span>
-            <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-black leading-tight">
-              Integrated Expertise, Absolute Transparency
-            </h2>
-            <p className="text-neutral-700 text-xs md:text-sm leading-relaxed">
-              India's rapidly growing real estate and lending sectors continue to face significant challenges, including inadequate property verification and inaccurate credit reporting[cite: 1].
-            </p>
-            <p className="text-neutral-500 text-xs md:text-sm leading-relaxed">
-              BSP Continental bridges these gaps through a technology-enabled, client-centric approach that simplifies complex financial and legal processes[cite: 1].
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-neutral-200">
-              {highlights.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-xs font-bold text-neutral-800">
-                  <FiCheckCircle className="text-black shrink-0" />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
           </div>
 
-          <div className="md:col-span-5">
-            <div className="bg-white p-8 rounded-3xl border border-neutral-200 space-y-6 shadow-xl text-center">
-              <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest font-bold block">
-                GET IN TOUCH
-              </span>
-              <h3 className="text-xl font-black uppercase text-black">
-                Ready to optimize your financial journey?
-              </h3>
-              <p className="text-xs text-neutral-500 leading-relaxed">
-                Connect with our advisory team to resolve loan difficulties or ensure property compliance today[cite: 1].
-              </p>
-              <Link
-                href="/contact"
-                className="w-full bg-black hover:bg-neutral-800 text-white font-black text-xs uppercase tracking-widest py-4 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95"
+          <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed max-w-3xl">
+            BSP CCONTINENTAL PVT LTD aapko Credit Score Restoration, Business & Project Loans, aur Legal Property Verification ki complete advisory support online aur offline provide karti hai.
+          </p>
+        </section>
+
+        {/* 💼 3 Core Services Detailed Breakdown */}
+        <section className="space-y-4">
+          <div className="px-1">
+            <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
+              <FiGrid size={16} className="text-[#217044]" /> Detailed Service Breakdown
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6">
+            {primaryServices.map((srv) => (
+              <div 
+                key={srv.id}
+                className="group bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm hover:border-[#217044] hover:shadow-xl transition-all duration-300 space-y-6 relative overflow-hidden"
               >
-                <span>Book Strategy Call</span>
-                <FiArrowUpRight className="text-sm" />
-              </Link>
-            </div>
+                {/* Top Title & Badge */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+                  <div className="flex items-center gap-3.5">
+                    <div className="p-3.5 bg-[#217044]/10 text-[#217044] border border-[#217044]/20 rounded-2xl shrink-0 group-hover:bg-[#217044] group-hover:text-white transition-all duration-300">
+                      {srv.icon}
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-wider text-[#217044] block">
+                        {srv.badge}
+                      </span>
+                      <h2 className="text-lg sm:text-xl font-black text-slate-950 uppercase tracking-tight group-hover:text-[#217044] transition-colors">
+                        {srv.title}
+                      </h2>
+                    </div>
+                  </div>
+
+                  <span className="text-xs font-black text-[#217044] bg-[#217044]/10 px-3 py-1 rounded-xl border border-[#217044]/20 self-start sm:self-auto">
+                    {srv.number}
+                  </span>
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
+                  {srv.desc}
+                </p>
+
+                {/* Sub-Services Breakdown Grid */}
+                <div className="space-y-2 pt-2">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block">
+                    Key Sub-Services Included:
+                  </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {srv.subServices.map((sub, idx) => (
+                      <div key={idx} className="bg-slate-50/80 border border-slate-200/80 p-3 rounded-xl flex items-center gap-2 text-xs font-extrabold text-slate-800 group-hover:bg-emerald-50/40 group-hover:border-[#217044]/30 transition-all">
+                        <FiCheckCircle className="text-[#217044] shrink-0" size={15} />
+                        <span>{sub}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 🚀 MODERN ULTRA-CLEAN CTA BAR */}
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-[11px] font-black text-slate-400 uppercase tracking-wider hidden sm:block">
+                    Verified Advisory Desk
+                  </span>
+
+                  <Link
+                    href={srv.link}
+                    className="w-full sm:w-auto inline-flex items-center justify-between sm:justify-start gap-4 bg-slate-900 hover:bg-[#217044] text-white font-black text-xs px-6 py-3.5 rounded-2xl transition-all duration-300 shadow-md active:scale-[0.98] group/btn"
+                  >
+                    <span className="uppercase tracking-wider">Access {srv.badge}</span>
+                    <div className="w-6 h-6 rounded-xl bg-white/20 group-hover/btn:bg-white text-white group-hover/btn:text-[#217044] flex items-center justify-center transition-all duration-300 shrink-0">
+                      <FiChevronRight size={16} />
+                    </div>
+                  </Link>
+                </div>
+
+              </div>
+            ))}
           </div>
+        </section>
 
-        </div>
-      </section>
+        {/* 🏆 Benefits Banner */}
+        <section className="bg-[#217044] text-white p-6 sm:p-8 rounded-3xl shadow-md border border-emerald-700/50 text-center space-y-2">
+          <span className="text-[10px] font-black text-emerald-100 uppercase tracking-widest block">GUARANTEED ADVANTAGE</span>
+          <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-white max-w-2xl mx-auto leading-tight">
+            100% Legal Verification & Financial Risk Elimination
+          </h2>
+          <p className="text-xs sm:text-sm text-emerald-100 font-medium max-w-xl mx-auto leading-relaxed">
+            BSP CCONTINENTAL PVT LTD ke sath apne financial aur property decisions ko secure karein.
+          </p>
+        </section>
 
-      {/* 🌐 Vision Banner */}
-      <section className="py-16 bg-neutral-900 text-white rounded-3xl max-w-5xl mx-4 md:mx-auto px-6 md:px-12 text-center space-y-4 shadow-2xl">
-        <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest font-bold">OUR COMMITMENT</span>
-        <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight max-w-2xl mx-auto leading-tight">
-          Better Credit Score. Better Opportunities. Better Life.
-        </h2>
-        <p className="text-xs md:text-sm text-neutral-300 leading-relaxed max-w-xl mx-auto font-normal">
-          Empowering individuals and businesses with legally secure real estate investments and financial clarity[cite: 1].
-        </p>
-      </section>
-
+      </div>
     </div>
   );
 }

@@ -4,206 +4,179 @@ import Link from "next/link";
 import { 
   FiShield, 
   FiCheckCircle, 
-  FiFileText, 
   FiDollarSign, 
   FiHome, 
-  FiArrowUpRight,
+  FiArrowRight,
+  FiUser,
+  FiGlobe,
+  FiLock,
+  FiClock,
   FiZap
 } from "react-icons/fi";
 
 export default function AboutPage() {
   const coreServices = [
     {
+      id: "credit-management",
       number: "01",
-      icon: <FiDollarSign className="text-xl text-black" />,
+      icon: <FiDollarSign className="text-2xl" />,
       title: "Credit Score Management",
-      desc: "Comprehensive credit reporting, score restoration, and financial health optimization to boost overall loan eligibility."
+      desc: "CIBIL report audit, bureau dispute filing, and credit score restoration to build strong loan eligibility.",
+      link: "/credit-score-management",
+      badge: "Credit Advisory"
     },
     {
+      id: "loan-advisory",
       number: "02",
-      icon: <FiHome className="text-xl text-black" />,
+      icon: <FiHome className="text-2xl" />,
       title: "Home & Business Loan Advisory",
-      desc: "End-to-end guidance for securing competitive home, business, and commercial property loans effortlessly."
+      desc: "End-to-end support for business financing, MSME loans, project finance, and mortgage loan processing.",
+      link: "/finance",
+      badge: "Financial Consultancy"
     },
     {
+      id: "property-vetting",
       number: "03",
-      icon: <FiShield className="text-xl text-black" />,
-      title: "Property Due Diligence",
-      desc: "Deep legal vetting and title verification to protect real estate buyers and investors from fraudulent transactions."
-    },
-    {
-      number: "04",
-      icon: <FiFileText className="text-xl text-black" />,
-      title: "Legal & Financial Compliance",
-      desc: "Integrated solutions ensuring full regulatory compliance, dispute minimization, and transparent property deals."
+      icon: <FiShield className="text-2xl" />,
+      title: "Property Due Diligence & Vetting",
+      desc: "Legal title verification, land registry checks, and Khasra document audits to avoid real estate disputes.",
+      link: "/property-vetting",
+      badge: "Legal Verification"
     }
   ];
 
-  const highlights = [
-    "FinTech & PropTech Integrated Ecosystem",
-    "Chhattisgarh-based Financial & Property Platform",
-    "Risk Mitigation & Loan Rejection Prevention",
-    "Strategic Partnerships with Banks & NBFCs"
-  ];
-
   return (
-    <div className="min-h-screen bg-white text-black font-sans antialiased selection:bg-black selection:text-white pb-20">
+    <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased font-sans select-none lg:pl-64 transition-all duration-300 pb-16">
       
-      {/* 🚀 Perfectly Centered Modern Hero Section */}
-      <section className="pt-20 pb-16 px-4 md:px-8 max-w-5xl mx-auto text-center space-y-6">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neutral-200 bg-neutral-50 text-neutral-800 text-[11px] font-mono uppercase tracking-widest shadow-sm">
-          <FiZap className="text-black" /> FinTech & PropTech Ecosystem
-        </div>
+      {/* 🎯 SIDEBAR CLEARANCE & MATCHED CONTAINER SIZE (max-w-6xl) */}
+      <div className="w-full max-w-6xl mx-auto space-y-6 pt-8 px-4 sm:px-6 md:px-8">
         
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05] uppercase max-w-4xl mx-auto">
-          Secure Finance. <br />
-          Compliant Properties. <br />
-          <span className="text-neutral-400">Sustainable Growth.</span>
-        </h1>
-
-        <p className="text-neutral-600 text-sm md:text-base max-w-2xl mx-auto leading-relaxed font-normal">
-          BSP Continental Pvt. Ltd. is a next-generation Financial Consultancy and Property Compliance company dedicated to helping individuals, businesses, and investors make secure financial and real estate decisions[cite: 1].
-        </p>
-
-        {/* Redirects to /contact */}
-        <div className="pt-2 flex justify-center">
-          <Link
-            href="/contact"
-            className="bg-black hover:bg-neutral-800 text-white font-black text-xs uppercase tracking-widest px-8 py-4 rounded-full transition-all flex items-center gap-2 shadow-xl active:scale-95"
-          >
-            <span>Explore Ecosystem</span>
-            <FiArrowUpRight className="text-lg" />
+        {/* Navigation / Top Header Bar */}
+        <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs">
+          <Link href="/" className="inline-flex items-center gap-2 text-xs font-black text-slate-600 hover:text-[#217044] uppercase tracking-wider transition-all">
+            <FiHome size={15} className="text-[#217044]" /> Back to Home
           </Link>
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl bg-[#217044] text-white text-[10px] font-black uppercase tracking-widest shadow-2xs">
+            <FiZap size={12} /> BSP CCONTINENTAL PVT LTD
+          </span>
         </div>
-      </section>
 
-      {/* 📊 Stats / Badges Grid (Centered) */}
-      <section className="max-w-5xl mx-auto px-4 md:px-8 mb-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-neutral-50 rounded-3xl border border-neutral-200/80">
-          <div className="space-y-1 text-center md:text-left border-r border-neutral-200/60 last:border-none pr-2">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 font-bold block">MODEL</span>
-            <span className="text-sm font-black uppercase text-black">PropTech & FinTech[cite: 1]</span>
-          </div>
-          <div className="space-y-1 text-center md:text-left border-r border-neutral-200/60 last:border-none pr-2">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 font-bold block">LOCATION</span>
-            <span className="text-sm font-black uppercase text-black">Chhattisgarh, India[cite: 1]</span>
-          </div>
-          <div className="space-y-1 text-center md:text-left border-r border-neutral-200/60 last:border-none pr-2">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 font-bold block">FOCUS</span>
-            <span className="text-sm font-black uppercase text-black">Legal Compliance[cite: 1]</span>
-          </div>
-          <div className="space-y-1 text-center md:text-left">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400 font-bold block">TRUST</span>
-            <span className="text-sm font-black uppercase text-black">Bank Vetted[cite: 1]</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 🏛️ Executive Summary & Founder Card */}
-      <section className="py-16 bg-neutral-50 border-y border-neutral-200/80 px-4 md:px-8">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
-          
-          <div className="md:col-span-7 space-y-5">
-            <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest font-bold block">
-              Executive Summary
-            </span>
-            <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-black leading-tight">
-              Transforming Financial Eligibility & Legal Vetting
-            </h2>
-            <p className="text-neutral-700 text-xs md:text-sm leading-relaxed">
-              Founded by <strong className="text-black font-extrabold">Mr. Krisna Gedaam</strong>, BSP Continental addresses two of India’s most critical challenges—financial eligibility and property compliance—through a single integrated advisory ecosystem[cite: 1].
-            </p>
-            <p className="text-neutral-500 text-xs md:text-sm leading-relaxed">
-              By combining financial expertise with legal due diligence, BSP Continental minimizes risks associated with loan rejections, property disputes, fraudulent transactions, and regulatory non-compliance[cite: 1].
-            </p>
-
-            {/* Highlights Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-neutral-200">
-              {highlights.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-xs font-bold text-neutral-800">
-                  <FiCheckCircle className="text-black shrink-0" />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Founder Card */}
-          <div className="md:col-span-5">
-            <div className="bg-white p-8 rounded-3xl border border-neutral-200 space-y-6 shadow-xl relative">
-              <div className="flex items-center gap-4 border-b border-neutral-100 pb-5">
-                <div className="w-12 h-12 bg-black text-white rounded-2xl flex items-center justify-center font-black text-sm shadow-md">
-                  KG
-                </div>
-                <div>
-                  <h3 className="font-black text-base text-black uppercase tracking-wide">Mr. Krisna Gedaam</h3>
-                  <p className="text-[10px] text-neutral-400 font-mono uppercase tracking-wider font-bold">Founder & Managing Director[cite: 1]</p>
-                </div>
-              </div>
-
-              <blockquote className="text-xs text-neutral-600 italic leading-relaxed">
-                "Our long-term vision is to build India's first Integrated Financial & Property Compliance Ecosystem supported by digital platforms, strategic bank partnerships, and scalable SaaS solutions[cite: 1]."
-              </blockquote>
-
-              <div className="pt-3 text-[9px] text-neutral-400 font-mono font-bold flex items-center justify-between border-t border-neutral-100 uppercase tracking-widest">
-                <span>BSP CONTINENTAL PVT. LTD.</span>
-                <span>EST. FINTECH[cite: 1]</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 💼 Core Services Section - All Cards Redirect to /contact */}
-      <section className="py-20 px-4 md:px-8 max-w-5xl mx-auto space-y-12">
-        <div className="text-center space-y-2 max-w-xl mx-auto">
-          <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest font-bold">SOLUTIONS</span>
-          <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-black">Core Advisory Ecosystem</h2>
-          <p className="text-xs text-neutral-500">
-            Reducing risks, improving loan eligibility, and creating confidence in every property transaction[cite: 1].
+        {/* 1. TOP HEADER CARD: BSP CCONTINENTAL PVT LTD */}
+        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-2">
+          <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-slate-950">
+            BSP CCONTINENTAL PVT LTD
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed max-w-3xl">
+            BSP CCONTINENTAL PVT LTD ek dedicated Financial Consultancy aur Property Compliance company hai. Hum individuals aur businesses ko secure loans, clean credit profiles, aur legally verified real estate property deals lene me madad karte hain.
           </p>
-        </div>
+        </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {coreServices.map((srv, idx) => (
-            <Link 
-              key={idx}
-              href="/contact"
-              className="bg-neutral-50 p-8 rounded-3xl border border-neutral-200/80 hover:border-black transition-all group flex flex-col justify-between space-y-6 shadow-sm hover:shadow-xl cursor-pointer hover:-translate-y-1"
-            >
-              <div className="flex items-start justify-between">
-                <div className="w-12 h-12 bg-white border border-neutral-200 rounded-2xl flex items-center justify-center shadow-sm group-hover:bg-black group-hover:text-white transition-all">
-                  {srv.icon}
+        {/* 2. KRISNA GEDAAM SECTION */}
+        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-3">
+          <div className="flex items-center gap-3 border-b border-slate-100 pb-3">
+            <div className="w-10 h-10 rounded-2xl bg-[#217044] text-white flex items-center justify-center font-black text-xs shadow-2xs">
+              <FiUser size={18} />
+            </div>
+            <div>
+              <h2 className="text-base font-black text-slate-950 uppercase tracking-tight">
+                Krishna Gedam
+              </h2>
+            </div>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
+            Krishna Gedam is company ke founder hain. Unke vision ke sath BSP CCONTINENTAL PVT LTD ko establish kiya gaya hai taaki log bina kisi loan rejection ya legal property fraud ke risk ke financial aur real estate services le sakein. Hum legal due diligence aur strategic banking knowledge ko ek jagah late hain.
+          </p>
+        </section>
+
+        {/* 3. CORE 3 ADVISORY SERVICES */}
+        <section className="space-y-4">
+          <div className="px-1">
+            <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
+              <FiShield size={16} className="text-[#217044]" /> Our Core Advisory Services
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {coreServices.map((srv) => (
+              <Link 
+                key={srv.id}
+                href={srv.link}
+                className="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/90 hover:border-[#217044] hover:shadow-xl transition-all duration-300 group flex flex-col justify-between space-y-5 h-full active:scale-[0.99]"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="p-3.5 bg-[#217044]/10 text-[#217044] border border-[#217044]/20 rounded-2xl group-hover:bg-[#217044] group-hover:text-white transition-all">
+                      {srv.icon}
+                    </div>
+                    <span className="text-xs font-black text-[#217044] bg-[#217044]/10 px-2.5 py-1 rounded-xl border border-[#217044]/20">
+                      {srv.number}
+                    </span>
+                  </div>
+
+                  <span className="text-[10px] font-black uppercase tracking-wider text-[#217044] block">
+                    {srv.badge}
+                  </span>
+
+                  <div className="space-y-1.5">
+                    <h4 className="font-black text-base text-slate-950 uppercase tracking-tight group-hover:text-[#217044] transition-colors leading-snug">
+                      {srv.title}
+                    </h4>
+                    <p className="text-xs text-slate-500 font-semibold leading-relaxed">
+                      {srv.desc}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-black text-neutral-300 group-hover:text-black transition-colors">{srv.number}</span>
-                  <FiArrowUpRight className="text-lg text-neutral-400 group-hover:text-black transition-colors" />
+
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-black text-[#217044] group-hover:text-[#185332]">
+                  <span>Explore Service</span>
+                  <div className="p-2 bg-[#217044]/10 group-hover:bg-[#217044] group-hover:text-white rounded-xl transition-all">
+                    <FiArrowRight size={16} />
+                  </div>
                 </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* 4. WHY CHOOSE OUR ONLINE PLATFORM */}
+        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
+          <div className="border-b border-slate-100 pb-3">
+            <h3 className="text-base font-black text-slate-950 uppercase tracking-tight flex items-center gap-2">
+              <FiGlobe className="text-[#217044]" size={18} /> Why Choose Our Online Advisory Platform?
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+              <div className="flex items-center gap-2 text-[#217044] font-black text-xs uppercase">
+                <FiClock size={16} /> Fast Processing
               </div>
+              <p className="text-xs text-slate-600 font-semibold leading-relaxed">
+                Online document upload aur quick evaluation se aapka time bachta hai aur immediate updates milte hain.
+              </p>
+            </div>
 
-              <div className="space-y-2">
-                <h3 className="font-black text-base text-black uppercase tracking-wide group-hover:underline">
-                  {srv.title}
-                </h3>
-                <p className="text-xs text-neutral-500 leading-relaxed font-normal">{srv.desc}</p>
+            <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+              <div className="flex items-center gap-2 text-[#217044] font-black text-xs uppercase">
+                <FiLock size={16} /> 100% Confidential
               </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+              <p className="text-xs text-slate-600 font-semibold leading-relaxed">
+                Aapke CIBIL, Financial, aur Property papers secure cloud storage par 100% Safe aur Private rehte hain.
+              </p>
+            </div>
 
-      {/* 🌐 Vision Section */}
-      <section className="py-16 bg-neutral-900 text-white rounded-3xl max-w-5xl mx-4 md:mx-auto px-6 md:px-12 text-center space-y-4 shadow-2xl">
-        <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest font-bold">OUR VISION</span>
-        <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight max-w-2xl mx-auto leading-tight">
-          India's Most Trusted Financial & Property Ecosystem
-        </h2>
-        <p className="text-xs md:text-sm text-neutral-300 leading-relaxed max-w-xl mx-auto font-normal">
-          Empowering individuals and businesses with smarter financial decisions, legally secure real estate investments, and sustainable wealth creation[cite: 1].
-        </p>
-      </section>
+            <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+              <div className="flex items-center gap-2 text-[#217044] font-black text-xs uppercase">
+                <FiCheckCircle size={16} /> Expert Vetted
+              </div>
+              <p className="text-xs text-slate-600 font-semibold leading-relaxed">
+                Experienced legal consultants aur financial advisors har file ki detailed review karte hain.
+              </p>
+            </div>
+          </div>
+        </section>
 
+      </div>
     </div>
   );
 }

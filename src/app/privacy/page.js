@@ -1,89 +1,113 @@
 "use client";
 
 import Link from "next/link";
-import { FiShield, FiLock, FiArrowUpRight, FiZap } from "react-icons/fi";
+import { FiShield, FiLock, FiArrowUpRight, FiZap, FiHome } from "react-icons/fi";
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-white text-black font-sans antialiased selection:bg-black selection:text-white pb-20">
+    <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased font-sans select-none lg:pl-64 transition-all duration-300 pb-16">
       
-      {/* Header */}
-      <section className="pt-20 pb-12 px-4 md:px-8 max-w-4xl mx-auto text-center space-y-4">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neutral-200 bg-neutral-50 text-neutral-800 text-[11px] font-mono uppercase tracking-widest shadow-sm">
-          <FiZap className="text-black" /> DATA PROTECTION
-        </div>
+      {/* 🎯 SIDEBAR CLEARANCE & MATCHED CONTAINER (max-w-6xl) */}
+      <div className="w-full max-w-6xl mx-auto space-y-6 pt-8 px-4 sm:px-6 md:px-8">
         
-        <h1 className="text-4xl sm:text-5xl font-black tracking-tight uppercase">
-          PRIVACY POLICY
-        </h1>
+        {/* Navigation Bar */}
+        <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs">
+          <Link href="/" className="inline-flex items-center gap-2 text-xs font-black text-slate-600 hover:text-[#217044] uppercase tracking-wider transition-all">
+            <FiHome size={15} className="text-[#217044]" /> Back to Home
+          </Link>
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl bg-[#217044] text-white text-[10px] font-black uppercase tracking-widest shadow-2xs">
+            <FiZap size={12} /> BSP CCONTINENTAL PVT LTD
+          </span>
+        </div>
 
-        <p className="text-neutral-500 text-xs font-mono uppercase tracking-wider">
-          Last Updated: August 2026 | BSP Continental Pvt. Ltd.
-        </p>
-      </section>
+        {/* 🚀 Header Card */}
+        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#217044]/10 text-[#217044] text-[10px] font-black uppercase tracking-wider border border-[#217044]/20">
+            <FiLock size={12} /> Data Protection Policy
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-slate-950">
+            Privacy <span className="text-[#217044]">Policy</span>
+          </h1>
+          <p className="text-xs text-slate-500 font-extrabold uppercase tracking-wider">
+            Last Updated: August 2026 | BSP CCONTINENTAL PVT LTD
+          </p>
+        </section>
 
-      {/* Content Block */}
-      <section className="max-w-4xl mx-auto px-4 md:px-8">
-        <div className="bg-neutral-50 p-6 md:p-10 rounded-[2.5rem] border border-neutral-200/80 space-y-8 text-neutral-700 text-xs md:text-sm leading-relaxed">
+        {/* Content Block */}
+        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-6 text-slate-700 text-xs sm:text-sm leading-relaxed font-semibold">
           
-          <div className="space-y-3">
-            <h2 className="text-base md:text-lg font-black uppercase text-black">1. Information We Collect</h2>
-            <p>
-              To provide credit score management, loan advisory, and property compliance services, we collect personal details including your Name, Phone Number, Email Address, Financial Credentials, and Property Documentation submitted via forms[cite: 1].
+          <div className="space-y-2">
+            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
+              <span className="text-[#217044]">1.</span> Information We Collect
+            </h2>
+            <p className="text-slate-600">
+              To provide credit score management, loan advisory, and property compliance services, we collect personal details including your Name, Phone Number, Email Address, Financial Credentials, and Property Documentation submitted via secure forms.
             </p>
           </div>
 
-          <div className="space-y-3 border-t border-neutral-200/80 pt-6">
-            <h2 className="text-base md:text-lg font-black uppercase text-black">2. How We Use Your Data</h2>
-            <p>
-              Your information is strictly used to evaluate loan readiness, process credit score restoration queries, perform property due diligence, communicate progress, and comply with legal regulatory mandates[cite: 1].
+          <div className="space-y-2 border-t border-slate-100 pt-5">
+            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
+              <span className="text-[#217044]">2.</span> How We Use Your Data
+            </h2>
+            <p className="text-slate-600">
+              Your information is strictly used to evaluate loan readiness, process credit score restoration queries, perform property due diligence, communicate progress, and comply with legal regulatory mandates.
             </p>
           </div>
 
-          <div className="space-y-3 border-t border-neutral-200/80 pt-6">
-            <h2 className="text-base md:text-lg font-black uppercase text-black">3. Data Sharing & Third Parties</h2>
-            <p>
-              We do not sell or rent your personal data. Data is shared exclusively with verified banking partners, NBFCs, legal professionals, and regulatory authorities necessary to complete your requested financial or compliance transactions[cite: 1].
+          <div className="space-y-2 border-t border-slate-100 pt-5">
+            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
+              <span className="text-[#217044]">3.</span> Data Sharing & Third Parties
+            </h2>
+            <p className="text-slate-600">
+              We do not sell or rent your personal data. Data is shared exclusively with verified banking partners, NBFCs, legal professionals, and regulatory authorities necessary to complete your requested financial or compliance transactions.
             </p>
           </div>
 
-          <div className="space-y-3 border-t border-neutral-200/80 pt-6">
-            <h2 className="text-base md:text-lg font-black uppercase text-black">4. Data Security</h2>
-            <p>
+          <div className="space-y-2 border-t border-slate-100 pt-5">
+            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
+              <span className="text-[#217044]">4.</span> Data Security
+            </h2>
+            <p className="text-slate-600">
               We employ industry-standard encryption, secure cloud infrastructure, and database access controls to prevent unauthorized access, alteration, or disclosure of your sensitive information.
             </p>
           </div>
 
-          <div className="space-y-3 border-t border-neutral-200/80 pt-6">
-            <h2 className="text-base md:text-lg font-black uppercase text-black">5. Your Rights</h2>
-            <p>
-              You reserve the right to request access to, correction of, or deletion of your personal records from our database by submitting an official email request to <strong>digitalbsp5@gmail.com</strong>.
+          <div className="space-y-2 border-t border-slate-100 pt-5">
+            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
+              <span className="text-[#217044]">5.</span> Your Privacy Rights
+            </h2>
+            <p className="text-slate-600">
+              You reserve the right to request access to, correction of, or deletion of your personal records from our database by submitting an official email request to <strong>bspccontinental@gmail.com</strong>.
             </p>
           </div>
 
-          <div className="space-y-3 border-t border-neutral-200/80 pt-6">
-            <h2 className="text-base md:text-lg font-black uppercase text-black">6. Privacy Inquiries</h2>
-            <div className="p-4 bg-white rounded-2xl border border-neutral-200 text-xs font-mono text-black space-y-1">
-              <p><strong>BSP Continental Data Protection Office</strong></p>
-              <p>Address: Shop No OAS 4, Super Market Complex, 2nd Floor, Agrasen Chowk, Bilaspur</p>
-              <p>Email: digitalbsp5@gmail.com | Phone: +91 9575905173</p>
+          <div className="space-y-3 border-t border-slate-100 pt-5">
+            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
+              <span className="text-[#217044]">6.</span> Privacy Inquiries
+            </h2>
+            <p className="text-slate-600">
+              For any questions regarding data safety or this policy, reach our protection desk:
+            </p>
+            <div className="p-4 bg-[#F8FAFC] rounded-2xl border border-slate-200/90 text-xs font-bold text-slate-900 space-y-1">
+              <p className="text-[#217044] font-black uppercase">BSP CCONTINENTAL PVT LTD Data Protection Desk</p>
+              <p>Address: Shop No OAS 4, Super Market Complex, 2nd Floor, Agrasen Chowk, Bilaspur (C.G.) 495001</p>
+              <p>Email: bspccontinental@gmail.com | Phone: +91 95759 59137</p>
             </div>
           </div>
 
-        </div>
+          <div className="pt-4 text-center">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 bg-[#217044] hover:bg-[#185332] text-white font-black text-xs uppercase tracking-wider px-8 py-3.5 rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
+            >
+              <span>Questions About Privacy? Reach Us</span>
+              <FiArrowUpRight className="text-base" />
+            </Link>
+          </div>
 
-        {/* Back Link */}
-        <div className="pt-8 text-center">
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 bg-black hover:bg-neutral-800 text-white font-black text-xs uppercase tracking-widest px-8 py-4 rounded-full transition-all shadow-lg active:scale-95"
-          >
-            <span>Questions About Privacy? Reach Us</span>
-            <FiArrowUpRight className="text-lg" />
-          </Link>
-        </div>
-      </section>
+        </section>
 
+      </div>
     </div>
   );
 }

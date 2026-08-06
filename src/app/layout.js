@@ -15,8 +15,38 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "DocManager - Premium Document Management System",
-  description: "Manage your service requests and documents securely in one place.",
+  title: "BSP CCONTINENTAL PVT LTD | Financial & Property Compliance Services",
+  description: "BSP CCONTINENTAL PVT LTD is a next generation financial consultancy & property compliance service provider dedicated to investors or loan applicants to secure financial and property related decisions.",
+  keywords: [
+    "BSP CCONTINENTAL",
+    "Financial Consultancy",
+    "Property Compliance",
+    "Credit Score Management",
+    "Loan Readiness",
+    "Property Verification",
+    "Chhattisgarh Property Vetting"
+  ],
+  openGraph: {
+    title: "BSP CCONTINENTAL PVT LTD | Financial & Property Compliance Services",
+    description: "BSP CCONTINENTAL PVT LTD is a next generation financial consultancy & property compliance service provider dedicated to investors or loan applicants to secure financial and property related decisions.",
+    siteName: "BSP CCONTINENTAL PVT LTD",
+    images: [
+      {
+        url: "/images/Bsp Ccontinental financial logo PNG (1).png",
+        width: 1200,
+        height: 630,
+        alt: "BSP CCONTINENTAL Logo",
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BSP CCONTINENTAL PVT LTD | Financial & Property Compliance Services",
+    description: "BSP CCONTINENTAL PVT LTD is a next generation financial consultancy & property compliance service provider dedicated to investors or loan applicants to secure financial and property related decisions.",
+    images: ["/images/Bsp Ccontinental financial logo PNG (1).png"],
+  },
 };
 
 export default function RootLayout({ children }) {
