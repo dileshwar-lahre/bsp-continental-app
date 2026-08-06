@@ -159,7 +159,7 @@ export default function Navbar() {
           {/* Hamburger Menu Trigger (Mobile Version) */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-2xl p-2.5 text-black bg-slate-50 active:scale-90 rounded-full transition-all focus:outline-none"
+            className="md:hidden text-2xl p-2.5 text-black bg-slate-50 active:scale-90 rounded-full transition-all focus:outline-none cursor-pointer"
           >
             {isOpen ? <HiX /> : <HiMenuAlt3 />}
           </button>
@@ -240,7 +240,7 @@ export default function Navbar() {
                       <Link
                         href="/login"
                         onClick={() => setIsOpen(false)}
-                        className="flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl text-white font-black text-xs uppercase tracking-wider shadow-sm active:scale-[0.98] transition-all text-center"
+                        className="flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl text-white font-black text-xs uppercase tracking-wider shadow-sm active:scale-[0.98] transition-all text-center cursor-pointer"
                         style={{ backgroundColor: brandColor }}
                       >
                         <FiLogIn size={14} /> Login

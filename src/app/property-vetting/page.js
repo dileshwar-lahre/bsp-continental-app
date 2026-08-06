@@ -4,9 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { 
-  FiArrowLeft, FiFileText, FiUpload, 
+  FiFileText, FiUpload, 
   FiX, FiCheck, FiShield, FiAlertCircle, FiLock, FiLogIn,
-  FiZap, FiCheckCircle, FiFile, FiPaperclip, FiHome
+  FiFile, FiPaperclip
 } from 'react-icons/fi';
 import Link from 'next/link';
 
@@ -37,7 +37,6 @@ export default function PropertyVettingPage() {
     customMessage: ''
   });
 
-  // Default empty selection (No pre-selected service)
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -82,7 +81,7 @@ export default function PropertyVettingPage() {
     if (!session?.user?.email) {
       setSubmitStatus({
         success: false,
-        msg: 'Aap logged in nahi hain! Kripya pehle login karein.'
+        msg: 'Please login to submit your request!'
       });
       setTimeout(() => router.push('/login'), 1500);
       return;
@@ -91,7 +90,7 @@ export default function PropertyVettingPage() {
     if (selectedServices.length === 0) {
       setSubmitStatus({
         success: false,
-        msg: 'Kripya kam se kam ek Property Compliance service select karein!'
+        msg: 'Please select at least one Property Compliance service!'
       });
       return;
     }
@@ -99,7 +98,7 @@ export default function PropertyVettingPage() {
     if (selectedFiles.length === 0) {
       setSubmitStatus({
         success: false,
-        msg: 'Kripya kam se kam ek required document (Registry ya Khasra Copy) upload karein!'
+        msg: 'Please upload at least one required document (Registry or Khasra Copy)!'
       });
       return;
     }
@@ -178,51 +177,121 @@ export default function PropertyVettingPage() {
     }
   };
 
+  // 🔒 UNAUTHENTICATED VIEW: Clean Header -> Login Card -> 4 Tick Points
   if (status === 'unauthenticated') {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-center items-center px-4 font-sans text-center lg:pl-64">
-        <div className="bg-white border border-slate-200 rounded-3xl p-8 max-w-md w-full shadow-sm space-y-4">
-          <div className="h-12 w-12 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center mx-auto">
-            <FiLock size={24} />
+      <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased py-8 px-4 sm:px-6 md:px-8 font-sans flex flex-col justify-start items-center select-none lg:pl-64 transition-all duration-300">
+        <div className="w-full max-w-4xl mx-auto space-y-6">
+          
+          {/* Simple Clean Header Title Card */}
+          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-2">
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-950 uppercase tracking-tight">
+              Property Compliance & Legal Vetting Services
+            </h1>
+            <p className="text-xs sm:text-sm font-semibold text-slate-500 max-w-3xl leading-relaxed">
+              Secure property before investment. Upload mandatory registry and Khasra documents for certified legal clearance.
+            </p>
           </div>
-          <div className="space-y-1">
-            <h3 className="text-sm font-black text-slate-900 uppercase">Login Required</h3>
-            <p className="text-xs font-semibold text-slate-500">Property Compliance service use karne ke liye pehle Login karein.</p>
+
+          {/* 🚀 LOGIN CARD ON TOP */}
+          <div className="bg-white border border-[#217044]/30 rounded-3xl p-8 sm:p-10 shadow-md text-center space-y-5">
+            <div className="w-14 h-14 bg-[#217044]/10 text-[#217044] border border-[#217044]/20 rounded-2xl flex items-center justify-center mx-auto shadow-2xs">
+              <FiLock size={26} />
+            </div>
+            
+            <div className="space-y-2 max-w-lg mx-auto">
+              <h2 className="text-lg sm:text-xl font-black text-slate-950 uppercase tracking-tight">
+                Login Required to Request Service
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
+                To submit your property documents and track verification progress securely, please log in to your account.
+              </p>
+            </div>
+
+            <div className="pt-2 flex justify-center">
+              <Link 
+                href="/login?callbackUrl=/property-vetting" 
+                className="bg-[#217044] hover:bg-[#185332] text-white font-black text-xs uppercase tracking-wider px-8 py-4 rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-2 cursor-pointer"
+              >
+                <FiLogIn size={16} />
+                <span>Login to Request Service</span>
+              </Link>
+            </div>
           </div>
-          <Link href="/login" className="w-full bg-[#217044] hover:bg-[#185332] text-white font-black text-xs py-3.5 rounded-xl uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer">
-            <FiLogIn size={14} /> Go to Login Page
-          </Link>
+
+          {/* 📝 4 TICK POINTS BELOW */}
+          <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
+            <div className="border-b border-slate-100 pb-3">
+              <span className="text-[10px] font-black text-[#217044] uppercase tracking-wider block">
+                WHAT YOU WILL GET AFTER LOGIN
+              </span>
+              <h3 className="text-base sm:text-lg font-black text-slate-950 uppercase tracking-tight">
+                4 Core Legal Vetting Services Included
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 flex items-start gap-3">
+                <div className="p-1.5 bg-[#217044]/10 text-[#217044] rounded-xl shrink-0 mt-0.5">
+                  <FiCheck size={16} strokeWidth={3} />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-black text-slate-950 uppercase">Title & Ownership Verification</h4>
+                  <p className="text-[11px] text-slate-500 font-semibold leading-normal">Deep legal check of registry copies and past ownership chains.</p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 flex items-start gap-3">
+                <div className="p-1.5 bg-[#217044]/10 text-[#217044] rounded-xl shrink-0 mt-0.5">
+                  <FiCheck size={16} strokeWidth={3} />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-black text-slate-950 uppercase">Fake Ownership Detection</h4>
+                  <p className="text-[11px] text-slate-500 font-semibold leading-normal">Advanced fraud checks to prevent double-selling and forged documents.</p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 flex items-start gap-3">
+                <div className="p-1.5 bg-[#217044]/10 text-[#217044] rounded-xl shrink-0 mt-0.5">
+                  <FiCheck size={16} strokeWidth={3} />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-black text-slate-950 uppercase">Encumbrance & Mortgage Check</h4>
+                  <p className="text-[11px] text-slate-500 font-semibold leading-normal">Verification against active bank loans, court stays, and legal disputes.</p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 flex items-start gap-3">
+                <div className="p-1.5 bg-[#217044]/10 text-[#217044] rounded-xl shrink-0 mt-0.5">
+                  <FiCheck size={16} strokeWidth={3} />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-black text-slate-950 uppercase">Search & Survey Report</h4>
+                  <p className="text-[11px] text-slate-500 font-semibold leading-normal">Comprehensive revenue record audit and land parcel vetting reports.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     );
   }
 
+  // 🟢 AUTHENTICATED VIEW: Full Form & Checklist
   return (
     <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased py-8 px-4 sm:px-6 md:px-8 font-sans flex flex-col justify-start items-center select-none lg:pl-64 transition-all duration-300">
       
       {/* 🎯 SIDEBAR CLEARANCE & CENTERED CONTAINER */}
       <div className="w-full max-w-6xl mx-auto space-y-6">
         
-        {/* Navigation Bar */}
-        <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs">
-          <Link href="/" className="inline-flex items-center gap-2 text-xs font-black text-slate-600 hover:text-[#217044] uppercase tracking-wider transition-all">
-            <FiHome size={15} className="text-[#217044]" /> Back to Home
-          </Link>
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl bg-[#217044]/10 text-[#217044] text-[10px] font-black uppercase tracking-widest border border-[#217044]/20">
-            <FiZap size={12} /> BSP CCONTINENTAL PVT LTD
-          </span>
-        </div>
-
-        {/* Header Title Card */}
-        <div className="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/90 shadow-sm space-y-2">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#217044]/10 text-[#217044] text-[10px] font-black uppercase tracking-wider border border-[#217044]/20">
-            <FiShield size={12} /> Legal Property Verification
-          </div>
+        {/* Simple Header Title Card */}
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-2">
           <h1 className="text-2xl sm:text-3xl font-black text-slate-950 uppercase tracking-tight">
-            Property Compliance Services
+            Property Compliance & Legal Vetting Services
           </h1>
           <p className="text-xs sm:text-sm font-semibold text-slate-500 max-w-3xl leading-relaxed">
-            Secure Property Before Investment. Upload mandatory registry and Khasra documents for certified legal clearance.
+            Secure property before investment. Upload mandatory registry and Khasra documents for certified legal clearance.
           </p>
         </div>
 
@@ -279,9 +348,9 @@ export default function PropertyVettingPage() {
               <div className="pt-3 border-t border-slate-100 space-y-2">
                 <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">Guaranteed Benefits</span>
                 <div className="grid grid-cols-1 gap-1.5 text-xs font-extrabold text-slate-800">
-                  <div className="flex items-center gap-1.5"><FiCheckCircle className="text-[#217044] shrink-0" size={13} /> 100% Safe Investment</div>
-                  <div className="flex items-center gap-1.5"><FiCheckCircle className="text-[#217044] shrink-0" size={13} /> Legal Protection</div>
-                  <div className="flex items-center gap-1.5"><FiCheckCircle className="text-[#217044] shrink-0" size={13} /> Fraud & Dispute Protection</div>
+                  <div className="flex items-center gap-1.5"><FiCheck className="text-[#217044] shrink-0" size={13} /> 100% Safe Investment</div>
+                  <div className="flex items-center gap-1.5"><FiCheck className="text-[#217044] shrink-0" size={13} /> Legal Protection</div>
+                  <div className="flex items-center gap-1.5"><FiCheck className="text-[#217044] shrink-0" size={13} /> Fraud & Dispute Protection</div>
                 </div>
               </div>
             </div>

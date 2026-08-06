@@ -10,13 +10,9 @@ import {
   FiFileText, 
   FiCreditCard, 
   FiCheck,
-  FiTrendingUp,
-  FiZap,
   FiAward,
-  FiHome,
   FiLock,
-  FiLogIn,
-  FiX
+  FiLogIn
 } from 'react-icons/fi';
 import Link from 'next/link';
 
@@ -39,7 +35,6 @@ export default function CreditScoreManagementPage() {
     customMessage: '',
   });
 
-  // 1. DEFAULT SELECTION BAND (By Default Blank/Empty Array)
   const [selectedServices, setSelectedServices] = useState([]);
 
   const [aadhaarFront, setAadhaarFront] = useState(null);
@@ -87,18 +82,18 @@ export default function CreditScoreManagementPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (status !== 'authenticated') {
-      alert('Pehle Login kijiye submission ke liye!');
+      alert('Please login to submit your request!');
       router.push('/login');
       return;
     }
 
     if (selectedServices.length === 0) {
-      alert('Kripya kam se kam ek service select karein!');
+      alert('Please select at least one advisory service!');
       return;
     }
 
     if (!aadhaarFront || !aadhaarBack || !panCardFile) {
-      alert('Kripya Aadhaar Card (Front & Back) aur PAN Card teeno mandatory documents upload karein!');
+      alert('Please upload all mandatory documents (Aadhaar Front & Back, PAN Card)!');
       return;
     }
 
@@ -137,7 +132,7 @@ export default function CreditScoreManagementPage() {
 
       const result = await response.json();
       if (response.ok && result.success) {
-        setSuccessMsg('Aapka Credit Score Application successfully submit ho gaya hai!');
+        setSuccessMsg('Your Credit Score Application has been successfully submitted!');
         setTimeout(() => router.push('/my-requests'), 2000);
       } else {
         alert(result.message || 'Submission failed');
@@ -150,46 +145,115 @@ export default function CreditScoreManagementPage() {
     }
   };
 
+  // 🔒 UNAUTHENTICATED VIEW: Clean Header -> Login Card -> 4 Tick Points
   if (status === 'unauthenticated') {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-center items-center px-4 font-sans text-center lg:pl-64">
-        <div className="bg-white border border-slate-200 rounded-3xl p-8 max-w-md w-full shadow-sm space-y-4">
-          <div className="h-12 w-12 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center mx-auto">
-            <FiLock size={24} />
+      <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased py-8 px-4 sm:px-6 md:px-8 font-sans flex flex-col justify-start items-center select-none lg:pl-64 transition-all duration-300">
+        <div className="w-full max-w-4xl mx-auto space-y-6">
+          
+          {/* Simple Clean Header Title Card */}
+          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-2">
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-950 uppercase tracking-tight">
+              Credit Score Management & Dispute Resolution
+            </h1>
+            <p className="text-xs sm:text-sm font-semibold text-slate-500 max-w-3xl leading-relaxed">
+              Fix credit report errors, resolve CIBIL disputes, and systematically rebuild your loan approval eligibility.
+            </p>
           </div>
-          <div className="space-y-1">
-            <h3 className="text-sm font-black text-slate-900 uppercase">Login Required</h3>
-            <p className="text-xs font-semibold text-slate-500">Credit Score Advisory service use karne ke liye pehle Login karein.</p>
+
+          {/* 🚀 LOGIN CARD ON TOP */}
+          <div className="bg-white border border-[#217044]/30 rounded-3xl p-8 sm:p-10 shadow-md text-center space-y-5">
+            <div className="w-14 h-14 bg-[#217044]/10 text-[#217044] border border-[#217044]/20 rounded-2xl flex items-center justify-center mx-auto shadow-2xs">
+              <FiLock size={26} />
+            </div>
+            
+            <div className="space-y-2 max-w-lg mx-auto">
+              <h2 className="text-lg sm:text-xl font-black text-slate-950 uppercase tracking-tight">
+                Login Required to Request Service
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
+                To submit your credit audit details and track request progress securely, please log in to your account.
+              </p>
+            </div>
+
+            <div className="pt-2 flex justify-center">
+              <Link 
+                href="/login?callbackUrl=/credit-score-management" 
+                className="bg-[#217044] hover:bg-[#185332] text-white font-black text-xs uppercase tracking-wider px-8 py-4 rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-2 cursor-pointer"
+              >
+                <FiLogIn size={16} />
+                <span>Login to Request Service</span>
+              </Link>
+            </div>
           </div>
-          <Link href="/login" className="w-full bg-[#217044] hover:bg-[#185332] text-white font-black text-xs py-3.5 rounded-xl uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer">
-            <FiLogIn size={14} /> Go to Login Page
-          </Link>
+
+          {/* 📝 4 TICK POINTS BELOW */}
+          <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
+            <div className="border-b border-slate-100 pb-3">
+              <span className="text-[10px] font-black text-[#217044] uppercase tracking-wider block">
+                WHAT YOU WILL GET AFTER LOGIN
+              </span>
+              <h3 className="text-base sm:text-lg font-black text-slate-950 uppercase tracking-tight">
+                4 Core Advisory Services Included
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 flex items-start gap-3">
+                <div className="p-1.5 bg-[#217044]/10 text-[#217044] rounded-xl shrink-0 mt-0.5">
+                  <FiCheck size={16} strokeWidth={3} />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-black text-slate-950 uppercase">CIBIL Report Audit & Analysis</h4>
+                  <p className="text-[11px] text-slate-500 font-semibold leading-normal">Comprehensive technical audit of bureau reports to find hidden flags.</p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 flex items-start gap-3">
+                <div className="p-1.5 bg-[#217044]/10 text-[#217044] rounded-xl shrink-0 mt-0.5">
+                  <FiCheck size={16} strokeWidth={3} />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-black text-slate-950 uppercase">Credit Score Restoration</h4>
+                  <p className="text-[11px] text-slate-500 font-semibold leading-normal">Systematic profile restructuring to boost credit health.</p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 flex items-start gap-3">
+                <div className="p-1.5 bg-[#217044]/10 text-[#217044] rounded-xl shrink-0 mt-0.5">
+                  <FiCheck size={16} strokeWidth={3} />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-black text-slate-950 uppercase">CRIF & Experian Dispute Filing</h4>
+                  <p className="text-[11px] text-slate-500 font-semibold leading-normal">Official dispute filing with credit bureaus for error correction.</p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 flex items-start gap-3">
+                <div className="p-1.5 bg-[#217044]/10 text-[#217044] rounded-xl shrink-0 mt-0.5">
+                  <FiCheck size={16} strokeWidth={3} />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-black text-slate-950 uppercase">Loan Rejection Resolution</h4>
+                  <p className="text-[11px] text-slate-500 font-semibold leading-normal">Expert troubleshooting for past loan rejections and risk flags.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     );
   }
 
+  // 🟢 AUTHENTICATED VIEW: Full Form & Checklist
   return (
     <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased py-8 px-4 sm:px-6 md:px-8 font-sans flex flex-col justify-start items-center select-none lg:pl-64 transition-all duration-300">
       
-      {/* 🎯 SIDEBAR CLEARANCE & CENTERED CONTAINER */}
       <div className="w-full max-w-6xl mx-auto space-y-6">
         
-        {/* Navigation Bar */}
-        <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs">
-          <Link href="/" className="inline-flex items-center gap-2 text-xs font-black text-slate-600 hover:text-[#217044] uppercase tracking-wider transition-all">
-            <FiHome size={15} className="text-[#217044]" /> Back to Home
-          </Link>
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl bg-[#217044]/10 text-[#217044] text-[10px] font-black uppercase tracking-widest border border-[#217044]/20">
-            <FiZap size={12} /> BSP CCONTINENTAL PVT LTD
-          </span>
-        </div>
-
-        {/* Header Title Card */}
-        <div className="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/90 shadow-sm space-y-2">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#217044]/10 text-[#217044] text-[10px] font-black uppercase tracking-wider border border-[#217044]/20">
-            <FiTrendingUp size={12} /> Credit Advisory Desk
-          </div>
+        {/* Simple Header Title Card */}
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-2">
           <h1 className="text-2xl sm:text-3xl font-black text-slate-950 uppercase tracking-tight">
             Credit Score Management & Dispute Resolution
           </h1>
