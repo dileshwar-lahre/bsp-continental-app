@@ -21,7 +21,7 @@ export default function ServicesPage() {
       icon: <FiTrendingUp className="text-2xl" />,
       title: "Credit Score Management & Advisory",
       subtitle: "CIBIL Restructuring & Dispute Bureau Advisory",
-      desc: "Hum CIBIL aur Credit Report ki deep technical audit karte hain taaki aapke loan rejection ke risks khatam ho sakein aur bank eligibility maximize ho.",
+      desc: "We perform deep technical audits of CIBIL and credit reports to eliminate loan rejection risks and maximize your bank loan eligibility.",
       link: "/credit-score-management",
       badge: "Credit Advisory",
       subServices: [
@@ -37,7 +37,7 @@ export default function ServicesPage() {
       icon: <FiHome className="text-2xl" />,
       title: "Home, MSME & Business Loan Advisory",
       subtitle: "Loan Readiness, DPR & Corporate Debt Structuring",
-      desc: "Bank application se pehle file audit aur Loan Readiness Solution ke dwara MSME, Business, Term Loan aur Property Loans fast approve karwane me advisory support.",
+      desc: "Providing complete advisory support through file pre-checks and loan readiness solutions for fast approvals on MSME, Business, Term, and Property loans.",
       link: "/finance",
       badge: "Financial Consultancy",
       subServices: [
@@ -52,7 +52,7 @@ export default function ServicesPage() {
       number: "03",
       icon: <FiShield className="text-2xl" />,
       title: "Property Due Diligence & Legal Vetting",
-      desc: "Property khareedne ya invest karne se pehle Registry, Khasra, B-1 aur Title verification dwara legal disputes aur property frauds se bachat.",
+      desc: "Protecting you against real estate legal disputes and property frauds through comprehensive title, registry, Khasra, and B-1 verification.",
       link: "/property-vetting",
       badge: "Legal Verification",
       subServices: [
@@ -102,7 +102,7 @@ export default function ServicesPage() {
           </div>
 
           <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed max-w-3xl">
-            BSP CCONTINENTAL PVT LTD aapko Credit Score Restoration, Business & Project Loans, aur Legal Property Verification ki complete advisory support online aur offline provide karti hai.
+            BSP CCONTINENTAL PVT LTD provides end-to-end online and offline advisory support for Credit Score Restoration, Business & Project Loans, and Legal Property Verification.
           </p>
         </section>
 
@@ -189,7 +189,7 @@ export default function ServicesPage() {
             100% Legal Verification & Financial Risk Elimination
           </h2>
           <p className="text-xs sm:text-sm text-emerald-100 font-medium max-w-xl mx-auto leading-relaxed">
-            BSP CCONTINENTAL PVT LTD ke sath apne financial aur property decisions ko secure karein.
+            Secure your financial and property decisions with BSP CCONTINENTAL PVT LTD.
           </p>
         </section>
 

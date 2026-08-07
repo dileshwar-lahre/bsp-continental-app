@@ -16,8 +16,8 @@ import {
   Zap
 } from 'lucide-react';
 
-const PHONE_NUMBER = "+919575959137";
-const WHATSAPP_NUMBER = "919575959137";
+const PHONE_NUMBER = "+919575059137";
+const WHATSAPP_NUMBER = "919575059137";
 
 const financeServices = [
   {
@@ -25,7 +25,7 @@ const financeServices = [
     title: "Loan Readiness Solution",
     subtitle: "Pre-Approval & File Audit",
     icon: Target,
-    waMessage: "Hello BSP CCONTINENTAL PVT LTD, mujhe Loan Readiness Solution ke baare me inquiry karni hai.",
+    waMessage: "Hello BSP CCONTINENTAL PVT LTD, I would like to make an inquiry regarding the Loan Readiness Solution.",
     points: [
       "File Health & CIBIL Pre-Audit",
       "Gap & Rejection Risk Elimination",
@@ -37,7 +37,7 @@ const financeServices = [
     title: "MSME & Business Finance",
     subtitle: "Secured Working Capital & Term Loans",
     icon: Briefcase,
-    waMessage: "Hello BSP CCONTINENTAL PVT LTD, mujhe MSME & Business Finance ke baare me inquiry karni hai.",
+    waMessage: "Hello BSP CCONTINENTAL PVT LTD, I would like to make an inquiry regarding MSME & Business Finance.",
     points: [
       "CC / OD / Trade Credit Limits",
       "Business Expansion Advisory",
@@ -49,7 +49,7 @@ const financeServices = [
     title: "Project Finance (DPR & CMA)",
     subtitle: "Industrial & Plant Funding",
     icon: FileSpreadsheet,
-    waMessage: "Hello BSP CCONTINENTAL PVT LTD, mujhe Project Finance (DPR & CMA Report) ke baare me inquiry karni hai.",
+    waMessage: "Hello BSP CCONTINENTAL PVT LTD, I would like to make an inquiry regarding Project Finance (DPR & CMA Report).",
     points: [
       "Detailed Project Report (DPR) Preparation",
       "CMA Data & Cashflow Financials",
@@ -61,7 +61,7 @@ const financeServices = [
     title: "Mortgage Loan (LAP)",
     subtitle: "Asset Backed Property Funding",
     icon: Building,
-    waMessage: "Hello BSP CCONTINENTAL PVT LTD, mujhe Mortgage Loan (LAP) ke baare me inquiry karni hai.",
+    waMessage: "Hello BSP CCONTINENTAL PVT LTD, I would like to make an inquiry regarding Mortgage Loans (LAP).",
     points: [
       "Loan Against Commercial / Residential Property",
       "High LTV Processing Support",
@@ -106,11 +106,11 @@ export default function FinancePage() {
               href={`tel:${PHONE_NUMBER}`}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-[#217044] hover:bg-emerald-50 font-black text-xs px-6 py-3.5 rounded-2xl shadow-sm transition-all cursor-pointer uppercase tracking-wider active:scale-95"
             >
-              <PhoneCall size={16} /> Call +91 95759 59137
+              <PhoneCall size={16} /> Call +91 95750 59137
             </a>
 
             <a 
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hello BSP CCONTINENTAL PVT LTD, mujhe Financial Assistance ke baare me inquiry karni hai.")}`}
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hello BSP CCONTINENTAL PVT LTD, I would like to make an inquiry regarding financial assistance.")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#125330] hover:bg-[#0c3c21] text-white font-black text-xs px-6 py-3.5 rounded-2xl shadow-sm border border-emerald-400/30 transition-all cursor-pointer uppercase tracking-wider active:scale-95"
