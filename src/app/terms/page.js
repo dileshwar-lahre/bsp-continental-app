@@ -91,7 +91,7 @@ export default function TermsPage() {
             <div className="p-4 bg-[#F8FAFC] rounded-2xl border border-slate-200/90 text-xs font-bold text-slate-900 space-y-1">
               <p className="text-[#217044] font-black uppercase">BSP CCONTINENTAL PVT LTD</p>
               <p>Address: Shop No OAS 4, Super Market Complex, 2nd Floor, Agrasen Chowk, Bilaspur (C.G.) 495001</p>
-              <p>Email: bspccontinental@gmail.com | Phone: +91 95759 59137</p>
+              <p>Email: bspccontinental@gmail.com | Phone: +91 95750 59137</p>
             </div>
           </div>
 
