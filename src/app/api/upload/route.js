@@ -6,7 +6,7 @@ export async function POST(req) {
     // 🔍 Debug Logs to check what Next.js is actually reading
     const bucketName = 
       process.env.AWS_S3_BUCKET_NAME || 
-      process.env.AWS_BUCKET_NAME || 
+      process.env.AWS_BUCKET_NAME || -
       process.env.S3_BUCKET_NAME || 
       process.env.S3_BUCKET;
 

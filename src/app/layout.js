@@ -26,6 +26,10 @@ export const metadata = {
     "Property Verification",
     "Chhattisgarh Property Vetting"
   ],
+  // 🌟 Added Favicon Configuration for your JPEG logo in app folder
+  icons: {
+    icon: "/favicon.jpeg", 
+  },
   openGraph: {
     title: "BSP CCONTINENTAL PVT LTD | Financial & Property Compliance Services",
     description: "BSP CCONTINENTAL PVT LTD is a next generation financial consultancy & property compliance service provider dedicated to investors or loan applicants to secure financial and property related decisions.",

@@ -70,13 +70,13 @@ export default function ContactPage() {
     {
       icon: <FiPhone className="text-xl text-[#217044]" />,
       label: "Phone Contact",
-      value: "+91 95759 59137",
-      href: "tel:9575959137",
+      value: "+91 95750 59137",
+      href: "tel:9575059137",
     },
     {
       icon: <FiMail className="text-xl text-[#217044]" />,
       label: "Email Address",
-      value: "bspccontinental@gmail.com",
+      value: "bspccontinental@gmail.com", // 👈 Lowercase set kar diya hai
       href: "mailto:bspccontinental@gmail.com",
     },
     {
@@ -99,7 +99,6 @@ export default function ContactPage() {
   return (
     <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased font-sans select-none lg:pl-64 transition-all duration-300 pb-16">
       
-      {/* 🎯 SIDEBAR CLEARANCE & MATCHED CONTAINER (max-w-6xl) */}
       <div className="w-full max-w-6xl mx-auto space-y-6 pt-8 px-4 sm:px-6 md:px-8">
         
         {/* Navigation Bar */}
@@ -112,7 +111,7 @@ export default function ContactPage() {
           </span>
         </div>
 
-        {/* 🚀 Header Card */}
+        {/* Header Card */}
         <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#217044]/10 text-[#217044] text-[10px] font-black uppercase tracking-wider border border-[#217044]/20">
             <FiZap size={12} /> Direct Contact Desk
@@ -125,7 +124,7 @@ export default function ContactPage() {
           </p>
         </section>
 
-        {/* 📞 Contact Info Cards Grid */}
+        {/* Contact Info Cards Grid */}
         <section>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {contactInfo.map((info, idx) => (
@@ -141,7 +140,7 @@ export default function ContactPage() {
                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block">
                     {info.label}
                   </span>
-                  <p className="text-xs font-black uppercase text-slate-900 leading-snug group-hover:text-[#217044] transition-colors break-words">
+                  <p className="text-xs font-black text-slate-900 leading-snug group-hover:text-[#217044] transition-colors break-words">
                     {info.value}
                   </p>
                 </div>
@@ -150,7 +149,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* 📝 Contact Form & Info Block */}
+        {/* Contact Form & Info Block */}
         <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
@@ -241,7 +240,7 @@ export default function ContactPage() {
                         type="tel"
                         name="phone"
                         required
-                        placeholder="+91 95759 59137"
+                        placeholder="+91 95750 59137"
                         value={formData.phone}
                         onChange={handleChange}
                         className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 font-mono outline-none focus:border-[#217044] transition-all"
@@ -259,7 +258,7 @@ export default function ContactPage() {
                         placeholder="bspccontinental@gmail.com"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 outline-none focus:border-[#217044] transition-all"
+                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 outline-none focus:border-[#217044] transition-all lowercase"
                       />
                     </div>
                   </div>

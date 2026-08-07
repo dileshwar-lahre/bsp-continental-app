@@ -67,11 +67,11 @@ export default function AboutPage() {
             BSP CCONTINENTAL PVT LTD
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed max-w-3xl">
-            BSP CCONTINENTAL PVT LTD ek dedicated Financial Consultancy aur Property Compliance company hai. Hum individuals aur businesses ko secure loans, clean credit profiles, aur legally verified real estate property deals lene me madad karte hain.
+            BSP CCONTINENTAL PVT LTD is a dedicated financial consultancy and property compliance company. We help individuals and businesses secure loans, maintain clean credit profiles, and execute legally verified real estate property deals.
           </p>
         </section>
 
-        {/* 2. KRISNA GEDAAM SECTION */}
+        {/* 2. KRISHNA GEDAM SECTION */}
         <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-3">
           <div className="flex items-center gap-3 border-b border-slate-100 pb-3">
             <div className="w-10 h-10 rounded-2xl bg-[#217044] text-white flex items-center justify-center font-black text-xs shadow-2xs">
@@ -84,7 +84,7 @@ export default function AboutPage() {
             </div>
           </div>
           <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
-            Krishna Gedam is company ke founder hain. Unke vision ke sath BSP CCONTINENTAL PVT LTD ko establish kiya gaya hai taaki log bina kisi loan rejection ya legal property fraud ke risk ke financial aur real estate services le sakein. Hum legal due diligence aur strategic banking knowledge ko ek jagah late hain.
+            Krishna Gedam is the founder of this company. BSP CCONTINENTAL PVT LTD has been established with his vision to ensure that clients can access financial and real estate services free from the risks of loan rejections or legal property fraud. We bridge professional legal due diligence with strategic banking knowledge under one roof.
           </p>
         </section>
 
@@ -152,7 +152,7 @@ export default function AboutPage() {
                 <FiClock size={16} /> Fast Processing
               </div>
               <p className="text-xs text-slate-600 font-semibold leading-relaxed">
-                Online document upload aur quick evaluation se aapka time bachta hai aur immediate updates milte hain.
+                Seamless online document upload and quick evaluations save your time while providing prompt status updates.
               </p>
             </div>
 
@@ -161,7 +161,7 @@ export default function AboutPage() {
                 <FiLock size={16} /> 100% Confidential
               </div>
               <p className="text-xs text-slate-600 font-semibold leading-relaxed">
-                Aapke CIBIL, Financial, aur Property papers secure cloud storage par 100% Safe aur Private rehte hain.
+                Your CIBIL reports, financial statements, and property paperwork remain completely safe and private on secure cloud storage.
               </p>
             </div>
 
@@ -170,7 +170,7 @@ export default function AboutPage() {
                 <FiCheckCircle size={16} /> Expert Vetted
               </div>
               <p className="text-xs text-slate-600 font-semibold leading-relaxed">
-                Experienced legal consultants aur financial advisors har file ki detailed review karte hain.
+                Experienced legal consultants and financial advisors thoroughly review and audit every single file.
               </p>
             </div>
           </div>

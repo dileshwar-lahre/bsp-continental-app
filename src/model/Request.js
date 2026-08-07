@@ -12,7 +12,7 @@ const RequestSchema = new mongoose.Schema(
       enum: ["Property Vetting", "Loan Rejection Solution", "CIBIL Audit", "Custom Legal"],
     },
 
-    // User Form Details
+    // Form Details
     details: {
       ownerName: { type: String },
       propertyLocation: { type: String },
@@ -21,30 +21,31 @@ const RequestSchema = new mongoose.Schema(
       monthlyIncome: { type: Number },
       rejectionReason: { type: String },
       customMessage: { type: String },
-      
-      // 🌟 CIBIL Audit Specific Fields
+
+      // CIBIL Audit Specific
       panNumber: { type: String },
       dateOfBirth: { type: String },
+      selectedServices: [{ type: String }], // 🌟 Selected Checkboxes Array
     },
 
-    // Client Uploaded Documents (Aadhaar Front/Back, PAN, Property, Loan Papers)
+    // Documents (Aadhaar Front, Aadhaar Back, PAN, etc.)
     documentsList: [
       {
         name: { type: String },
         url: { type: String },
         size: { type: String },
-        docType: { type: String, default: "General" }, // 'Aadhaar Front', 'Aadhaar Back', 'PAN Card', etc.
+        docType: { type: String, default: "General" }, 
       },
     ],
 
-    // Approval Status Engine
+    // Approval Status
     status: {
       type: String,
       enum: ["Pending", "In Review", "Approved", "Rejected"],
       default: "Pending",
     },
 
-    // Admin Reply Message & Attached Verified File
+    // Admin Response
     adminReply: {
       message: { type: String, default: "" },
       document: {
