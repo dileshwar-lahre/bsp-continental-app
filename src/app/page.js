@@ -146,26 +146,28 @@ export default function DashboardPage() {
     { label: '📞 Contact Support', text: 'Official contact details aur mobile number share karein.' }
   ];
 
+  // DESKTOP: EXACT 980x190 RATIO WITH IMAGES & ONLY EXPLORE BUTTON
+  // MOBILE: CLEAN TEXT SLIDER WITH GREEN GRADIENT BACKGROUND (AS BEFORE)
   const slides = [
     { 
       tag: "Property Compliance", 
       title: "Certified Property Legal Verification", 
       sub: "Complete Registry Audit & Title Verification",
-      img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=1200",
+      img: "/images/property.png",
       link: "/property-vetting"
     },
     { 
       tag: "Credit Advisory", 
       title: "Credit Score Fix & Dispute Resolution", 
       sub: "Correct Bureau Errors & Improve Advisory",
-      img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=1200",
+      img: "/images/creditscore.png",
       link: "/credit-score-management"
     },
     { 
       tag: "Financial Consulting", 
-      title: "Strategic Financial & Business Advisory", 
+      title: "Strategic Legal Financial & Business Advisory", 
       sub: "Expert Financial Planning & Wealth Solutions",
-      img: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=1200",
+      img: "/images/financial.png",
       link: "/finance"
     }
   ];
@@ -201,28 +203,42 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* 1. HERO SLIDER */}
+        {/* 1. HERO SLIDER: RESPONSIVE (DESKTOP = 980x190 ORIGINAL IMAGES WITH ONLY EXPLORE | MOBILE = CLEAN GREEN TEXT LAYOUT) */}
         <section className="space-y-2 relative group/slider">
-          <div className="relative overflow-hidden rounded-2xl border border-[#217044]/30 bg-[#217044] shadow-sm text-white">
+          <div className="relative overflow-hidden rounded-2xl shadow-sm bg-transparent">
             <div 
               className="flex transition-transform duration-500 ease-out" 
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
               {slides.map((slide, index) => (
-                <div key={index} className="w-full flex-shrink-0">
-                  <div className="relative h-[180px] sm:h-[210px] md:h-[220px] flex flex-col justify-between p-5 sm:p-6 overflow-hidden">
-                    
-                    {/* Background Overlay */}
-                    <div className="absolute inset-0 z-0">
-                      <img src={slide.img} alt={slide.title} className="w-full h-full object-cover opacity-20" />
-                      <div className="absolute inset-0 bg-[#217044]/95" />
+                <div key={index} className="w-full flex-shrink-0 relative">
+                  
+                  {/* DESKTOP VIEW: Exact 980x190 image with only explore button */}
+                  <div className="hidden md:block relative w-full aspect-[980/190] overflow-hidden rounded-2xl bg-white shadow-xs">
+                    <img 
+                      src={slide.img} 
+                      alt="Banner Preview" 
+                      className="w-full h-full object-fill" 
+                    />
+                    <div className="absolute bottom-4 right-4 z-20">
+                      <Link 
+                        href={slide.link} 
+                        className="bg-[#217044] hover:bg-[#185332] text-white font-black px-4 py-2 rounded-xl text-[11px] uppercase tracking-wider transition-all shadow-md active:scale-95 flex items-center gap-1.5 cursor-pointer"
+                      >
+                        Explore <FiArrowRight size={12} />
+                      </Link>
                     </div>
+                  </div>
+
+                  {/* MOBILE VIEW: Original clean green gradient layout with text and full info */}
+                  <div className="md:hidden relative h-[180px] sm:h-[210px] flex flex-col justify-between p-5 overflow-hidden rounded-2xl bg-[#217044] text-white border border-[#217044]/30">
+                    <div className="absolute inset-0 z-0 bg-[#217044]" />
 
                     <div className="relative z-10 space-y-1.5 max-w-2xl">
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-white/20 backdrop-blur-md border border-white/30 rounded-lg text-[9px] font-black uppercase tracking-widest text-white">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-white/25 backdrop-blur-md border border-white/30 rounded-lg text-[9px] font-black uppercase tracking-widest text-white">
                         <FiStar size={10} /> {slide.tag}
                       </span>
-                      <h2 className="text-xl sm:text-2xl md:text-3xl font-black uppercase tracking-tight leading-tight text-white drop-shadow-sm">
+                      <h2 className="text-xl font-black uppercase tracking-tight leading-tight text-white drop-shadow-sm">
                         {slide.title}
                       </h2>
                     </div>
@@ -241,15 +257,16 @@ export default function DashboardPage() {
                       </Link>
                     </div>
                   </div>
+
                 </div>
               ))}
             </div>
 
             {/* Controls */}
-            <button onClick={prevSlide} className="absolute left-3 top-1/2 -translate-y-1/2 h-8 w-8 bg-black/30 hover:bg-black/50 text-white rounded-lg flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
+            <button onClick={prevSlide} className="absolute left-3 top-1/2 -translate-y-1/2 h-8 w-8 bg-black/50 hover:bg-black/70 text-white rounded-lg flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
               <FiArrowLeft size={14} />
             </button>
-            <button onClick={nextSlide} className="absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 bg-black/30 hover:bg-black/50 text-white rounded-xl flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
+            <button onClick={nextSlide} className="absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 bg-black/50 hover:bg-black/70 text-white rounded-xl flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
               <FiArrowRight size={14} />
             </button>
           </div>
