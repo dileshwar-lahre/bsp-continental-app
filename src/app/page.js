@@ -146,28 +146,21 @@ export default function DashboardPage() {
     { label: '📞 Contact Support', text: 'Official contact details aur mobile number share karein.' }
   ];
 
-  // DESKTOP: EXACT 980x190 RATIO WITH IMAGES & ONLY EXPLORE BUTTON
-  // MOBILE: CLEAN TEXT SLIDER WITH GREEN GRADIENT BACKGROUND (AS BEFORE)
+  // DESKTOP & MOBILE SLIDES CONFIGURATION
   const slides = [
     { 
-      tag: "Property Compliance", 
-      title: "Certified Property Legal Verification", 
-      sub: "Complete Registry Audit & Title Verification",
-      img: "/images/property.png",
+      desktopImg: "/images/property.png",
+      mobileImg: "/images/phone1.png",
       link: "/property-vetting"
     },
     { 
-      tag: "Credit Advisory", 
-      title: "Credit Score Fix & Dispute Resolution", 
-      sub: "Correct Bureau Errors & Improve Advisory",
-      img: "/images/creditscore.png",
+      desktopImg: "/images/creditscore.png",
+      mobileImg: "/images/phone2.png",
       link: "/credit-score-management"
     },
     { 
-      tag: "Financial Consulting", 
-      title: "Strategic Legal Financial & Business Advisory", 
-      sub: "Expert Financial Planning & Wealth Solutions",
-      img: "/images/financial.png",
+      desktopImg: "/images/financial.png",
+      mobileImg: "/images/phone3.png",
       link: "/finance"
     }
   ];
@@ -203,7 +196,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* 1. HERO SLIDER: RESPONSIVE (DESKTOP = 980x190 ORIGINAL IMAGES WITH ONLY EXPLORE | MOBILE = CLEAN GREEN TEXT LAYOUT) */}
+        {/* 1. HERO SLIDER: RESPONSIVE (DESKTOP USES 980x190 | MOBILE USES PHONE IMAGES WITH YELLOW BORDER & RIGHT EXPLORE BUTTON) */}
         <section className="space-y-2 relative group/slider">
           <div className="relative overflow-hidden rounded-2xl shadow-sm bg-transparent">
             <div 
@@ -213,11 +206,11 @@ export default function DashboardPage() {
               {slides.map((slide, index) => (
                 <div key={index} className="w-full flex-shrink-0 relative">
                   
-                  {/* DESKTOP VIEW: Exact 980x190 image with only explore button */}
+                  {/* DESKTOP VIEW: Exact 980x190 image ratio */}
                   <div className="hidden md:block relative w-full aspect-[980/190] overflow-hidden rounded-2xl bg-white shadow-xs">
                     <img 
-                      src={slide.img} 
-                      alt="Banner Preview" 
+                      src={slide.desktopImg} 
+                      alt="Desktop Banner" 
                       className="w-full h-full object-fill" 
                     />
                     <div className="absolute bottom-4 right-4 z-20">
@@ -230,30 +223,19 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  {/* MOBILE VIEW: Original clean green gradient layout with text and full info */}
-                  <div className="md:hidden relative h-[180px] sm:h-[210px] flex flex-col justify-between p-5 overflow-hidden rounded-2xl bg-[#217044] text-white border border-[#217044]/30">
-                    <div className="absolute inset-0 z-0 bg-[#217044]" />
-
-                    <div className="relative z-10 space-y-1.5 max-w-2xl">
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-white/25 backdrop-blur-md border border-white/30 rounded-lg text-[9px] font-black uppercase tracking-widest text-white">
-                        <FiStar size={10} /> {slide.tag}
-                      </span>
-                      <h2 className="text-xl font-black uppercase tracking-tight leading-tight text-white drop-shadow-sm">
-                        {slide.title}
-                      </h2>
-                    </div>
-
-                    <div className="relative z-10 flex flex-wrap justify-between items-center gap-2 pt-3 border-t border-white/20">
-                      <p className="text-[11px] font-bold text-emerald-100 flex items-center gap-1.5">
-                        <FiCheckCircle className="text-emerald-300 shrink-0" size={14} />
-                        {slide.sub}
-                      </p>
-                      
+                  {/* MOBILE VIEW: phone1.png, phone2.png, phone3.png with yellow border, full clean background & right-aligned explore button */}
+                  <div className="md:hidden relative w-full aspect-[16/9] overflow-hidden rounded-2xl bg-black border border-yellow-400 shadow-md flex items-center justify-center">
+                    <img 
+                      src={slide.mobileImg} 
+                      alt="Mobile Banner" 
+                      className="w-full h-full object-cover" 
+                    />
+                    <div className="absolute bottom-3 right-3 z-20">
                       <Link 
                         href={slide.link} 
-                        className="bg-white hover:bg-slate-100 text-[#217044] font-black px-4 py-2 rounded-xl text-[11px] uppercase tracking-wider transition-all shadow-sm active:scale-95 flex items-center gap-1.5 cursor-pointer"
+                        className="bg-[#217044] hover:bg-[#185332] text-white font-black px-3.5 py-1.5 rounded-xl text-[10px] uppercase tracking-wider transition-all shadow-lg active:scale-95 flex items-center gap-1 cursor-pointer border border-yellow-400/50"
                       >
-                        Explore <FiArrowRight size={12} />
+                        Explore <FiArrowRight size={10} />
                       </Link>
                     </div>
                   </div>
