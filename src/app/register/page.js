@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FiLock, FiArrowRight, FiX, FiCheckCircle, FiRefreshCw } from "react-icons/fi";
+import { FiArrowRight, FiX, FiCheckCircle, FiRefreshCw, FiShield, FiUser, FiMail, FiLock } from "react-icons/fi";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -41,14 +41,14 @@ export default function RegisterPage() {
       body: JSON.stringify(payload),
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Network error code caught!");
+    if (!res.ok) throw new Error(data.error || "Network error occurred!");
     return data;
   };
 
   const handleDetailsSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    loading || setLoading(true);
+    setLoading(true);
     try {
       await executeAuthAction({ action: "INIT", name, email });
       setResendTimer(30);
@@ -56,7 +56,7 @@ export default function RegisterPage() {
       setStep("otp");
     } catch (err) {
       setError(err.message);
-    } final: {
+    } finally {
       setLoading(false);
     }
   };
@@ -95,7 +95,7 @@ export default function RegisterPage() {
     setError("");
 
     if (password !== confirmPassword) {
-      setError("Passwords update mismatch! Kripya check karein.");
+      setError("Passwords mismatch! Kripya check karein.");
       return;
     }
 
@@ -111,50 +111,115 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F3F4F6] text-black flex items-center justify-center pb-28 font-sans antialiased select-none px-4 relative overflow-hidden">
-      <div className="w-full max-w-[400px] bg-white rounded-[2.5rem] p-8 md:p-10 relative z-50 shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-neutral-100">
+    <div className="min-h-screen bg-[#F4F6F2] text-black flex items-center justify-center pb-20 pt-8 font-sans antialiased select-none px-4 relative overflow-hidden">
+      
+      {/* 🌟 BRANDED 3D CARD CONTAINER */}
+      <div className="w-full max-w-[420px] bg-white rounded-[2.5rem] p-8 md:p-10 relative z-50 shadow-[0_20px_50px_rgba(56,117,21,0.08),0_4px_12px_rgba(0,0,0,0.04)] border border-neutral-100 transition-all duration-300">
         
-        <Link href="/" className="absolute top-6 right-6 w-8 h-8 bg-neutral-50 rounded-full flex items-center justify-center text-neutral-400 hover:text-black">
+        {/* Close Button */}
+        <Link 
+          href="/" 
+          className="absolute top-6 right-6 w-8 h-8 bg-neutral-100/70 rounded-full flex items-center justify-center text-neutral-400 hover:text-black hover:bg-neutral-200 transition-all active:scale-90"
+        >
           <FiX className="text-sm" />
         </Link>
 
+        {/* Header */}
         <div className="text-center space-y-1 mb-6 pt-2">
-          <h1 className="text-3xl font-black tracking-widest text-black uppercase">SIGN UP</h1>
-          <p className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest">
-            {step === "details" && "Step 1: Contact Details"}
-            {step === "otp" && "Step 2: Security Token"}
-            {step === "password" && "Step 3: Access Password Lock"}
+          <div className="inline-block px-3 py-1 rounded-full bg-[#FFDA50]/30 text-[#387515] font-black text-[10px] uppercase tracking-widest mb-1 border border-[#FFDA50]/60">
+            {step === "details" && "Step 1: Account Creation"}
+            {step === "otp" && "Step 2: Security Verification"}
+            {step === "password" && "Step 3: Setup Secure Password"}
+          </div>
+          <h1 className="text-3xl font-black tracking-tight text-slate-900 uppercase">
+            SIGN <span className="text-[#387515]">UP</span>
+          </h1>
+          <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+            BSP Continental Registration Node
           </p>
         </div>
 
+        {/* 🚨 Error Banner */}
         {error && (
-          <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-2xl text-[11px] font-bold text-center uppercase tracking-wider">
-            {error}
+          <div className="mb-4 p-3 bg-red-50 border border-red-100 text-red-600 rounded-2xl text-[11px] font-bold text-center leading-snug">
+            ⚠️ {error}
           </div>
         )}
 
+        {/* 📋 Step 1: Details */}
         {step === "details" && (
           <form onSubmit={handleDetailsSubmit} className="space-y-4">
-            <input type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Full Name" className="w-full bg-[#F3F4F6] border border-neutral-200/40 rounded-full py-4 pl-6 text-xs font-bold text-black focus:outline-none focus:bg-white focus:border-black transition-all shadow-inner" />
-            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email Address" className="w-full bg-[#F3F4F6] border border-neutral-200/40 rounded-full py-4 pl-6 text-xs font-bold text-black focus:outline-none focus:bg-white focus:border-black transition-all shadow-inner" />
-            <button type="submit" disabled={loading} className="w-full text-white font-black text-xs uppercase tracking-widest py-4.5 rounded-full mt-6 transition-all hover:brightness-110 active:scale-[0.98]" style={{ backgroundColor: "#FF9900", boxShadow: "0 4px 14px rgba(255, 153, 0, 0.4)" }}>
-              {loading ? "SENDING CLUSTER OTP..." : "VERIFY EMAIL"}
+            <div className="relative flex items-center">
+              <input 
+                type="text" 
+                required 
+                value={name} 
+                onChange={(e) => setName(e.target.value)} 
+                placeholder="Full Name" 
+                className="w-full bg-[#F4F6F2] border border-neutral-200/60 rounded-2xl py-3.5 pl-5 pr-12 text-xs font-bold text-black placeholder-neutral-400 focus:outline-none focus:bg-white focus:border-[#387515] transition-all" 
+              />
+              <FiUser className="absolute right-4 text-neutral-400 text-sm pointer-events-none" />
+            </div>
+
+            <div className="relative flex items-center">
+              <input 
+                type="email" 
+                required 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                placeholder="Email Address" 
+                className="w-full bg-[#F4F6F2] border border-neutral-200/60 rounded-2xl py-3.5 pl-5 pr-12 text-xs font-bold text-black placeholder-neutral-400 focus:outline-none focus:bg-white focus:border-[#387515] transition-all" 
+              />
+              <FiMail className="absolute right-4 text-neutral-400 text-sm pointer-events-none" />
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={loading} 
+              className="w-full text-slate-950 font-black text-xs uppercase tracking-widest py-4 rounded-2xl transition-all flex items-center justify-center gap-2 active:scale-[0.98] shadow-md mt-6 hover:brightness-105 disabled:opacity-50 cursor-pointer" 
+              style={{ backgroundColor: "#FFDA50", boxShadow: "0 6px 20px rgba(255, 218, 80, 0.35)" }}
+            >
+              <span>{loading ? "SENDING CLUSTER OTP..." : "VERIFY EMAIL"}</span>
+              {!loading && <FiArrowRight className="text-sm" />}
             </button>
           </form>
         )}
 
+        {/* 🔒 Step 2: OTP */}
         {step === "otp" && (
           <form onSubmit={handleOtpVerify} className="space-y-4">
-            <p className="text-[11px] font-bold text-neutral-400 text-center mb-2">Secure OTP token code fired by <span className="text-black font-black">BSP Continental</span></p>
-            <input type="text" maxLength={6} required value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="Enter 6-Digit OTP" className="w-full bg-[#F3F4F6] border border-neutral-200/40 rounded-full py-4 text-center text-sm font-black text-black tracking-widest focus:outline-none focus:border-black focus:bg-white transition-all shadow-inner" />
+            <p className="text-[11px] font-bold text-neutral-500 text-center mb-2">
+              OTP has been sent to <span className="text-[#387515] font-black">{email}</span>
+            </p>
             
-            <button type="submit" disabled={loading} className="w-full text-white font-black text-xs uppercase tracking-widest py-4.5 rounded-full mt-2 transition-all hover:brightness-110 active:scale-[0.98]" style={{ backgroundColor: "#FF9900" }}>
-              {loading ? "AUTHORIZING..." : "CONFIRM OTP"}
+            <input 
+              type="text" 
+              maxLength={6} 
+              required 
+              value={otp} 
+              onChange={(e) => setOtp(e.target.value)} 
+              placeholder="Enter 6-Digit OTP" 
+              className="w-full bg-[#F4F6F2] border border-neutral-200/60 rounded-2xl py-3.5 text-center text-sm font-black text-black tracking-widest focus:outline-none focus:border-[#387515] focus:bg-white transition-all" 
+            />
+            
+            <button 
+              type="submit" 
+              disabled={loading} 
+              className="w-full text-slate-950 font-black text-xs uppercase tracking-widest py-4 rounded-2xl transition-all flex items-center justify-center gap-2 active:scale-[0.98] shadow-md mt-2 hover:brightness-105 disabled:opacity-50 cursor-pointer" 
+              style={{ backgroundColor: "#FFDA50", boxShadow: "0 6px 20px rgba(255, 218, 80, 0.35)" }}
+            >
+              <span>{loading ? "AUTHORIZING..." : "CONFIRM OTP"}</span>
+              {!loading && <FiCheckCircle className="text-sm" />}
             </button>
 
             <div className="text-center pt-2">
               {canResend ? (
-                <button type="button" onClick={handleResendOtp} disabled={loading} className="text-xs font-bold flex items-center justify-center gap-1.5 mx-auto uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all" style={{ color: "#FF9900" }}>
+                <button 
+                  type="button" 
+                  onClick={handleResendOtp} 
+                  disabled={loading} 
+                  className="text-xs font-bold flex items-center justify-center gap-1.5 mx-auto uppercase tracking-wider text-[#387515] hover:underline active:scale-95 transition-all"
+                >
                   <FiRefreshCw className={loading ? "animate-spin" : ""} /> Resend OTP Code
                 </button>
               ) : (
@@ -166,24 +231,64 @@ export default function RegisterPage() {
           </form>
         )}
 
+        {/* 🔑 Step 3: Password */}
         {step === "password" && (
           <form onSubmit={handleFinalRegister} className="space-y-4">
-            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Create Secure Password" className="w-full bg-[#F3F4F6] border border-neutral-200/40 rounded-full py-4 pl-6 text-xs font-bold text-black focus:outline-none focus:bg-white focus:border-black transition-all shadow-inner" />
-            <input type="password" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Secure Password" className="w-full bg-[#F3F4F6] border border-neutral-200/40 rounded-full py-4 pl-6 text-xs font-bold text-black focus:outline-none focus:bg-white focus:border-black transition-all shadow-inner" />
-            <button type="submit" disabled={loading} className="w-full text-white font-black text-xs uppercase tracking-widest py-4.5 rounded-full mt-6 flex items-center justify-center gap-2 transition-all hover:brightness-110 active:scale-[0.98]" style={{ backgroundColor: "#FF9900", boxShadow: "0 4px 14px rgba(255, 153, 0, 0.4)" }}>
-              <FiCheckCircle />
+            <div className="relative flex items-center">
+              <input 
+                type="password" 
+                required 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                placeholder="Create Secure Password" 
+                className="w-full bg-[#F4F6F2] border border-neutral-200/60 rounded-2xl py-3.5 pl-5 pr-12 text-xs font-bold text-black placeholder-neutral-400 focus:outline-none focus:bg-white focus:border-[#387515] transition-all" 
+              />
+              <FiLock className="absolute right-4 text-neutral-400 text-sm pointer-events-none" />
+            </div>
+
+            <div className="relative flex items-center">
+              <input 
+                type="password" 
+                required 
+                value={confirmPassword} 
+                onChange={(e) => setConfirmPassword(e.target.value)} 
+                placeholder="Confirm Secure Password" 
+                className="w-full bg-[#F4F6F2] border border-neutral-200/60 rounded-2xl py-3.5 pl-5 pr-12 text-xs font-bold text-black placeholder-neutral-400 focus:outline-none focus:bg-white focus:border-[#387515] transition-all" 
+              />
+              <FiShield className="absolute right-4 text-neutral-400 text-sm pointer-events-none" />
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={loading} 
+              className="w-full text-slate-950 font-black text-xs uppercase tracking-widest py-4 rounded-2xl transition-all flex items-center justify-center gap-2 active:scale-[0.98] shadow-md mt-6 hover:brightness-105 disabled:opacity-50 cursor-pointer" 
+              style={{ backgroundColor: "#FFDA50", boxShadow: "0 6px 20px rgba(255, 218, 80, 0.35)" }}
+            >
+              <FiCheckCircle className="text-sm" />
               <span>{loading ? "ENCRYPTING ACCOUNT..." : "FINALIZE REGISTRATION"}</span>
             </button>
           </form>
         )}
 
-        <div className="text-center pt-6 mt-6 border-t border-neutral-100">
-          <Link href="/login" className="text-xs font-bold uppercase tracking-widest" style={{ color: "#FF9900" }}>
-            Login Here
-          </Link>
+        {/* Footer */}
+        <div className="text-center pt-5 mt-5 border-t border-neutral-100">
+          <p className="text-[11px] text-slate-500 font-semibold">
+            Already have an account?{" "}
+            <Link 
+              href="/login" 
+              className="font-extrabold uppercase tracking-wider hover:underline" 
+              style={{ color: "#387515" }}
+            >
+              Login Here
+            </Link>
+          </p>
         </div>
 
       </div>
+
+      {/* Decorative Brand Ambient Glows */}
+      <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-[#FFDA50]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-[#387515]/10 rounded-full blur-3xl pointer-events-none" />
     </div>
   );
 }

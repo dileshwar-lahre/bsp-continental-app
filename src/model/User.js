@@ -7,7 +7,8 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: false },
     phone: { type: String, default: "" },
     image: { type: String, default: "" },
-    role: { type: String, default: "user" }
+    role: { type: String, default: "user" },
+    hasReceivedTermsPdf: { type: Boolean, default: false }, // 👈 Tracking flag for 1-time email
   },
   { timestamps: true }
 );

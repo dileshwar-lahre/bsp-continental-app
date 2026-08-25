@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import connectDB from "@/lib/db";         // ✅ Points to src/lib/db.js
-import User from "@/model/User";          // ✅ Points to src/model/User.js
+import connectDB from "@/lib/db";
+import User from "@/model/User";
 import bcrypt from "bcryptjs";
 
 export const authOptions = {
@@ -23,7 +23,7 @@ export const authOptions = {
           throw new Error("Email aur Password dono bharo!");
         }
 
-        const user = await User.findOne({ email: credentials.email.toLowerCase() });
+        const user = await User.findOne({ email: credentials.email.toLowerCase().trim() });
         if (!user) {
           throw new Error("Is email se koi account nahi mila! Pehle Sign Up karein.");
         }
@@ -51,13 +51,14 @@ export const authOptions = {
       if (account?.provider === "google") {
         try {
           await connectDB();
-          const existingUser = await User.findOne({ email: user.email.toLowerCase() });
+          const cleanEmail = user.email.toLowerCase().trim();
+          const existingUser = await User.findOne({ email: cleanEmail });
           
           if (!existingUser) {
             await User.create({
-              name: user.name,
-              email: user.email.toLowerCase(),
-              image: user.image,
+              name: user.name || "User",
+              email: cleanEmail,
+              image: user.image || "",
               role: "user",
             });
           }
@@ -67,6 +68,7 @@ export const authOptions = {
       }
       return true;
     },
+
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -74,7 +76,7 @@ export const authOptions = {
       } else if (token?.email) {
         try {
           await connectDB();
-          const dbUser = await User.findOne({ email: token.email.toLowerCase() });
+          const dbUser = await User.findOne({ email: token.email.toLowerCase().trim() });
           if (dbUser) {
             token.id = dbUser._id.toString();
             token.role = dbUser.role || "user";
@@ -85,13 +87,18 @@ export const authOptions = {
       }
       return token;
     },
+
     async session({ session, token }) {
       if (session?.user) {
         session.user.id = token.id;
         session.user.role = token.role;
       }
       return session;
-    }
+    },
+
+    async redirect({ baseUrl }) {
+      return baseUrl;
+    },
   },
   pages: {
     signIn: '/login',
