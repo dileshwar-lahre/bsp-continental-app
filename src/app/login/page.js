@@ -35,7 +35,7 @@ export default function LoginPage() {
 
     // 🚨 Strict Consent Lock
     if (!agreeTerms) {
-      alert("⚠️ Terms of Service aur Privacy Policy box ko tick kiye bina aap login nahi kar sakte!");
+      alert("⚠️ Please accept the Terms & Conditions and Privacy Policy to continue");
       setError("Please accept the Terms & Conditions and Privacy Policy to continue.");
       return;
     }

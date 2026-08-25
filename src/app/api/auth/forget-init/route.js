@@ -5,62 +5,96 @@ import { NextResponse } from "next/server";
 
 global.forgetCache = global.forgetCache || {};
 
-// Strict named method bindings for Next.js App Router
 export async function POST(req) {
   try {
     await connectDB();
-    const { email } = await req.json();
-    const targetEmail = email.toLowerCase();
+    const body = await req.json();
+    const { email } = body;
+
+    if (!email) {
+      return NextResponse.json(
+        { error: "Email address is required." },
+        { status: 400 }
+      );
+    }
+
+    const targetEmail = email.toLowerCase().trim();
 
     // 1. Check user existence
     const user = await User.findOne({ email: targetEmail });
     if (!user) {
-      return NextResponse.json({ error: "Is email se koi account nahi mila!" }, { status: 404 });
-    }
-    if (!user.password) {
-      return NextResponse.json({ error: "Aapne Google Auth use kiya tha. Password reset nahi ho sakta." }, { status: 400 });
+      return NextResponse.json(
+        { error: "No account found associated with this email address." },
+        { status: 404 }
+      );
     }
 
-    // 2. Generate and store fresh token
+    if (!user.password) {
+      return NextResponse.json(
+        { error: "This account was registered using Google Authentication. Password reset is not supported." },
+        { status: 400 }
+      );
+    }
+
+    // 2. Generate and store dynamic 6-digit token
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
     global.forgetCache[targetEmail] = otpCode;
 
-    // ⏳ 10 Minute Expiry Cleanup
+    // ⏳ 10-Minute Expiration Cleanup (600,000 ms)
     setTimeout(() => {
       if (global.forgetCache[targetEmail] === otpCode) {
         delete global.forgetCache[targetEmail];
-        console.log(`🗑️ Forget OTP Expired for: ${targetEmail}`);
+        console.log(`🗑️ Password reset token expired for: ${targetEmail}`);
       }
     }, 600000);
 
-    // 3. Nodemailer Mail Node setup
+    // 3. SMTP Transporter Configuration
+    const emailUser = process.env.EMAIL_USER;
+    const emailPass = process.env.EMAIL_PASS;
+
+    if (!emailUser || !emailPass) {
+      return NextResponse.json(
+        { error: "SMTP mail service is not configured. Please verify environment variables." },
+        { status: 500 }
+      );
+    }
+
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: emailUser,
+        pass: emailPass,
       },
     });
 
-    // 4. Fire Brand Email via BSP Continental
+    // 4. Dispatch Password Reset Token Email
     await transporter.sendMail({
-      from: `"BSP Continental" <${process.env.EMAIL_USER}>`,
+      from: `"BSP Continental" <${emailUser}>`,
       to: targetEmail,
-      subject: "🔒 Password Reset Security Token",
+      subject: "Password Reset Security Code - BSP Continental",
       html: `
-        <div style="font-family: sans-serif; padding: 25px; border: 1px solid #eee; border-radius: 15px; max-width: 400px; margin: auto;">
-          <h2 style="color: black; text-align: center; letter-spacing: 1px; text-transform: uppercase; font-weight: 900;">BSP CONTINENTAL</h2>
-          <p style="font-size: 14px; color: #444; text-align: center;">Aapke password reset request ke liye secure OTP code ye hai:</p>
-          <div style="background: #F3F4F6; padding: 15px; text-align: center; border-radius: 10px; font-size: 26px; font-weight: bold; color: #FF9900; letter-spacing: 5px; margin: 20px 0; border: 1px solid #FF9900;">
+        <div style="font-family: Arial, sans-serif; padding: 25px; border: 1px solid #e2e8f0; border-radius: 16px; max-width: 420px; margin: auto; background-color: #ffffff;">
+          <h2 style="color: #387515; text-align: center; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;">BSP CONTINENTAL</h2>
+          <p style="font-size: 13px; color: #475569; text-align: center; line-height: 1.5;">We received a request to reset your password. Use the verification code below to proceed:</p>
+          <div style="background: #f8fafc; padding: 16px; text-align: center; border-radius: 12px; font-size: 28px; font-weight: 800; color: #387515; letter-spacing: 6px; margin: 20px 0; border: 1px dashed #387515;">
             ${otpCode}
           </div>
-          <p style="font-size: 11px; color: #999; text-align: center;">Note: This code is confidential and will expire in 10 minutes.</p>
+          <p style="font-size: 11px; color: #94a3b8; text-align: center;">This code is valid for 10 minutes. If you did not request this, please disregard this email.</p>
         </div>
       `,
     });
 
-    return NextResponse.json({ success: true, message: "Reset OTP sent successfully!" });
+    return NextResponse.json({
+      success: true,
+      message: "Password reset verification code has been dispatched to your email address.",
+    });
   } catch (err) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error("❌ Password reset error:", err);
+    return NextResponse.json(
+      { error: err.message || "An unexpected error occurred during password reset processing." },
+      { status: 500 }
+    );
   }
 }
