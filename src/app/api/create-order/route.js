@@ -1,50 +1,41 @@
-import Razorpay from "razorpay";
 import { NextResponse } from "next/server";
+import Razorpay from "razorpay";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(req) {
   try {
-    const { amount = 2, currency = "INR" } = await req.json();
-
-    // Direct active key configuration
-    const key_id = "rzp_test_TL0KarblP7ow0X";
-    const key_secret = process.env.RAZORPAY_KEY_SECRET;
-
-    if (!key_secret) {
-      console.error("❌ RAZORPAY_KEY_SECRET environment variable me nahi mila!");
-      return NextResponse.json(
-        { error: "Key Secret missing in .env.local" },
-        { status: 500 }
-      );
-    }
+    const keyId = (process.env.RAZORPAY_KEY_ID || "rzp_test_TX2POaWxuExOi7").trim();
+    const keySecret = (process.env.RAZORPAY_KEY_SECRET || "298R72x76JMbToS75CZ9D2iX").trim();
 
     const razorpay = new Razorpay({
-      key_id: key_id.trim(),
-      key_secret: key_secret.trim(),
+      key_id: keyId,
+      key_secret: keySecret,
     });
 
-    const amountInPaise = Math.round(Number(amount) * 100);
+    const body = await req.json().catch(() => ({}));
+    const amountInINR = Number(body.amount) || 10;
+    const amountInPaise = Math.round(amountInINR * 100);
 
-    const options = {
+    const order = await razorpay.orders.create({
       amount: amountInPaise,
-      currency: currency,
-      receipt: `receipt_${Date.now()}`,
-    };
+      currency: "INR",
+      receipt: `rcpt_${Date.now()}`,
+    });
 
-    const order = await razorpay.orders.create(options);
+    console.log("✅ ORDER CREATED SUCCESSFULLY ON RAZORPAY CLOUD:", order.id);
 
-    return NextResponse.json(
-      {
-        order_id: order.id,
-        amount: order.amount,
-        currency: order.currency,
-      },
-      { status: 200 }
-    );
+    return NextResponse.json({
+      order_id: order.id,
+      amount: order.amount,
+      currency: order.currency,
+      key_id: keyId,
+    });
   } catch (error) {
-    console.error("❌ Razorpay Order Creation Error:", error);
+    console.error("❌ RAZORPAY ERROR:", error?.error?.description || error.message);
     return NextResponse.json(
-      { error: error?.error?.description || error.message || "Authentication Failed" },
-      { status: 500 }
+      { error: error?.error?.description || error.message || "Failed to create order" },
+      { status: error?.statusCode || 500 }
     );
   }
 }
