@@ -17,47 +17,48 @@ import {
   Shield
 } from "lucide-react";
 
-// Desktop Menu List (8 Clean Items)
+// Desktop Menu List (Updated Routes)
 const desktopMenus = [
-  { title: "Home", href: "/", icon: Home },
-  { title: "Property Compliance", href: "/property-vetting", icon: Shield },
-  { title: "Credit Score Management", href: "/credit-score-management", icon: TrendingUp },
-  { title: "Financial Consultancy", href: "/finance", icon: CircleDollarSign },
-  { title: "Services", href: "/services", icon: Briefcase },
-  { title: "Contact", href: "/contact", icon: PhoneCall },
-  { title: "My Requests", href: "/my-requests", icon: FileClock },
-  { title: "Profile", href: "/profile", icon: User },
+  { title: "Home", href: "/dashboard", icon: Home },
+  { title: "Property Compliance", href: "/dashboard/property-compliance", icon: Shield },
+  { title: "Credit Score Management", href: "/dashboard/credit-score-management", icon: TrendingUp },
+  { title: "Financial Consultancy", href: "/dashboard/finance", icon: CircleDollarSign },
+  { title: "Services", href: "/dashboard/services", icon: Briefcase },
+  { title: "Contact", href: "/dashboard/contact", icon: PhoneCall },
+  { title: "My Requests", href: "/dashboard/my-requests", icon: FileClock },
+  { title: "Profile", href: "/dashboard/profile", icon: User },
 ];
 
-// Mobile Bottom Bar (Strictly 4 Items: Home + 3 Core Advisory)
+// Mobile Bottom Bar (4 Core Items)
 const mobileMenus = [
-  { title: "Home", href: "/", icon: Home },
-  { title: "Compliance", href: "/property-vetting", icon: Shield },
-  { title: "Credit Score", href: "/credit-score-management", icon: TrendingUp },
-  { title: "Finance", href: "/finance", icon: CircleDollarSign },
+  { title: "Home", href: "/dashboard", icon: Home },
+  { title: "Compliance", href: "/dashboard/property-compliance", icon: Shield },
+  { title: "Credit Score", href: "/dashboard/credit-score-management", icon: TrendingUp },
+  { title: "Finance", href: "/dashboard/finance", icon: CircleDollarSign },
 ];
 
 export default function Navigation() {
   const pathname = usePathname();
   const [isMinimized, setIsMinimized] = useState(false);
 
-  // Admin routes guard
-  if (pathname?.startsWith('/admin')) {
+  // Strict Guard: Landing ('/'), Login ('/login') ya Admin ('/admin') par hide rahega
+  if (!pathname?.startsWith('/dashboard')) {
     return null;
   }
 
   return (
     <>
       {/* ================= DESKTOP SIDEBAR ================= */}
+      {/* Navbar ke theek thoda sa niche space ke liye top-[5.5rem] set kiya hai */}
       <motion.aside 
         animate={{ width: isMinimized ? "4.5rem" : "16rem" }}
         transition={{ duration: 0.22, ease: "easeInOut" }}
-        className="hidden lg:flex fixed left-0 top-28 bottom-0 z-40 flex-col bg-white border-r border-slate-200/90 select-none p-3 justify-between shadow-2xs"
+        className="hidden lg:flex fixed left-0 top-[5.5rem] z-40 flex-col h-[calc(100vh-6rem)] bg-white border-r border-slate-200/90 select-none p-3 justify-between shadow-2xs"
       >
         <div className="flex flex-col gap-2">
           
-          {/* Header Row: BSP Continental Title & Minimize Toggle */}
-          <div className={`flex items-center ${isMinimized ? "justify-center" : "justify-between"} px-2 pt-1 pb-2 border-b border-slate-100`}>
+          {/* Header Row: Title & Minimize Toggle */}
+          <div className={`flex items-center ${isMinimized ? "justify-center" : "justify-between"} px-2 pt-1 pb-3 border-b border-slate-100`}>
             {!isMinimized && (
               <span className="text-[11px] font-black uppercase tracking-widest text-[#217044]">
                 BSP CCONTINENTAL
@@ -74,9 +75,9 @@ export default function Navigation() {
           </div>
 
           {/* Navigation Links */}
-          <nav className="flex flex-col gap-1 max-h-[calc(100vh-190px)] overflow-y-auto scrollbar-none pr-0.5">
+          <nav className="flex flex-col gap-1 overflow-y-auto max-h-[calc(100vh-14.5rem)] scrollbar-none pr-0.5">
             {desktopMenus.map((item) => {
-              const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+              const isActive = pathname === item.href;
               const IconComponent = item.icon;
 
               return (
@@ -127,11 +128,11 @@ export default function Navigation() {
         </div>
       </motion.aside>
 
-      {/* ================= MOBILE BOTTOM BAR (STRICTLY 4 ITEMS) ================= */}
+      {/* ================= MOBILE BOTTOM BAR (4 ITEMS) ================= */}
       <div className="block lg:hidden fixed bottom-0 left-0 right-0 z-50 w-full px-3 pb-3">
         <div className="relative flex items-center justify-around bg-white/95 backdrop-blur-xl border border-slate-200 py-2 px-1 rounded-2xl shadow-2xl">
           {mobileMenus.map((item) => {
-            const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+            const isActive = pathname === item.href;
             const IconComponent = item.icon;
 
             return (

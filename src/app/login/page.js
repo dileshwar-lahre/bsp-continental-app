@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { FiMail, FiLock, FiArrowRight, FiX, FiCheck, FiAlertTriangle } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 
@@ -14,6 +14,14 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { data: session, status } = useSession();
+
+  // 🔄 Agar user pehle se logged in hai aur cookie valid hai, toh direct /dashboard bhejo
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.replace("/dashboard");
+    }
+  }, [status, router]);
 
   // 📧 Trigger One-Time Welcome Mail with PDF
   const triggerWelcomeEmail = async (userEmail, userName) => {
@@ -28,14 +36,13 @@ export default function LoginPage() {
     }
   };
 
-  // 📋 MANUAL LOGIN HANDLER
+  // 📋 MANUAL LOGIN HANDLER -> REDIRECT TO /dashboard
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
-    // 🚨 Strict Consent Lock
     if (!agreeTerms) {
-      alert("⚠️ Please accept the Terms & Conditions and Privacy Policy to continue");
+      alert("⚠️ Terms of Service aur Privacy Policy box ko tick kiye bina aap login nahi kar sakte!");
       setError("Please accept the Terms & Conditions and Privacy Policy to continue.");
       return;
     }
@@ -45,15 +52,17 @@ export default function LoginPage() {
     try {
       const res = await signIn("credentials", {
         redirect: false,
-        email: email.toLowerCase(),
+        email: email.toLowerCase().trim(),
         password,
       });
 
       if (res?.error) {
         setError(res.error);
       } else {
-        await triggerWelcomeEmail(email.toLowerCase(), email.split("@")[0]);
-        router.push("/");
+        await triggerWelcomeEmail(email.toLowerCase().trim(), email.split("@")[0]);
+        // 🚀 Login successful -> Seedhe Dashboard bhejo
+        router.push("/dashboard");
+        router.refresh();
       }
     } catch (err) {
       setError("Something went wrong! Please try again.");
@@ -62,11 +71,10 @@ export default function LoginPage() {
     }
   };
 
-  // 🌐 GOOGLE OAUTH HANDLER
+  // 🌐 GOOGLE OAUTH HANDLER -> REDIRECT TO /dashboard
   const handleGoogleLogin = async () => {
     setError("");
 
-    // 🚨 Strict Consent Lock for Google
     if (!agreeTerms) {
       alert("⚠️ Terms of Service aur Privacy Policy box ko tick kiye bina aap Google se login nahi kar sakte!");
       setError("Please accept the Terms & Conditions and Privacy Policy to continue.");
@@ -74,18 +82,28 @@ export default function LoginPage() {
     }
 
     try {
-      await signIn("google", { callbackUrl: "/" });
+      // 🚀 Google callbackUrl seedhe /dashboard par point karega
+      await signIn("google", { callbackUrl: "/dashboard" });
     } catch (err) {
       setError("Google Authentication failed!");
     }
   };
+
+  // Session check hone tak blank flicker prevent karein
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen bg-[#F4F6F2] flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-[#387515] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#F4F6F2] text-black flex items-center justify-center pb-20 pt-8 font-sans antialiased select-none px-4 relative overflow-hidden">
       
       <div className="w-full max-w-[420px] bg-white rounded-[2.5rem] p-8 md:p-10 relative z-50 shadow-[0_20px_50px_rgba(56,117,21,0.08),0_4px_12px_rgba(0,0,0,0.04)] border border-neutral-100 transition-all duration-300">
         
-        {/* Close Button */}
+        {/* Close Button -> Home Page */}
         <Link 
           href="/"
           className="absolute top-6 right-6 w-8 h-8 bg-neutral-100/70 rounded-full flex items-center justify-center text-neutral-400 hover:text-black hover:bg-neutral-200 transition-all active:scale-90"
