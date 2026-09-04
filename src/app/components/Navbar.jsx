@@ -11,6 +11,7 @@ import {
   FiHome, 
   FiInfo, 
   FiBriefcase, 
+  FiHelpCircle,
   FiFileText, 
   FiShield, 
   FiBell, 
@@ -40,13 +41,28 @@ export default function Navbar() {
   const brandColor = "#217044";
 
   const menuItems = [
-    { name: "Home", href: "/", icon: <FiHome size={20} /> },
-    { name: "About", href: "/about", icon: <FiInfo size={20} /> },
+    { name: "Home", href: "/", targetId: "home", icon: <FiHome size={20} /> },
+    { name: "About", href: "/#about", targetId: "about", icon: <FiInfo size={20} /> },
     { name: "Services", href: "/services", icon: <FiBriefcase size={20} /> },
+    { name: "How It Works", href: "/#how-it-works", targetId: "how-it-works", icon: <FiHelpCircle size={20} /> },
     { name: "Contact", href: "/contact", icon: <FiPhoneCall size={20} /> },
     { name: "Terms", href: "/terms", icon: <FiFileText size={20} /> },
     { name: "Privacy", href: "/privacy", icon: <FiShield size={20} /> },
   ];
+
+  // ⚡ Smooth In-Page Anchor Scroll Handler
+  const handleNavClick = (e, item) => {
+    if (item.targetId) {
+      if (pathname === "/") {
+        e.preventDefault();
+        const targetElement = document.getElementById(item.targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    }
+    setIsOpen(false);
+  };
 
   const handleProfileClick = () => {
     if (isLoggedIn) {
@@ -86,7 +102,8 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-base font-bold transition-colors relative py-1.5"
+                onClick={(e) => handleNavClick(e, item)}
+                className="text-base font-bold transition-colors relative py-1.5 cursor-pointer"
                 style={{ color: isActive ? brandColor : "#94A3B8" }}
                 onMouseEnter={(e) => !isActive && (e.target.style.color = brandColor)}
                 onMouseLeave={(e) => !isActive && (e.target.style.color = "#94A3B8")}
@@ -257,8 +274,8 @@ export default function Navbar() {
                       <Link
                         key={item.name}
                         href={item.href}
-                        onClick={() => setIsOpen(false)}
-                        className="flex items-center gap-4 text-base font-black px-4 py-3 rounded-xl transition-all duration-150 active:scale-[0.98]"
+                        onClick={(e) => handleNavClick(e, item)}
+                        className="flex items-center gap-4 text-base font-black px-4 py-3 rounded-xl transition-all duration-150 active:scale-[0.98] cursor-pointer"
                         style={{ 
                           backgroundColor: isActive ? `${brandColor}10` : "transparent",
                           color: isActive ? brandColor : "#334155"

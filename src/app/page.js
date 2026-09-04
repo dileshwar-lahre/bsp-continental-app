@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar";
 import HomeSection from "./components/HomeSection";
 import AboutSection from "./components/AboutSection";
 import ServicesSection from "./components/ServicesSection";
+import HowItWorksSection from "./components/HowItWorksSection";
+import WhyChooseSection from "./components/WhyChooseSection";
 import ContactSection from "./components/ContactSection";
 import ContactFooterSection from "./components/ContactFooterSection";
 import { FaWhatsapp } from "react-icons/fa";
@@ -12,22 +14,24 @@ export default function LandingPage() {
   const whatsappUrl = "https://wa.me/919575059137?text=Hello%20BSP%20Continental,%20I%20need%20consulting%20support.";
 
   return (
-    <div className="min-h-screen bg-white selection:bg-[#217044] selection:text-white flex flex-col justify-between m-0 p-0 overflow-x-hidden relative">
+    <div className="w-full bg-[#0A2615] selection:bg-[#217044] selection:text-white m-0 p-0 overflow-x-hidden">
       {/* Top Navigation */}
       <Navbar />
 
-      {/* Main Content Sections */}
-      <main className="flex-1 w-full m-0 p-0">
+      {/* Main Content */}
+      <main className="w-full m-0 p-0 block bg-white">
         <HomeSection />
         <AboutSection />
         <ServicesSection />
+        <HowItWorksSection />
+        <WhyChooseSection />
         <ContactSection />
       </main>
 
-      {/* Zero Gap Clean Footer */}
+      {/* Footer - Exactly glued to bottom */}
       <ContactFooterSection />
 
-      {/* Floating Bottom-Right WhatsApp Button */}
+      {/* Floating WhatsApp Button */}
       <div className="fixed bottom-6 right-6 z-50">
         <a
           href={whatsappUrl}
