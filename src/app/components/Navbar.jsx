@@ -21,7 +21,8 @@ import {
   FiChevronDown,
   FiArrowRight,
   FiRefreshCw,
-  FiCheckSquare
+  FiCheckSquare,
+  FiGrid
 } from "react-icons/fi";
 
 export default function Navbar() {
@@ -43,12 +44,14 @@ export default function Navbar() {
   const moreRef = useRef(null);
 
   const isLoggedIn = status === "authenticated";
+  const isHomePage = pathname === "/";
+  // Dashboard option sirf login hone par aur strictly '/' par render hoga
+  const showDashboardLink = isLoggedIn && isHomePage;
+
   const userImageUrl = session?.user?.image || "";
   const userName = session?.user?.name || "User";
-
   const brandColor = "#217044";
 
-  // ─── EXACT SEQUENCE WITH UPDATED ROUTE ───
   const servicesDropdownList = [
     {
       id: "property-compliance",
@@ -72,7 +75,6 @@ export default function Navbar() {
     },
   ];
 
-  // ─── UPDATED MORE MENU WITH NEW PAGES ───
   const moreMenuItems = [
     { name: "Contact Desk", href: "/contact", icon: <FiPhoneCall size={16} /> },
     { name: "Terms of Service", href: "/terms", icon: <FiFileText size={16} /> },
@@ -127,7 +129,7 @@ export default function Navbar() {
           {/* Logo Container */}
           <div className="flex items-center overflow-visible">
             <Link 
-              href="/" 
+              href={showDashboardLink ? "/dashboard" : "/"} 
               onClick={() => { setIsServicesOpen(false); setIsMoreOpen(false); }}
               className="flex items-center active:scale-95 transition-transform overflow-visible py-1"
             >
@@ -144,6 +146,7 @@ export default function Navbar() {
 
           {/* Desktop Center Links */}
           <div className="hidden md:flex items-center gap-8 h-full">
+            {/* Home Link: Always '/' */}
             <Link
               href="/"
               onClick={() => { setIsServicesOpen(false); setIsMoreOpen(false); }}
@@ -152,6 +155,18 @@ export default function Navbar() {
             >
               Home
             </Link>
+
+            {/* Dashboard Link: Sirf logged in hone par aur '/' page par */}
+            {showDashboardLink && (
+              <Link
+                href="/dashboard"
+                onClick={() => { setIsServicesOpen(false); setIsMoreOpen(false); }}
+                className="text-base font-bold transition-colors py-1.5 cursor-pointer hover:text-[#217044] flex items-center gap-1.5 text-slate-700"
+              >
+                <FiGrid size={16} />
+                Dashboard
+              </Link>
+            )}
 
             <Link
               href="/about"
@@ -269,8 +284,9 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Right Action Utilities */}
+          {/* Right Action Utilities (Notification, Login Button, Profile, Logout) */}
           <div className="flex items-center gap-3">
+            {/* Notification Bell */}
             <button 
               type="button"
               className="relative w-11 h-11 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:text-[#217044] hover:bg-emerald-50 transition-all active:scale-95 cursor-pointer"
@@ -279,6 +295,7 @@ export default function Navbar() {
               <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-[#217044] rounded-full ring-2 ring-white" />
             </button>
 
+            {/* Login Button (Visible when NOT logged in) */}
             {!isLoggedIn && (
               <Link
                 href="/login"
@@ -290,6 +307,7 @@ export default function Navbar() {
               </Link>
             )}
 
+            {/* User Profile Avatar */}
             <button 
               type="button"
               onClick={() => router.push(isLoggedIn ? "/profile" : "/login")}
@@ -308,16 +326,19 @@ export default function Navbar() {
               )}
             </button>
 
+            {/* Logout Button (Visible when logged in) */}
             {isLoggedIn && (
               <button
                 type="button"
                 onClick={() => signOut({ callbackUrl: "/login" })}
                 className="hidden md:flex w-11 h-11 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-500 hover:text-rose-600 items-center justify-center transition-all active:scale-95 border border-rose-100/40 cursor-pointer"
+                title="Logout"
               >
                 <FiLogOut size={17} />
               </button>
             )}
 
+            {/* Mobile Hamburger Toggle */}
             <button 
               type="button"
               onClick={() => setIsOpen(!isOpen)}
@@ -376,6 +397,18 @@ export default function Navbar() {
                     <FiHome size={18} className="text-slate-400" />
                     Home
                   </Link>
+
+                  {/* Mobile Dashboard Link: Sirf jab user login ho aur currently '/' par ho */}
+                  {showDashboardLink && (
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-3 text-base font-black px-4 py-2.5 rounded-xl text-slate-800 hover:text-[#217044]"
+                    >
+                      <FiGrid size={18} className="text-[#217044]" />
+                      Dashboard
+                    </Link>
+                  )}
 
                   <Link
                     href="/about"
@@ -467,10 +500,36 @@ export default function Navbar() {
                 </div>
               </div>
 
-              <div className="text-center pt-4 border-t border-slate-100">
-                <p className="text-[10px] text-slate-400 font-bold uppercase">
-                  © 2026 BSP CONTINENTAL
-                </p>
+              {/* Mobile Drawer Bottom User Utility */}
+              <div className="space-y-4 pt-4 border-t border-slate-100">
+                {isLoggedIn ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOpen(false);
+                      signOut({ callbackUrl: "/login" });
+                    }}
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-rose-50 text-rose-600 font-black text-xs uppercase tracking-wider active:scale-95"
+                  >
+                    <FiLogOut size={16} />
+                    Logout
+                  </button>
+                ) : (
+                  <Link
+                    href="/login"
+                    onClick={() => setIsOpen(false)}
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#217044] text-white font-black text-xs uppercase tracking-wider active:scale-95"
+                  >
+                    <FiLogIn size={16} />
+                    Login
+                  </Link>
+                )}
+
+                <div className="text-center">
+                  <p className="text-[10px] text-slate-400 font-bold uppercase">
+                    © 2026 BSP CONTINENTAL
+                  </p>
+                </div>
               </div>
             </motion.div>
           </>
