@@ -7,7 +7,7 @@ import ServicesSection from "./components/ServicesSection";
 import HowItWorksSection from "./components/HowItWorksSection";
 import WhyChooseSection from "./components/WhyChooseSection";
 import ContactSection from "./components/ContactSection";
-import ContactFooterSection from "./components/ContactFooterSection";
+import ContactFooterSection from "./components/Footer";
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function LandingPage() {
@@ -28,8 +28,6 @@ export default function LandingPage() {
         <ContactSection />
       </main>
 
-      {/* Footer - Exactly glued to bottom */}
-      <ContactFooterSection />
 
       {/* Floating WhatsApp Button */}
       <div className="fixed bottom-6 right-6 z-50">

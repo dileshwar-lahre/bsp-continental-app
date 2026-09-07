@@ -3,12 +3,19 @@
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { 
-  FiFileText, FiUpload, 
-  FiX, FiCheck, FiShield, FiAlertCircle, FiLock, FiLogIn,
-  FiFile, FiPaperclip
-} from 'react-icons/fi';
+import Image from 'next/image';
 import Link from 'next/link';
+import { 
+  FiUpload, 
+  FiX, 
+  FiCheck, 
+  FiShield, 
+  FiAlertCircle, 
+  FiLock, 
+  FiLogIn,
+  FiFile, 
+  FiPaperclip
+} from 'react-icons/fi';
 
 const SERVICES_LIST = [
   { id: "title_verif", name: "Title Verification" },
@@ -132,7 +139,7 @@ export default function PropertyVettingPage() {
       } catch (err) {
         uploadFailed = true;
         setIsSubmitting(false);
-        setSubmitStatus({ success: false, msg: `AWS Upload failed: ${err.message}` });
+        setSubmitStatus({ success: false, msg: `Upload failed: ${err.message}` });
         break;
       }
     }
@@ -177,99 +184,59 @@ export default function PropertyVettingPage() {
     }
   };
 
-  // 🔒 UNAUTHENTICATED VIEW: Clean Header -> Login Card -> 4 Tick Points
+  // ─── UNAUTHENTICATED VIEW ───
   if (status === 'unauthenticated') {
     return (
-      <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased py-8 px-4 sm:px-6 md:px-8 font-sans flex flex-col justify-start items-center select-none lg:pl-64 transition-all duration-300">
-        <div className="w-full max-w-4xl mx-auto space-y-6">
+      <div className="w-full min-h-screen bg-[#FAFBFD] text-slate-900 antialiased pt-20 pb-12 px-4 sm:px-6 md:px-8 font-sans select-none lg:pl-64 transition-all duration-300">
+        <div className="w-full max-w-5xl mx-auto space-y-6">
           
-          {/* Simple Clean Header Title Card */}
-          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-2">
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-950 uppercase tracking-tight">
-              Property Compliance & Legal Vetting Services
-            </h1>
-            <p className="text-xs sm:text-sm font-semibold text-slate-500 max-w-3xl leading-relaxed">
-              Secure property before investment. Upload mandatory registry and Khasra documents for certified legal clearance.
-            </p>
+          <div className="relative overflow-hidden rounded-3xl bg-[#062415] text-white p-6 sm:p-10 shadow-lg min-h-[220px] flex flex-col justify-end">
+            <Image
+              src="/images/Premiumproperty.png"
+              alt="Property Compliance"
+              fill
+              priority
+              className="object-cover object-center opacity-40"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#062415] via-[#062415]/85 to-transparent" />
+            <div className="relative z-10 space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-[2px] bg-[#f3c251]" />
+                <span className="text-[11px] font-mono font-black uppercase tracking-[0.2em] text-[#f3c251]">
+                  LEGAL VETTING & LAND RECORDS
+                </span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white">
+                Property Compliance Desk
+              </h1>
+              <p className="text-xs sm:text-sm text-emerald-100/80 max-w-2xl leading-relaxed font-normal">
+                Secure your property investments. Upload registry and Khasra records for certified title search and legal verification.
+              </p>
+            </div>
           </div>
 
-          {/* 🚀 LOGIN CARD ON TOP */}
-          <div className="bg-white border border-[#217044]/30 rounded-3xl p-8 sm:p-10 shadow-md text-center space-y-5">
-            <div className="w-14 h-14 bg-[#217044]/10 text-[#217044] border border-[#217044]/20 rounded-2xl flex items-center justify-center mx-auto shadow-2xs">
-              <FiLock size={26} />
+          <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-sm text-center space-y-4">
+            <div className="w-14 h-14 bg-emerald-50 text-[#217044] rounded-2xl flex items-center justify-center mx-auto">
+              <FiLock size={24} />
             </div>
             
-            <div className="space-y-2 max-w-lg mx-auto">
+            <div className="space-y-1.5 max-w-md mx-auto">
               <h2 className="text-lg sm:text-xl font-black text-slate-950 uppercase tracking-tight">
                 Login Required to Request Service
               </h2>
-              <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
-                To submit your property documents and track verification progress securely, please log in to your account.
+              <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
+                To submit legal property deeds and track due-diligence reports, please sign in to your applicant portal.
               </p>
             </div>
 
             <div className="pt-2 flex justify-center">
               <Link 
-                href="/login?callbackUrl=/property-vetting" 
-                className="bg-[#217044] hover:bg-[#185332] text-white font-black text-xs uppercase tracking-wider px-8 py-4 rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-2 cursor-pointer"
+                href="/login?callbackUrl=/dashboard/property-compliance" 
+                className="bg-[#217044] hover:bg-[#185332] text-white font-black text-xs uppercase tracking-wider px-8 py-3.5 rounded-xl transition-all shadow-sm active:scale-95 flex items-center gap-2 cursor-pointer"
               >
-                <FiLogIn size={16} />
+                <FiLogIn size={15} />
                 <span>Login to Request Service</span>
               </Link>
-            </div>
-          </div>
-
-          {/* 📝 4 TICK POINTS BELOW */}
-          <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
-            <div className="border-b border-slate-100 pb-3">
-              <span className="text-[10px] font-black text-[#217044] uppercase tracking-wider block">
-                WHAT YOU WILL GET AFTER LOGIN
-              </span>
-              <h3 className="text-base sm:text-lg font-black text-slate-950 uppercase tracking-tight">
-                4 Core Legal Vetting Services Included
-              </h3>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 flex items-start gap-3">
-                <div className="p-1.5 bg-[#217044]/10 text-[#217044] rounded-xl shrink-0 mt-0.5">
-                  <FiCheck size={16} strokeWidth={3} />
-                </div>
-                <div className="space-y-1">
-                  <h4 className="text-xs font-black text-slate-950 uppercase">Title & Ownership Verification</h4>
-                  <p className="text-[11px] text-slate-500 font-semibold leading-normal">Deep legal check of registry copies and past ownership chains.</p>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 flex items-start gap-3">
-                <div className="p-1.5 bg-[#217044]/10 text-[#217044] rounded-xl shrink-0 mt-0.5">
-                  <FiCheck size={16} strokeWidth={3} />
-                </div>
-                <div className="space-y-1">
-                  <h4 className="text-xs font-black text-slate-950 uppercase">Fake Ownership Detection</h4>
-                  <p className="text-[11px] text-slate-500 font-semibold leading-normal">Advanced fraud checks to prevent double-selling and forged documents.</p>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 flex items-start gap-3">
-                <div className="p-1.5 bg-[#217044]/10 text-[#217044] rounded-xl shrink-0 mt-0.5">
-                  <FiCheck size={16} strokeWidth={3} />
-                </div>
-                <div className="space-y-1">
-                  <h4 className="text-xs font-black text-slate-950 uppercase">Encumbrance & Mortgage Check</h4>
-                  <p className="text-[11px] text-slate-500 font-semibold leading-normal">Verification against active bank loans, court stays, and legal disputes.</p>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 flex items-start gap-3">
-                <div className="p-1.5 bg-[#217044]/10 text-[#217044] rounded-xl shrink-0 mt-0.5">
-                  <FiCheck size={16} strokeWidth={3} />
-                </div>
-                <div className="space-y-1">
-                  <h4 className="text-xs font-black text-slate-950 uppercase">Search & Survey Report</h4>
-                  <p className="text-[11px] text-slate-500 font-semibold leading-normal">Comprehensive revenue record audit and land parcel vetting reports.</p>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -278,235 +245,267 @@ export default function PropertyVettingPage() {
     );
   }
 
-  // 🟢 AUTHENTICATED VIEW: Full Form & Checklist
+  // ─── AUTHENTICATED VIEW ───
   return (
-    <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased py-8 px-4 sm:px-6 md:px-8 font-sans flex flex-col justify-start items-center select-none lg:pl-64 transition-all duration-300">
-      
-      {/* 🎯 SIDEBAR CLEARANCE & CENTERED CONTAINER */}
+    <div className="w-full min-h-screen bg-[#FAFBFD] text-slate-900 antialiased pt-20 pb-12 px-4 sm:px-6 md:px-8 font-sans select-none lg:pl-64 transition-all duration-300">
       <div className="w-full max-w-6xl mx-auto space-y-6">
         
-        {/* Simple Header Title Card */}
-        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-2">
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-950 uppercase tracking-tight">
-            Property Compliance & Legal Vetting Services
-          </h1>
-          <p className="text-xs sm:text-sm font-semibold text-slate-500 max-w-3xl leading-relaxed">
-            Secure property before investment. Upload mandatory registry and Khasra documents for certified legal clearance.
-          </p>
-        </div>
+        {/* ─── 1. TOP HERO BANNER (MATCHES DASHBOARD SLIDER RATIO & CRISP ON PHONE) ─── */}
+        <section className="relative overflow-hidden rounded-3xl bg-[#062415] text-white shadow-xl h-[340px] sm:h-[260px] md:aspect-[980/260] md:h-auto flex flex-col justify-end">
+          <Image
+            src="/images/Premiumproperty.png"
+            alt="Property Compliance"
+            fill
+            priority
+            className="object-cover object-[80%_center] sm:object-center"
+          />
+          {/* Enhanced Mobile Contrast Gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#051f12] via-[#051f12]/85 via-50% to-black/35 sm:bg-gradient-to-r sm:from-[#051f12] sm:via-[#051f12]/90 sm:via-55% sm:to-transparent" />
+
+          <div className="relative z-10 p-5 sm:p-8 md:p-10 space-y-2 sm:space-y-3 max-w-2xl">
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-[2px] bg-[#f3c251]" />
+              <span className="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-[0.24em] text-[#f3c251]">
+                LEGAL TITLE SEARCH & REVENUE AUDIT
+              </span>
+            </div>
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-black uppercase tracking-tight text-white leading-tight drop-shadow-md">
+              PROTECT THE PROPERTY BEHIND YOUR LOAN.
+            </h1>
+            <p className="text-xs sm:text-sm text-emerald-100/85 font-normal leading-relaxed max-w-lg">
+              Title verification, search and survey reports, mortgage legal assistance, and dispute-resolution support.
+            </p>
+          </div>
+        </section>
 
         {/* Status Notification */}
         {submitStatus.msg && (
-          <div className={`border-l-4 p-4 rounded-2xl flex items-center gap-3 text-xs font-bold bg-white shadow-sm ${
-            submitStatus.success ? 'text-slate-800 border-[#217044]' : 'text-rose-600 border-rose-500'
+          <div className={`p-4 rounded-2xl flex items-center gap-3 text-xs font-bold shadow-sm ${
+            submitStatus.success ? 'bg-emerald-50 text-emerald-950' : 'bg-rose-50 text-rose-700'
           }`}>
             {submitStatus.success ? <FiCheck className="text-[#217044] w-5 h-5 shrink-0" /> : <FiAlertCircle className="text-rose-600 w-5 h-5 shrink-0" />}
             <p className="flex-1">{submitStatus.msg}</p>
           </div>
         )}
 
-        {/* MAIN SPLIT GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* ─── 2. CATEGORY TILES (BORDER-FREE OPEN LUXURY ROW) ─── */}
+        <section className="space-y-3">
+          <div className="flex items-center justify-between px-1">
+            <span className="text-xs font-black uppercase tracking-wider text-slate-500">
+              Select Verifications Needed
+            </span>
+            <span className="text-[11px] font-mono font-bold text-[#217044]">
+              {selectedServices.length} Selected
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {SERVICES_LIST.map((service) => {
+              const isSelected = selectedServices.includes(service.name);
+              return (
+                <button
+                  key={service.id}
+                  type="button"
+                  onClick={() => handleServiceToggle(service.name)}
+                  className={`p-4 rounded-2xl text-left transition-all duration-200 cursor-pointer flex flex-col justify-between min-h-[90px] shadow-sm active:scale-95 ${
+                    isSelected
+                      ? 'bg-[#217044] text-white'
+                      : 'bg-white text-slate-800 hover:bg-emerald-50/50'
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <span className="text-[10px] font-mono font-bold opacity-60">
+                      VETTING
+                    </span>
+                    <div className={`w-4 h-4 rounded-full flex items-center justify-center ${
+                      isSelected ? 'bg-white text-[#217044]' : 'bg-slate-100 text-transparent'
+                    }`}>
+                      <FiCheck size={10} strokeWidth={3} />
+                    </div>
+                  </div>
+                  <span className="text-xs font-black uppercase tracking-tight leading-snug">
+                    {service.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ─── 3. FORM & UPLOAD (BORDER-FREE OPEN FLAT TILES) ─── */}
+        <section className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm space-y-8">
           
-          {/* 👈 LEFT SIDE: SERVICE CHECKLIST (4 COLS) */}
-          <div className="lg:col-span-4 space-y-4">
-            <div className="bg-white border border-slate-200/90 rounded-3xl p-5 shadow-sm space-y-4">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                <span className="text-xs font-black uppercase text-[#217044] tracking-wider">
-                  Select Required Services
+          <div className="space-y-1">
+            <h2 className="text-lg sm:text-xl font-black text-slate-950 uppercase tracking-tight flex items-center gap-2">
+              <FiShield className="text-[#217044]" size={22} />
+              Asset Due-Diligence Application
+            </h2>
+            <p className="text-xs text-slate-500">
+              Submit your property coordinates and legal records directly for document verification.
+            </p>
+          </div>
+
+          <form onSubmit={handleVettingSubmit} className="space-y-8">
+            
+            {/* Step 1: Input Fields */}
+            <div className="space-y-4">
+              <span className="text-xs font-mono font-black uppercase tracking-wider text-[#217044] block">
+                1. Owner & Location Information
+              </span>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold uppercase text-slate-500">Owner / Applicant Full Name</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter owner name"
+                    className="w-full bg-[#FAFBFD] rounded-2xl px-4 py-3.5 text-xs font-bold text-slate-900 outline-none focus:bg-emerald-50/40 transition-all shadow-2xs"
+                    value={formData.ownerName}
+                    onChange={(e) => setFormData({ ...formData, ownerName: e.target.value })}
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold uppercase text-slate-500">Mobile Contact Number</label>
+                  <input
+                    required
+                    type="tel"
+                    placeholder="+91 95759 59137"
+                    className="w-full bg-[#FAFBFD] rounded-2xl px-4 py-3.5 text-xs font-bold text-slate-900 outline-none focus:bg-emerald-50/40 font-mono transition-all shadow-2xs"
+                    value={formData.userPhone}
+                    onChange={(e) => setFormData({ ...formData, userPhone: e.target.value })}
+                  />
+                </div>
+
+                <div className="col-span-full space-y-1.5">
+                  <label className="text-[10px] font-bold uppercase text-slate-500">Property Location & Khasra Coordinates</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="e.g. Khasra #210/4, Sector-4 Bilaspur"
+                    className="w-full bg-[#FAFBFD] rounded-2xl px-4 py-3.5 text-xs font-bold text-slate-900 outline-none focus:bg-emerald-50/40 transition-all shadow-2xs"
+                    value={formData.propertyLocation}
+                    onChange={(e) => setFormData({ ...formData, propertyLocation: e.target.value })}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Step 2: Clean Document Upload Row */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono font-black uppercase tracking-wider text-[#217044] block">
+                  2. Required Document Uploads
                 </span>
-                <span className="text-[10px] font-black text-[#217044] bg-[#217044]/10 px-2 py-0.5 rounded-md">
-                  {selectedServices.length} Selected
-                </span>
+                <span className="text-[10px] font-mono text-slate-400">PDF, PNG, JPG accepted</span>
               </div>
 
-              <div className="space-y-2">
-                {SERVICES_LIST.map((service) => {
-                  const isSelected = selectedServices.includes(service.name);
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {REQUIRED_DOCUMENTS.map((doc) => {
+                  const uploadedForThisDoc = selectedFiles.filter(f => f.category === doc.label);
+                  const isUploaded = uploadedForThisDoc.length > 0;
+
                   return (
-                    <div
-                      key={service.id}
-                      onClick={() => handleServiceToggle(service.name)}
-                      className={`p-3 rounded-2xl border transition-all cursor-pointer flex items-center justify-between active:scale-[0.99] ${
-                        isSelected
-                          ? 'bg-[#217044] text-white border-[#217044] shadow-sm'
-                          : 'bg-slate-50/80 border-slate-200 text-slate-800 hover:border-[#217044]/40'
-                      }`}
-                    >
-                      <span className="text-xs font-black pr-2 leading-tight">{service.name}</span>
-                      <div className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 border transition-all ${
-                        isSelected ? 'bg-white text-[#217044] border-white' : 'bg-white border-slate-300 text-transparent'
-                      }`}>
-                        <FiCheck size={11} strokeWidth={3} />
+                    <div key={doc.id} className="p-5 rounded-2xl bg-[#FAFBFD] hover:bg-emerald-50/30 transition-all flex flex-col justify-between shadow-2xs space-y-3">
+                      <div className="space-y-1">
+                        <div className="flex items-center justify-between">
+                          <FiFile className="text-[#217044]" size={18} />
+                          {doc.required ? (
+                            <span className="text-[8px] font-mono font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">REQUIRED</span>
+                          ) : (
+                            <span className="text-[8px] font-mono font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">OPTIONAL</span>
+                          )}
+                        </div>
+                        <h4 className="text-xs font-bold text-slate-900">{doc.label}</h4>
+                        <p className="text-[10px] text-slate-500 font-normal leading-relaxed">{doc.note}</p>
                       </div>
+
+                      <label className="cursor-pointer bg-white hover:bg-[#217044] hover:text-white text-[#217044] text-xs font-bold py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-xs text-center">
+                        <FiUpload size={13} />
+                        <span>{isUploaded ? "Add More" : "Upload File"}</span>
+                        <input 
+                          type="file" 
+                          multiple 
+                          accept=".pdf,.png,.jpg,.jpeg" 
+                          className="hidden" 
+                          onChange={(e) => handleCategorizedFileUpload(e, doc.label)} 
+                          disabled={isSubmitting} 
+                        />
+                      </label>
+
+                      {isUploaded && (
+                        <div className="space-y-1.5 pt-1">
+                          {uploadedForThisDoc.map((file, fileIdx) => {
+                            const globalIdx = selectedFiles.findIndex(f => f === file);
+                            return (
+                              <div key={fileIdx} className="bg-white px-3.5 py-2 rounded-xl flex items-center justify-between text-xs font-bold text-slate-800 shadow-2xs">
+                                <div className="flex items-center gap-1.5 truncate max-w-[85%]">
+                                  <FiPaperclip className="text-[#217044] shrink-0" size={12} />
+                                  <span className="truncate text-[10px]">{file.name}</span>
+                                </div>
+                                <button type="button" onClick={() => removeFileFromQueue(globalIdx)} className="text-slate-400 hover:text-rose-600 transition-all cursor-pointer">
+                                  <FiX size={14} />
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
                   );
                 })}
               </div>
-
-              {/* Guaranteed Benefits */}
-              <div className="pt-3 border-t border-slate-100 space-y-2">
-                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">Guaranteed Benefits</span>
-                <div className="grid grid-cols-1 gap-1.5 text-xs font-extrabold text-slate-800">
-                  <div className="flex items-center gap-1.5"><FiCheck className="text-[#217044] shrink-0" size={13} /> 100% Safe Investment</div>
-                  <div className="flex items-center gap-1.5"><FiCheck className="text-[#217044] shrink-0" size={13} /> Legal Protection</div>
-                  <div className="flex items-center gap-1.5"><FiCheck className="text-[#217044] shrink-0" size={13} /> Fraud & Dispute Protection</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 👉 RIGHT SIDE: APPLICATION FORM & ADVANCED UPLOAD (8 COLS) */}
-          <div className="lg:col-span-8 bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
-            
-            <div className="pb-3 border-b border-slate-100">
-              <h2 className="text-base sm:text-lg font-black text-slate-950 uppercase tracking-tight flex items-center gap-2">
-                <FiShield className="text-[#217044]" size={20} /> Asset Due-Diligence Application
-              </h2>
             </div>
 
-            <form onSubmit={handleVettingSubmit} className="space-y-6">
-              
-              {/* 1. Asset Owner Info */}
-              <div className="space-y-3">
-                <span className="text-xs font-black uppercase text-[#217044] block">
-                  1. Asset Owner Information
-                </span>
+            {/* Step 3: Remarks */}
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold uppercase text-slate-500">Custom Remarks / Special Doubts (Optional)</label>
+              <textarea
+                rows={3}
+                placeholder="Property square footage, seller history, specific legal doubts..."
+                className="w-full bg-[#FAFBFD] rounded-2xl p-4 text-xs font-medium text-slate-900 outline-none focus:bg-emerald-50/40 resize-none transition-all shadow-2xs"
+                value={formData.customMessage}
+                onChange={(e) => setFormData({ ...formData, customMessage: e.target.value })}
+              />
+            </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-black uppercase text-slate-400">Owner / Applicant Full Name</label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="Enter owner name"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 outline-none focus:border-[#217044] focus:bg-white transition-all"
-                      value={formData.ownerName}
-                      onChange={(e) => setFormData({ ...formData, ownerName: e.target.value })}
-                    />
-                  </div>
+            {/* Submit Action */}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-[#217044] hover:bg-[#185332] text-white font-black text-xs py-4 rounded-2xl uppercase tracking-wider transition-all shadow-md active:scale-[0.99] cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              {isSubmitting ? 'Uploading Papers & Submitting...' : <><FiUpload size={16} /> Submit Property Papers For Verification</>}
+            </button>
 
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-black uppercase text-slate-400">Mobile Contact</label>
-                    <input
-                      required
-                      type="tel"
-                      placeholder="+91 95759 59137"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 outline-none focus:border-[#217044] focus:bg-white font-mono transition-all"
-                      value={formData.userPhone}
-                      onChange={(e) => setFormData({ ...formData, userPhone: e.target.value })}
-                    />
-                  </div>
+          </form>
 
-                  <div className="col-span-full space-y-1">
-                    <label className="text-[10px] font-black uppercase text-slate-400">Property Location & Khasra Details</label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="e.g. Khasra #210/4, Sector-4 Bilaspur"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 outline-none focus:border-[#217044] focus:bg-white transition-all"
-                      value={formData.propertyLocation}
-                      onChange={(e) => setFormData({ ...formData, propertyLocation: e.target.value })}
-                    />
-                  </div>
-                </div>
-              </div>
+        </section>
 
-              {/* 2. REQUIRED DOCUMENTS CHECKLIST & UPLOAD */}
-              <div className="space-y-3 pt-3 border-t border-slate-100">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-black uppercase text-[#217044] block">
-                    2. Required Document Upload Checklist
-                  </span>
-                  <span className="text-[10px] font-mono text-slate-400">PDF, PNG, JPG (Max 10MB)</span>
-                </div>
-
-                <div className="grid grid-cols-1 gap-3">
-                  {REQUIRED_DOCUMENTS.map((doc) => {
-                    const uploadedForThisDoc = selectedFiles.filter(f => f.category === doc.label);
-                    const isUploaded = uploadedForThisDoc.length > 0;
-
-                    return (
-                      <div key={doc.id} className="p-4 rounded-2xl border border-slate-200/90 bg-slate-50/60 hover:bg-slate-50 transition-all space-y-2">
-                        <div className="flex items-center justify-between flex-wrap gap-2">
-                          <div className="flex items-center gap-2">
-                            <FiFile className="text-[#217044]" size={18} />
-                            <span className="text-xs font-black text-slate-900">{doc.label}</span>
-                            {doc.required ? (
-                              <span className="text-[9px] font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-100">REQUIRED</span>
-                            ) : (
-                              <span className="text-[9px] font-black text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">OPTIONAL</span>
-                            )}
-                          </div>
-
-                          <label className="cursor-pointer bg-white hover:bg-[#217044] hover:text-white border border-[#217044]/40 text-[#217044] text-[11px] font-black px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-2xs">
-                            <FiUpload size={13} />
-                            <span>{isUploaded ? "Add More" : "Upload File"}</span>
-                            <input 
-                              type="file" 
-                              multiple 
-                              accept=".pdf,.png,.jpg,.jpeg" 
-                              className="hidden" 
-                              onChange={(e) => handleCategorizedFileUpload(e, doc.label)} 
-                              disabled={isSubmitting} 
-                            />
-                          </label>
-                        </div>
-
-                        <p className="text-[11px] font-medium text-slate-500 pl-6">{doc.note}</p>
-
-                        {/* Uploaded File List under Category */}
-                        {isUploaded && (
-                          <div className="pl-6 pt-1 space-y-2">
-                            {uploadedForThisDoc.map((file, fileIdx) => {
-                              const globalIdx = selectedFiles.findIndex(f => f === file);
-                              return (
-                                <div key={fileIdx} className="bg-white border border-[#217044]/30 px-3.5 py-2 rounded-xl flex items-center justify-between text-xs font-bold text-slate-800 shadow-2xs">
-                                  <div className="flex items-center gap-2 truncate max-w-[85%]">
-                                    <FiPaperclip className="text-[#217044] shrink-0" size={14} />
-                                    <span className="truncate max-w-[200px]">{file.name}</span>
-                                    <span className="text-[9px] font-mono text-slate-400">({file.size})</span>
-                                  </div>
-                                  <button type="button" onClick={() => removeFileFromQueue(globalIdx)} className="text-slate-400 hover:text-rose-600 transition-all">
-                                    <FiX size={15} />
-                                  </button>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* 3. Remarks */}
-              <div className="space-y-1 pt-1">
-                <label className="text-[10px] font-black uppercase text-slate-400">Custom Remarks / Special Doubts (Optional)</label>
-                <textarea
-                  rows={2}
-                  placeholder="Property square footage, seller history, specific legal doubts..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs font-medium text-slate-900 outline-none focus:border-[#217044] focus:bg-white resize-none transition-all"
-                  value={formData.customMessage}
-                  onChange={(e) => setFormData({ ...formData, customMessage: e.target.value })}
-                />
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-[#217044] hover:bg-[#185332] disabled:bg-slate-200 text-white font-black text-xs py-4 rounded-2xl uppercase tracking-wider transition-all shadow-md active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
-              >
-                {isSubmitting ? 'Uploading Papers & Submitting...' : <><FiUpload size={16} /> Submit Property Papers For Verification</>}
-              </button>
-
-            </form>
-
+        {/* ─── 4. SIGNATURE BOTTOM CLARITY CTA BANNER (CALL DESK REMOVED) ─── */}
+        <section className="relative overflow-hidden bg-[#052516] text-white p-6 sm:p-8 rounded-3xl shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+          <div className="relative z-10 space-y-1.5">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#f3c251]">
+              NEED PROPERTY TITLE CLARIFICATION?
+            </span>
+            <h3 className="text-base sm:text-xl font-black uppercase tracking-tight text-white">
+              Consult Our Revenue Documentation Desk
+            </h3>
+            <p className="text-xs sm:text-sm text-emerald-100/80 font-normal max-w-xl">
+              Assistance available Monday to Saturday (10:00 AM – 7:00 PM). Connect with our Bilaspur consulting desk.
+            </p>
           </div>
 
-        </div>
+          <div className="relative z-10 flex items-center gap-3 shrink-0">
+            <Link
+              href="/contact"
+              className="px-6 py-3 rounded-xl bg-[#f3c251] hover:bg-[#e4b443] text-[#052516] font-black text-xs uppercase tracking-wider transition-all shadow-sm active:scale-95"
+            >
+              Contact Desk
+            </Link>
+          </div>
+        </section>
 
       </div>
     </div>

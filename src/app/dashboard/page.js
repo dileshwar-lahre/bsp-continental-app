@@ -4,9 +4,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
-  FiTrendingUp, FiCheckCircle, 
-  FiArrowRight, FiArrowLeft, FiMessageSquare, FiX, FiShield, FiSend,
-  FiZap, FiBriefcase, FiStar, FiGrid
+  FiTrendingUp, 
+  FiArrowRight, 
+  FiArrowLeft, 
+  FiMessageSquare, 
+  FiX, 
+  FiShield, 
+  FiSend,
+  FiZap, 
+  FiBriefcase, 
+  FiGrid
 } from 'react-icons/fi';
 
 export default function DashboardPage() {
@@ -20,9 +27,32 @@ export default function DashboardPage() {
   const messagesEndRef = useRef(null);
 
   const [placeholderText, setPlaceholderText] = useState('★ Ask Customer Support...');
-
-  // Double-Click Detector for Admin Redirection
   const clickTimeoutRef = useRef(null);
+
+  // 3 EXACT SLIDES USING LANDING PAGE (/) PREMIUM ASSETS & CONTENT
+  const slides = [
+    { 
+      tag: "CIBIL SCORE MANAGEMENT",
+      title: "IMPROVE YOUR CREDIT PROFILE",
+      desc: "CIBIL analysis, dispute support, and structured guidance.",
+      img: "/images/Structured credit planning with expert guidance.png",
+      link: "/dashboard/credit-score-management"
+    },
+    { 
+      tag: "PROPERTY COMPLIANCE",
+      title: "PROTECT THE PROPERTY BEHIND YOUR LOAN",
+      desc: "Title verification, search & survey reports, and dispute audit.",
+      img: "/images/Premiumproperty.png",
+      link: "/dashboard/property-compliance"
+    },
+    { 
+      tag: "FINANCIAL CONSULTING",
+      title: "FINANCIAL CLARITY & STRONGER DECISIONS",
+      desc: "Strategic guidance for secured loans, MSME capital, and DPR/CMA files.",
+      img: "/images/Strategic Financial Guidance for Indian Businesses.png",
+      link: "/dashboard/finance"
+    }
+  ];
 
   useEffect(() => {
     const placeholders = [
@@ -41,9 +71,9 @@ export default function DashboardPage() {
   useEffect(() => {
     const slideInterval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 5500);
     return () => clearInterval(slideInterval);
-  }, []);
+  }, [slides.length]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -146,29 +176,10 @@ export default function DashboardPage() {
     { label: '📞 Contact Support', text: 'Official contact details aur mobile number share karein.' }
   ];
 
-  // DESKTOP & MOBILE SLIDES CONFIGURATION
-  const slides = [
-    { 
-      desktopImg: "/images/property.png",
-      mobileImg: "/images/phone1.png",
-      link: "/property-vetting"
-    },
-    { 
-      desktopImg: "/images/creditscore.png",
-      mobileImg: "/images/phone2.png",
-      link: "/credit-score-management"
-    },
-    { 
-      desktopImg: "/images/financial.png",
-      mobileImg: "/images/phone3.png",
-      link: "/finance"
-    }
-  ];
-
   return (
-    <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased py-8 px-4 sm:px-6 md:px-8 font-sans flex flex-col justify-start items-center select-none lg:pl-64 transition-all duration-300">
+    <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased py-6 px-4 sm:px-6 md:px-8 font-sans select-none lg:pl-64 transition-all duration-300">
       
-      {/* 🎯 SIDEBAR CLEARANCE & MATCHED WIDTH CONTAINER (max-w-6xl) */}
+      {/* Centered Max Container */}
       <div className="w-full max-w-6xl mx-auto space-y-5">
         
         {/* Top Header Bar */}
@@ -196,46 +207,49 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* 1. HERO SLIDER: RESPONSIVE (DESKTOP USES 980x190 | MOBILE USES PHONE IMAGES WITH YELLOW BORDER & RIGHT EXPLORE BUTTON) */}
+        {/* ─── 1. HERO SLIDER (USES EXACT LANDING PAGE IMAGES FOR MOBILE & DESKTOP) ─── */}
         <section className="space-y-2 relative group/slider">
-          <div className="relative overflow-hidden rounded-2xl shadow-sm bg-transparent">
+          <div className="relative overflow-hidden rounded-2xl shadow-sm bg-[#062415]">
             <div 
               className="flex transition-transform duration-500 ease-out" 
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
               {slides.map((slide, index) => (
-                <div key={index} className="w-full flex-shrink-0 relative">
+                <div key={index} className="w-full flex-shrink-0 relative aspect-[16/9] md:aspect-[980/230] overflow-hidden">
                   
-                  {/* DESKTOP VIEW: Exact 980x190 image ratio */}
-                  <div className="hidden md:block relative w-full aspect-[980/190] overflow-hidden rounded-2xl bg-white shadow-xs">
-                    <img 
-                      src={slide.desktopImg} 
-                      alt="Desktop Banner" 
-                      className="w-full h-full object-fill" 
-                    />
-                    <div className="absolute bottom-4 right-4 z-20">
-                      <Link 
-                        href={slide.link} 
-                        className="bg-[#217044] hover:bg-[#185332] text-white font-black px-4 py-2 rounded-xl text-[11px] uppercase tracking-wider transition-all shadow-md active:scale-95 flex items-center gap-1.5 cursor-pointer"
-                      >
-                        Explore <FiArrowRight size={12} />
-                      </Link>
-                    </div>
-                  </div>
+                  {/* Background Hero Image */}
+                  <img 
+                    src={slide.img} 
+                    alt={slide.title} 
+                    className="w-full h-full object-cover object-center" 
+                  />
 
-                  {/* MOBILE VIEW: phone1.png, phone2.png, phone3.png with yellow border, full clean background & right-aligned explore button */}
-                  <div className="md:hidden relative w-full aspect-[16/9] overflow-hidden rounded-2xl bg-black border border-yellow-400 shadow-md flex items-center justify-center">
-                    <img 
-                      src={slide.mobileImg} 
-                      alt="Mobile Banner" 
-                      className="w-full h-full object-cover" 
-                    />
-                    <div className="absolute bottom-3 right-3 z-20">
+                  {/* Gradient Overlay for Readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#051f12] via-[#051f12]/80 to-transparent sm:bg-gradient-to-r sm:from-[#051f12] sm:via-[#051f12]/85 sm:to-transparent" />
+
+                  {/* Slide Content Overlay */}
+                  <div className="absolute inset-0 z-10 flex flex-col justify-end sm:justify-center p-4 sm:p-7 max-w-xl space-y-1.5 sm:space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="w-4 h-[2px] bg-[#f3c251]" />
+                      <span className="text-[9px] sm:text-[10px] font-mono font-black uppercase tracking-[0.2em] text-[#f3c251]">
+                        {slide.tag}
+                      </span>
+                    </div>
+
+                    <h2 className="text-sm sm:text-xl md:text-2xl font-black uppercase tracking-tight text-white leading-tight drop-shadow-sm">
+                      {slide.title}
+                    </h2>
+
+                    <p className="hidden sm:block text-xs text-emerald-100/85 font-medium line-clamp-2 leading-relaxed">
+                      {slide.desc}
+                    </p>
+
+                    <div className="pt-1">
                       <Link 
                         href={slide.link} 
-                        className="bg-[#217044] hover:bg-[#185332] text-white font-black px-3.5 py-1.5 rounded-xl text-[10px] uppercase tracking-wider transition-all shadow-lg active:scale-95 flex items-center gap-1 cursor-pointer border border-yellow-400/50"
+                        className="inline-flex items-center gap-1.5 bg-[#f3c251] hover:bg-[#e4b443] text-[#062415] font-black px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[10px] sm:text-[11px] uppercase tracking-wider transition-all shadow-md active:scale-95 cursor-pointer"
                       >
-                        Explore <FiArrowRight size={10} />
+                        Explore Module <FiArrowRight size={12} />
                       </Link>
                     </div>
                   </div>
@@ -244,27 +258,39 @@ export default function DashboardPage() {
               ))}
             </div>
 
-            {/* Controls */}
-            <button onClick={prevSlide} className="absolute left-3 top-1/2 -translate-y-1/2 h-8 w-8 bg-black/50 hover:bg-black/70 text-white rounded-lg flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
+            {/* Slider Arrows */}
+            <button 
+              type="button"
+              onClick={prevSlide} 
+              className="absolute left-2.5 top-1/2 -translate-y-1/2 h-8 w-8 bg-black/40 hover:bg-black/70 text-white rounded-xl flex items-center justify-center backdrop-blur-xs transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer"
+            >
               <FiArrowLeft size={14} />
             </button>
-            <button onClick={nextSlide} className="absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 bg-black/50 hover:bg-black/70 text-white rounded-xl flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer">
+            <button 
+              type="button"
+              onClick={nextSlide} 
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 h-8 w-8 bg-black/40 hover:bg-black/70 text-white rounded-xl flex items-center justify-center backdrop-blur-xs transition-all opacity-0 group-hover/slider:opacity-100 z-20 cursor-pointer"
+            >
               <FiArrowRight size={14} />
             </button>
           </div>
 
+          {/* Dots Indicator */}
           <div className="flex justify-center items-center gap-1.5 pt-0.5">
             {slides.map((_, index) => (
               <button 
                 key={index} 
+                type="button"
                 onClick={() => setCurrentSlide(index)} 
-                className={`transition-all duration-300 rounded-full cursor-pointer ${currentSlide === index ? 'w-6 h-1.5 bg-[#217044]' : 'w-1.5 h-1.5 bg-slate-300'}`} 
+                className={`transition-all duration-300 rounded-full cursor-pointer ${
+                  currentSlide === index ? 'w-6 h-1.5 bg-[#217044]' : 'w-1.5 h-1.5 bg-slate-300'
+                }`} 
               />
             ))}
           </div>
         </section>
 
-        {/* 2. CORE SERVICES GRID */}
+        {/* ─── 2. CORE SERVICES GRID ─── */}
         <section className="space-y-3">
           <div className="flex items-center justify-between px-1">
             <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
@@ -274,8 +300,8 @@ export default function DashboardPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
             
-            {/* 1️⃣ Property Compliance Services */}
-            <Link href="/property-vetting" className="block group h-full">
+            {/* 1. Property Compliance */}
+            <Link href="/dashboard/property-compliance" className="block group h-full">
               <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-2xs hover:border-[#217044] hover:shadow-md transition-all duration-200 flex flex-col justify-between h-full min-h-[170px] active:scale-[0.99]">
                 <div className="flex items-center justify-between">
                   <span className="p-3 rounded-xl bg-[#217044]/10 text-[#217044] border border-[#217044]/20 group-hover:bg-[#217044] group-hover:text-white transition-all">
@@ -302,8 +328,8 @@ export default function DashboardPage() {
               </div>
             </Link>
 
-            {/* 2️⃣ Credit Score Management */}
-            <Link href="/credit-score-management" className="block group h-full">
+            {/* 2. Credit Score Management */}
+            <Link href="/dashboard/credit-score-management" className="block group h-full">
               <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-2xs hover:border-[#217044] hover:shadow-md transition-all duration-200 flex flex-col justify-between h-full min-h-[170px] active:scale-[0.99]">
                 <div className="flex items-center justify-between">
                   <span className="p-3 rounded-xl bg-[#217044]/10 text-[#217044] border border-[#217044]/20 group-hover:bg-[#217044] group-hover:text-white transition-all">
@@ -313,7 +339,7 @@ export default function DashboardPage() {
                     02
                   </span>
                 </div>
-
+                
                 <div className="space-y-1 pt-3">
                   <h4 className="text-sm font-black text-slate-950 uppercase tracking-tight group-hover:text-[#217044] transition-colors leading-snug">
                     Credit Score Management
@@ -330,8 +356,8 @@ export default function DashboardPage() {
               </div>
             </Link>
 
-            {/* 3️⃣ Financial Consultancy */}
-            <Link href="/finance" className="block group h-full">
+            {/* 3. Financial Consultancy */}
+            <Link href="/dashboard/finance" className="block group h-full">
               <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-2xs hover:border-[#217044] hover:shadow-md transition-all duration-200 flex flex-col justify-between h-full min-h-[170px] active:scale-[0.99]">
                 <div className="flex items-center justify-between">
                   <span className="p-3 rounded-xl bg-[#217044]/10 text-[#217044] border border-[#217044]/20 group-hover:bg-[#217044] group-hover:text-white transition-all">
@@ -341,7 +367,7 @@ export default function DashboardPage() {
                     03
                   </span>
                 </div>
-
+                
                 <div className="space-y-1 pt-3">
                   <h4 className="text-sm font-black text-slate-950 uppercase tracking-tight group-hover:text-[#217044] transition-colors leading-snug">
                     Financial Consultancy
@@ -361,9 +387,36 @@ export default function DashboardPage() {
           </div>
         </section>
 
+        {/* ─── 3. BOTTOM CTA BANNER ─── */}
+        <section className="relative overflow-hidden bg-[#052516] text-white p-6 sm:p-7 rounded-3xl border border-emerald-950 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="absolute top-1/2 -right-24 w-72 h-72 rounded-full border border-[#217044]/20 pointer-events-none -translate-y-1/2" />
+          <div className="absolute top-0 right-0 w-60 h-60 bg-[#217044]/25 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 space-y-1">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#f3c251]">
+              NEED ASSISTANCE?
+            </span>
+            <h3 className="text-base sm:text-lg font-black uppercase tracking-tight text-white">
+              Start With Clarity.
+            </h3>
+            <p className="text-xs text-emerald-100/75 max-w-xl">
+              Connect with our Bilaspur consulting team for title checks, pre-underwriting dossiers, and institutional debt consulting.
+            </p>
+          </div>
+
+          <div className="relative z-10 flex items-center gap-2.5 shrink-0">
+            <Link
+              href="/contact"
+              className="px-5 py-2.5 rounded-xl bg-[#f3c251] hover:bg-[#e4b443] text-[#052516] font-black text-xs uppercase tracking-wider transition-all shadow-sm active:scale-95"
+            >
+              Contact Desk
+            </Link>
+          </div>
+        </section>
+
       </div>
 
-      {/* FLOATING AI CHATBOT */}
+      {/* Floating Support Chatbot */}
       <div className="fixed md:right-8 md:bottom-8 right-4 bottom-20 z-50 font-sans flex flex-col items-end">
         {isOpen && (
           <div className="w-[320px] md:w-[360px] h-[430px] bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden flex flex-col mb-3 transform transition-all duration-300 ease-in-out scale-100 origin-bottom-right">
@@ -372,7 +425,9 @@ export default function DashboardPage() {
                 <span className="h-2 w-2 rounded-full bg-emerald-300 animate-pulse"></span>
                 <h4 className="font-black text-xs tracking-wide uppercase">BSP CCONTINENTAL SUPPORT</h4>
               </div>
-              <button onClick={() => setIsOpen(false)} className="p-1 bg-black/10 hover:bg-black/20 rounded-lg text-white transition-all cursor-pointer active:scale-90"><FiX className="w-3.5 h-3.5" /></button>
+              <button onClick={() => setIsOpen(false)} className="p-1 bg-black/10 hover:bg-black/20 rounded-lg text-white transition-all cursor-pointer active:scale-90">
+                <FiX className="w-3.5 h-3.5" />
+              </button>
             </div>
             
             <div className="flex-1 p-3 overflow-y-auto space-y-3 bg-slate-50/50">
@@ -397,12 +452,14 @@ export default function DashboardPage() {
             
             <form onSubmit={handleSubmit} className="p-2.5 bg-white border-t border-slate-100 flex gap-2 items-center">
               <input className="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 outline-none focus:bg-white focus:border-[#217044] transition-all duration-200" value={input} placeholder={placeholderText} onChange={(e) => setInput(e.target.value)} />
-              <button type="submit" disabled={isLoading || !input.trim()} className="bg-[#217044] hover:bg-[#185332] disabled:bg-slate-100 disabled:text-slate-400 text-white h-8 px-3 rounded-lg text-xs font-black shadow-2xs active:scale-95 transition-all cursor-pointer flex items-center justify-center"><FiSend className="w-3.5 h-3.5" /></button>
+              <button type="submit" disabled={isLoading || !input.trim()} className="bg-[#217044] hover:bg-[#185332] disabled:bg-slate-100 disabled:text-slate-400 text-white h-8 px-3 rounded-lg text-xs font-black shadow-2xs active:scale-95 transition-all cursor-pointer flex items-center justify-center">
+                <FiSend className="w-3.5 h-3.5" />
+              </button>
             </form>
           </div>
         )}
         
-        {/* Floating Toggle Button */}
+        {/* Floating Chat Toggle */}
         <button 
           onClick={handleChatbotClick} 
           title="Single click for Chat | Double click for Admin"

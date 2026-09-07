@@ -1,182 +1,238 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { 
   FiShield, 
-  FiCheckCircle, 
-  FiDollarSign, 
-  FiHome, 
-  FiArrowRight,
-  FiUser,
-  FiGlobe,
-  FiLock,
-  FiClock,
-  FiZap
+  FiTrendingUp, 
+  FiPieChart, 
+  FiFileText, 
+  FiArrowRight, 
+  FiZap, 
+  FiLock, 
+  FiUserCheck, 
+  FiMapPin 
 } from "react-icons/fi";
 
+// Balanced character length aur bina kisi galat marketing claim ke
+const coreServices = [
+  {
+    number: "01",
+    title: "Property Compliance",
+    desc: "Verification of land registry archives, title deed records, and revenue clearances prior to property acquisition.",
+    href: "/services/property-compliance",
+    icon: <FiShield className="text-xl text-[#217044]" />
+  },
+  {
+    number: "02",
+    title: "CIBIL Score Management",
+    desc: "Diagnostic review of multi-bureau credit files, clerical discrepancy identification, and formal dispute coordination.",
+    href: "/services/cibil-management",
+    icon: <FiTrendingUp className="text-xl text-[#f3c251]" />
+  },
+  {
+    number: "03",
+    title: "Financial Consulting",
+    desc: "Institutional capital structuring, balance sheet ratio diagnostics, and lender-compliant project report formulation.",
+    href: "/services/financial-consulting",
+    icon: <FiPieChart className="text-xl text-[#217044]" />
+  },
+  {
+    number: "04",
+    title: "Project Finance Assistance",
+    desc: "Pre-underwriting proposal screening, borrower obligation alignment, and file preparation before banking review.",
+    href: "/services/loan-readiness",
+    icon: <FiFileText className="text-xl text-[#f3c251]" />
+  }
+];
+
+const whyChooseUs = [
+  {
+    title: "Fast & Structured Processing",
+    desc: "Systematic legal gap diagnostics, ratio evaluation, and prompt turnaround without procedural bottlenecks.",
+    icon: <FiZap className="text-2xl text-[#f3c251]" />
+  },
+  {
+    title: "100% Confidential & Secure",
+    desc: "Strict non-disclosure protocols safeguarding personal tax files, banking ledgers, and property title records.",
+    icon: <FiLock className="text-2xl text-[#217044]" />
+  },
+  {
+    title: "Expert Fiduciary Consultants",
+    desc: "Practical advisory grounded strictly in institutional banking guidelines and verified statutory compliance standards.",
+    icon: <FiUserCheck className="text-2xl text-[#f3c251]" />
+  },
+  {
+    title: "Local State Presence",
+    desc: "Dedicated corporate desk operating from Agrasen Chowk, Bilaspur for direct, in-person documentation vetting.",
+    icon: <FiMapPin className="text-2xl text-[#217044]" />
+  }
+];
+
 export default function AboutPage() {
-  const coreServices = [
-    {
-      id: "credit-management",
-      number: "01",
-      icon: <FiDollarSign className="text-2xl" />,
-      title: "Credit Score Management",
-      desc: "CIBIL report audit, bureau dispute filing, and credit score restoration to build strong loan eligibility.",
-      link: "/credit-score-management",
-      badge: "Credit Advisory"
-    },
-    {
-      id: "loan-advisory",
-      number: "02",
-      icon: <FiHome className="text-2xl" />,
-      title: "Home & Business Loan Advisory",
-      desc: "End-to-end support for business financing, MSME loans, project finance, and mortgage loan processing.",
-      link: "/finance",
-      badge: "Financial Consultancy"
-    },
-    {
-      id: "property-vetting",
-      number: "03",
-      icon: <FiShield className="text-2xl" />,
-      title: "Property Due Diligence & Vetting",
-      desc: "Legal title verification, land registry checks, and Khasra document audits to avoid real estate disputes.",
-      link: "/property-vetting",
-      badge: "Legal Verification"
-    }
-  ];
-
   return (
-    <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased font-sans select-none lg:pl-64 transition-all duration-300 pb-16">
+    <main className="w-full bg-[#FAFBFD] text-slate-900 select-none antialiased pt-0 m-0">
       
-      {/* 🎯 SIDEBAR CLEARANCE & MATCHED CONTAINER SIZE (max-w-6xl) */}
-      <div className="w-full max-w-6xl mx-auto space-y-6 pt-8 px-4 sm:px-6 md:px-8">
-        
-        {/* Navigation / Top Header Bar */}
-        <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs">
-          <Link href="/" className="inline-flex items-center gap-2 text-xs font-black text-slate-600 hover:text-[#217044] uppercase tracking-wider transition-all">
-            <FiHome size={15} className="text-[#217044]" /> Back to Home
-          </Link>
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl bg-[#217044] text-white text-[10px] font-black uppercase tracking-widest shadow-2xs">
-            <FiZap size={12} /> BSP CCONTINENTAL PVT LTD
-          </span>
-        </div>
+      {/* ─── 1. FOUNDER & VISION (NO TOP MARGIN/PADDING GAP) ─── */}
+      <section className="w-full bg-[#052516] text-white pt-24 pb-20 sm:pt-28 sm:pb-24 px-6 sm:px-12 lg:px-20 border-b border-emerald-950/70">
+        <div className="max-w-7xl mx-auto space-y-7">
+          
+          <div className="flex items-center gap-3">
+            <span className="w-8 h-[2.5px] bg-[#f3c251]" />
+            <span className="text-xs font-mono font-black uppercase tracking-[0.24em] text-[#f3c251]">
+              FOUNDER & VISION
+            </span>
+          </div>
 
-        {/* 1. TOP HEADER CARD: BSP CCONTINENTAL PVT LTD */}
-        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-2">
-          <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-slate-950">
-            BSP CCONTINENTAL PVT LTD
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white leading-tight max-w-4xl">
+            BUILDING CLARITY INTO FINANCIAL DECISIONS.
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed max-w-3xl">
-            BSP CCONTINENTAL PVT LTD is a dedicated financial consultancy and property compliance company. We help individuals and businesses secure loans, maintain clean credit profiles, and execute legally verified real estate property deals.
-          </p>
-        </section>
 
-        {/* 2. KRISHNA GEDAM SECTION */}
-        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-3">
-          <div className="flex items-center gap-3 border-b border-slate-100 pb-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#217044] text-white flex items-center justify-center font-black text-xs shadow-2xs">
-              <FiUser size={18} />
-            </div>
-            <div>
-              <h2 className="text-base font-black text-slate-950 uppercase tracking-tight">
-                Krishna Gedam
-              </h2>
-            </div>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
-            Krishna Gedam is the founder of this company. BSP CCONTINENTAL PVT LTD has been established with his vision to ensure that clients can access financial and real estate services free from the risks of loan rejections or legal property fraud. We bridge professional legal due diligence with strategic banking knowledge under one roof.
+          <p className="text-base sm:text-lg text-emerald-100/85 font-normal max-w-2xl leading-relaxed">
+            BSP Ccontinental brings financial-readiness and compliance guidance into one structured, understandable advisory experience.
           </p>
-        </section>
 
-        {/* 3. CORE 3 ADVISORY SERVICES */}
-        <section className="space-y-4">
-          <div className="px-1">
-            <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
-              <FiShield size={16} className="text-[#217044]" /> Our Core Advisory Services
+          <div className="pt-2 space-y-0.5">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#f3c251]">
+              Mr. Krishna Gedam
             </h3>
+            <p className="text-xs sm:text-sm text-emerald-200/70 font-medium tracking-wide">
+              Founder, BSP Ccontinental Pvt Ltd
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {coreServices.map((srv) => (
-              <Link 
-                key={srv.id}
-                href={srv.link}
-                className="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/90 hover:border-[#217044] hover:shadow-xl transition-all duration-300 group flex flex-col justify-between space-y-5 h-full active:scale-[0.99]"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="p-3.5 bg-[#217044]/10 text-[#217044] border border-[#217044]/20 rounded-2xl group-hover:bg-[#217044] group-hover:text-white transition-all">
-                      {srv.icon}
+        </div>
+      </section>
+
+      {/* ─── 2. OUR CORE SERVICES (SYMMETRIC EQUAL TEXT + INQUIRY NOW) ─── */}
+      <section className="w-full py-20 sm:py-24 px-6 sm:px-12 lg:px-20 border-b border-slate-100">
+        <div className="max-w-7xl mx-auto space-y-12">
+          
+          <div className="space-y-2">
+            <span className="text-xs font-mono font-black uppercase tracking-[0.22em] text-[#217044] block">
+              WHAT WE DO
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-[#052516]">
+              Our Core Advisory Practices.
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+            {coreServices.map((item) => (
+              <div key={item.number} className="space-y-4 group flex flex-col justify-between">
+                <div className="space-y-3.5">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-200/80">
+                    <div className="w-11 h-11 rounded-xl bg-white shadow-xs flex items-center justify-center">
+                      {item.icon}
                     </div>
-                    <span className="text-xs font-black text-[#217044] bg-[#217044]/10 px-2.5 py-1 rounded-xl border border-[#217044]/20">
-                      {srv.number}
+                    <span className="font-mono text-xs font-black text-slate-400">
+                      {item.number}
                     </span>
                   </div>
 
-                  <span className="text-[10px] font-black uppercase tracking-wider text-[#217044] block">
-                    {srv.badge}
-                  </span>
-
                   <div className="space-y-1.5">
-                    <h4 className="font-black text-base text-slate-950 uppercase tracking-tight group-hover:text-[#217044] transition-colors leading-snug">
-                      {srv.title}
-                    </h4>
-                    <p className="text-xs text-slate-500 font-semibold leading-relaxed">
-                      {srv.desc}
+                    <h3 className="text-base font-black uppercase tracking-tight text-slate-900 group-hover:text-[#217044] transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs sm:text-[13px] text-slate-600 font-normal leading-relaxed min-h-[56px]">
+                      {item.desc}
                     </p>
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-black text-[#217044] group-hover:text-[#185332]">
-                  <span>Explore Service</span>
-                  <div className="p-2 bg-[#217044]/10 group-hover:bg-[#217044] group-hover:text-white rounded-xl transition-all">
-                    <FiArrowRight size={16} />
-                  </div>
-                </div>
-              </Link>
+                <Link
+                  href={item.href}
+                  className="inline-flex items-center gap-1.5 text-xs font-black text-[#217044] hover:text-[#052516] uppercase tracking-wider transition-colors pt-2"
+                >
+                  <span>Inquiry Now</span>
+                  <FiArrowRight className="text-xs group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
             ))}
           </div>
-        </section>
 
-        {/* 4. WHY CHOOSE OUR ONLINE PLATFORM */}
-        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
-          <div className="border-b border-slate-100 pb-3">
-            <h3 className="text-base font-black text-slate-950 uppercase tracking-tight flex items-center gap-2">
-              <FiGlobe className="text-[#217044]" size={18} /> Why Choose Our Online Advisory Platform?
-            </h3>
+        </div>
+      </section>
+
+      {/* ─── 3. WHY CHOOSE US (EQUAL BALANCED FLOW) ─── */}
+      <section className="w-full py-20 sm:py-24 px-6 sm:px-12 lg:px-20 bg-white">
+        <div className="max-w-7xl mx-auto space-y-12">
+          
+          <div className="space-y-2">
+            <span className="text-xs font-mono font-black uppercase tracking-[0.22em] text-[#f3c251] block">
+              THE BENCHMARK
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-[#052516]">
+              Why Choose BSP Ccontinental.
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-              <div className="flex items-center gap-2 text-[#217044] font-black text-xs uppercase">
-                <FiClock size={16} /> Fast Processing
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+            {whyChooseUs.map((item, idx) => (
+              <div key={idx} className="space-y-3">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50/70 flex items-center justify-center">
+                  {item.icon}
+                </div>
+                <h3 className="text-base font-bold text-slate-900 leading-snug">
+                  {item.title}
+                </h3>
+                <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed font-normal">
+                  {item.desc}
+                </p>
               </div>
-              <p className="text-xs text-slate-600 font-semibold leading-relaxed">
-                Seamless online document upload and quick evaluations save your time while providing prompt status updates.
-              </p>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ─── 4. START WITH CLARITY CTA BANNER ─── */}
+      <section className="w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20 bg-[#FAFBFD]">
+        <div className="max-w-7xl mx-auto relative w-full bg-[#052516] text-white py-14 sm:py-20 px-6 sm:px-12 lg:px-16 overflow-hidden rounded-3xl shadow-2xl">
+          <div className="absolute top-1/2 -right-32 w-[520px] h-[520px] rounded-full border border-[#217044]/25 pointer-events-none -translate-y-1/2" />
+          <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-[#217044]/20 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 max-w-4xl space-y-6 text-left">
+            <span className="text-xs sm:text-[13px] font-black uppercase tracking-[0.24em] text-[#f3c251] block">
+              READY FOR THE NEXT STEP?
+            </span>
+
+            <h2 className="text-3xl sm:text-5xl lg:text-[56px] font-black uppercase tracking-tight text-white leading-[1.04]">
+              START WITH CLARITY.
+            </h2>
+
+            <p className="text-sm sm:text-base text-emerald-100/85 font-medium max-w-xl leading-relaxed">
+              Discuss your institutional finance, loan-readiness audit or property compliance documentation with our Bilaspur consulting team.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <Link
+                href="/contact"
+                className="px-8 py-3.5 bg-[#f3c251] hover:bg-[#e4b443] text-[#052516] text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center cursor-pointer"
+              >
+                REQUEST A CONSULTATION
+              </Link>
+
+              <a
+                href="tel:9575059137"
+                className="px-8 py-3.5 bg-transparent hover:bg-white/10 text-white border border-white/40 hover:border-white text-xs font-black uppercase tracking-wider rounded-xl transition-all active:scale-95 text-center cursor-pointer"
+              >
+                CALL DESK NOW
+              </a>
             </div>
 
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-              <div className="flex items-center gap-2 text-[#217044] font-black text-xs uppercase">
-                <FiLock size={16} /> 100% Confidential
-              </div>
-              <p className="text-xs text-slate-600 font-semibold leading-relaxed">
-                Your CIBIL reports, financial statements, and property paperwork remain completely safe and private on secure cloud storage.
-              </p>
-            </div>
-
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-              <div className="flex items-center gap-2 text-[#217044] font-black text-xs uppercase">
-                <FiCheckCircle size={16} /> Expert Vetted
-              </div>
-              <p className="text-xs text-slate-600 font-semibold leading-relaxed">
-                Experienced legal consultants and financial advisors thoroughly review and audit every single file.
-              </p>
+            <div className="pt-6 sm:pt-8 flex flex-wrap items-center gap-x-6 gap-y-1 text-xs font-medium text-emerald-200/70">
+              <span className="font-bold uppercase text-white tracking-wider text-[11px]">
+                BSP Ccontinental Pvt Ltd
+              </span>
+              <span className="tracking-wide text-emerald-200/90 font-mono text-[11px] sm:text-xs">
+                +91 95750 59137 | +91 95759 59137
+              </span>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-      </div>
-    </div>
+    </main>
   );
 }

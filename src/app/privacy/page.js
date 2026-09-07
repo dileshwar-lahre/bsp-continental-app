@@ -1,168 +1,178 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
-import { FiShield, FiLock, FiArrowUpRight, FiZap, FiHome, FiChevronRight } from "react-icons/fi";
+import { FiShield, FiLock, FiCheckSquare } from "react-icons/fi";
 
-export default function PrivacyPage() {
+export default function PrivacyPolicyPage() {
   return (
-    <div className="w-full min-h-screen bg-[#F8FAFC] text-slate-900 antialiased font-sans select-none lg:pl-64 transition-all duration-300 pb-16">
+    <main className="w-full bg-[#FAFBFD] text-slate-900 select-none antialiased pt-0 m-0">
       
-      {/* 🎯 SIDEBAR CLEARANCE & MATCHED CONTAINER (max-w-6xl) */}
-      <div className="w-full max-w-6xl mx-auto space-y-6 pt-8 px-4 sm:px-6 md:px-8">
-        
-        {/* Navigation Bar */}
-        <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs">
-          <Link href="/" className="inline-flex items-center gap-2 text-xs font-black text-slate-600 hover:text-[#217044] uppercase tracking-wider transition-all">
-            <FiHome size={15} className="text-[#217044]" /> Back to Home
-          </Link>
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl bg-[#217044] text-white text-[10px] font-black uppercase tracking-widest shadow-2xs">
-            <FiZap size={12} /> BSP CCONTINENTAL PVT LTD
-          </span>
-        </div>
-
-        {/* 🚀 Header Card */}
-        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-2">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#217044]/10 text-[#217044] text-[10px] font-black uppercase tracking-wider border border-[#217044]/20">
-            <FiLock size={12} /> Data Protection & Privacy Policy
+      {/* ─── 1. TOP HERO BANNER ─── */}
+      <section className="w-full bg-[#052516] text-white pt-28 pb-20 sm:pt-32 sm:pb-24 px-6 sm:px-12 lg:px-20 border-b border-emerald-950/70">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <div className="flex items-center gap-3">
+            <span className="w-8 h-[2.5px] bg-[#f3c251]" />
+            <span className="text-xs font-mono font-black uppercase tracking-[0.24em] text-[#f3c251]">
+              DATA PROTECTION & GOVERNANCE
+            </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-slate-950">
-            BSP CCONTINENTAL <span className="text-[#217044]">PRIVACY POLICY</span>
+
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white leading-tight max-w-4xl">
+            PRIVACY & DATA PROTECTION POLICY.
           </h1>
-          <p className="text-xs text-slate-500 font-extrabold uppercase tracking-wider">
-            Framework Reference: Digital Personal Data Protection Act, 2023 (DPDP Act) & Rules
+
+          <p className="text-base sm:text-lg text-emerald-100/85 font-normal max-w-2xl leading-relaxed">
+            BSP CONTINENTAL PRIVATE LIMITED • Official framework for collecting, processing, securing, and sharing client financial & property records.
           </p>
-        </section>
 
-        {/* Main Content Sections */}
-        <section className="bg-white p-6 sm:p-10 rounded-3xl border border-slate-200/90 shadow-sm space-y-8 text-slate-700 text-xs sm:text-sm leading-relaxed font-semibold">
+          <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-mono text-emerald-200/70">
+            <span>Effective Date: 06/09/2026</span>
+            <span>•</span>
+            <span>CIN: U72900CT2020PTC010373</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── 2. POLICY DOCUMENT CONTENT ─── */}
+      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-16 sm:py-20">
+        <div className="max-w-4xl space-y-10 text-slate-700 leading-relaxed text-sm sm:text-base">
           
-          {/* 1. Purpose */}
-          <div className="space-y-2">
-            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
-              <span className="text-[#217044]">1.</span> Purpose
-            </h2>
-            <p className="text-slate-600 font-medium">
-              BSP Continental Pvt. Ltd. (“BSP Continental”, “Company”, “we”, “us” or “our”) is committed to protecting the privacy, confidentiality and security of personal data entrusted to it by customers, prospective customers, employees, business partners, lenders, financial institutions, property owners, investors, vendors and other individuals. This Policy establishes the Company’s framework for the collection, processing, use, storage, sharing, retention and deletion of personal data with reference to the Digital Personal Data Protection Act, 2023 (“DPDP Act”) and applicable Indian laws.
+          <div className="p-6 rounded-2xl bg-emerald-50/60 border border-emerald-100 text-xs sm:text-sm text-slate-800 space-y-2">
+            <p className="font-bold text-[#052516] uppercase tracking-wide">
+              BSP CONTINENTAL PRIVATE LIMITED
+            </p>
+            <p className="font-normal text-slate-600">
+              (“BSP Continental”, “Company”, “we”, “us” or “our”) respects the privacy and confidentiality of information provided by its clients, visitors, and business partners. This Data Protection & Privacy Policy explains how we collect, use, store, protect, and where necessary, share information in connection with our financial consultancy, credit score management, property compliance, loan-readiness, and related professional services.
             </p>
           </div>
 
-          {/* 2. Objectives */}
-          <div className="space-y-2 border-t border-slate-100 pt-6">
-            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
-              <span className="text-[#217044]">2.</span> Objectives
+          <div className="space-y-3">
+            <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-[#052516]">
+              1. Information We May Collect
             </h2>
-            <ul className="list-disc pl-5 space-y-1 text-slate-600 font-medium">
-              <li>Protect personal data from unauthorized access, disclosure, alteration, misuse, loss or destruction.</li>
-              <li>Process personal data only for lawful and legitimate business purposes.</li>
-              <li>Maintain transparency regarding the collection and use of personal data.</li>
-              <li>Collect only data reasonably required for the relevant business purpose.</li>
-              <li>Establish appropriate security safeguards, data breach management, and retention practices.</li>
-              <li>Respect applicable rights of Data Principals and maintain regulatory compliance.</li>
-            </ul>
-          </div>
-
-          {/* 3. Scope */}
-          <div className="space-y-2 border-t border-slate-100 pt-6">
-            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
-              <span className="text-[#217044]">3.</span> Scope
-            </h2>
-            <p className="text-slate-600 font-medium">
-              This Policy applies to all customers, loan applicants, borrowers, property owners, investors, employees, consultants, business partners, banks, NBFCs, and digital-platform users. It covers personal data processed through websites, mobile applications, CRM systems, emails, digital forms, loan applications, and scanned records.
-            </p>
-          </div>
-
-          {/* 4 & 5. Regulatory Framework & Definitions */}
-          <div className="space-y-2 border-t border-slate-100 pt-6">
-            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
-              <span className="text-[#217044]">4.</span> Regulatory Framework & Definitions
-            </h2>
-            <p className="text-slate-600 font-medium">
-              The framework is governed under the <strong>DPDP Act, 2023</strong> and <strong>DPDP Rules</strong>. 
-              <br />• <strong>Data Principal:</strong> The individual to whom personal data relates.
-              <br />• <strong>Data Fiduciary:</strong> BSP Continental Pvt. Ltd. acting as the entity determining the purpose and means of processing.
-              <br />• <strong>Data Processor:</strong> Authorized service providers processing data on behalf of the Fiduciary.
-            </p>
-          </div>
-
-          {/* 6. Personal Data Processed */}
-          <div className="space-y-2 border-t border-slate-100 pt-6">
-            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
-              <span className="text-[#217044]">5.</span> Personal Data That We May Process
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-1">
-                <p className="font-black text-xs text-[#217044] uppercase">Identification & Contact</p>
-                <p className="text-slate-600 font-medium text-[11px]">Name, date of birth, photo, PAN, mobile number, email address, residential/business address.</p>
-              </div>
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-1">
-                <p className="font-black text-xs text-[#217044] uppercase">Financial & Credit Info</p>
-                <p className="text-slate-600 font-medium text-[11px]">Income details, bank accounts, bank statements, CIBIL scores, credit report history.</p>
-              </div>
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-1 sm:col-span-2">
-                <p className="font-black text-xs text-[#217044] uppercase">Property Compliance Info</p>
-                <p className="text-slate-600 font-medium text-[11px]">Sale deeds, title documents, ownership records, Khasra/Khatauni/B-1 land records, encumbrance records.</p>
-              </div>
+            <div className="space-y-3 text-slate-600 font-normal">
+              <p><strong>A. Personal Information:</strong> Full name, contact phone number, email address, residential/business address, and professional records.</p>
+              <p><strong>B. Financial Information:</strong> Income details, bank account statements, existing liabilities, ITR filings, GST accounts, and balance sheets voluntarily provided for loan-readiness assessments.</p>
+              <p><strong>C. Credit Information:</strong> Authorized bureau reports (CIBIL, Experian, CRIF), credit history, dispute notices, and overdue settlement data.</p>
+              <p><strong>D. Property Records:</strong> Title deeds, sub-registrar search extracts, registry documents, Khasra/B-1 records, and municipal receipts for compliance vetting.</p>
             </div>
           </div>
 
-          {/* 7 & 8. Purposes & Notice */}
-          <div className="space-y-2 border-t border-slate-100 pt-6">
-            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
-              <span className="text-[#217044]">6.</span> Purposes of Data Processing & Transparency
+          <div className="space-y-3">
+            <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-[#052516]">
+              2. Purpose of Data Collection
             </h2>
-            <p className="text-slate-600 font-medium">
-              We process personal data for financial consulting, loan application processing, property due diligence and verification, credit advisory, customer onboarding, fraud prevention, and regulatory compliance. Complete notice and transparency are maintained at the time of data collection.
+            <p className="text-slate-600 font-normal">
+              Data is collected exclusively to conduct pre-underwriting checks, review credit bureau errors, formulate restructuring dossiers, execute property compliance searches, communicate project updates, and adhere to statutory audit and compliance requirements.
             </p>
           </div>
 
-          {/* 9 to 14. Consent, Minimization, Security & Documents */}
-          <div className="space-y-2 border-t border-slate-100 pt-6">
-            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
-              <span className="text-[#217044]">7.</span> Consent, Security & Document Handling
+          <div className="space-y-3">
+            <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-[#052516]">
+              3. Consent for Data Sharing
             </h2>
-            <p className="text-slate-600 font-medium">
-              Processing is carried out based on free, specific, informed, and unambiguous consent. We adhere strictly to data minimization and maintain robust technical safeguards (password protection, role-based access, encryption, and secure cloud storage). Because we handle sensitive financial and property documents, employees exercise enhanced care over PAN, Aadhaar-related information, bank statements, and title deeds.
+            <p className="text-slate-600 font-normal">
+              Information is shared only with strictly authorized third parties essential for executing requested assignments. These entities include scheduled Banks, NBFCs, Credit Information Companies, Revenue Registrars, Legal Counsels, Chartered Accountants, Surveyors, and certified Payment Gateways (Razorpay).
             </p>
           </div>
 
-          {/* 15 to 20. Sharing, Retention, Breaches & Rights */}
-          <div className="space-y-2 border-t border-slate-100 pt-6">
-            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
-              <span className="text-[#217044]">8.</span> Data Sharing, Retention & Principal Rights
+          <div className="space-y-3">
+            <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-[#052516]">
+              4. No Commercial Sale of Personal Data
             </h2>
-            <p className="text-slate-600 font-medium">
-              Data may be shared with authorized banking partners, NBFCs, financial institutions, and regulatory authorities where legally required. Data is retained only as long as necessary for business, accounting, or legal compliance, after which it is securely deleted or anonymized. Individuals have full rights to request access, correction, erasure, or withdraw consent.
+            <p className="text-slate-600 font-normal">
+              BSP CONTINENTAL PRIVATE LIMITED does not sell, rent, or trade client personal or financial information to commercial brokers or third-party marketing networks under any circumstances.
             </p>
           </div>
 
-          {/* 21 to 32. Grievance Redressal & Contact */}
-          <div className="space-y-3 border-t border-slate-100 pt-6">
-            <h2 className="text-sm sm:text-base font-black uppercase text-slate-950 flex items-center gap-2">
-              <span className="text-[#217044]">9.</span> Grievance Redressal & Contact Desk
+          <div className="space-y-3">
+            <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-[#052516]">
+              5. Data Security & Storage Safeguards
             </h2>
-            <p className="text-slate-600 font-medium">
-              For any privacy-related concerns, complaints, or data principal requests, you can reach out to our designated compliance desk:
+            <p className="text-slate-600 font-normal">
+              We apply technical, encrypted, and administrative security protocols to protect sensitive records from unauthorized access, breach, or loss. Access is restricted strictly to verified advisory officers handling client files.
             </p>
-            <div className="p-5 bg-[#F8FAFC] rounded-2xl border border-slate-200/90 text-xs font-bold text-slate-900 space-y-1.5 shadow-3xs">
-              <p className="text-[#217044] font-black uppercase tracking-wider">BSP CCONTINENTAL PVT LTD Privacy & Compliance Desk</p>
-              <p>Office Address: Shop No OAS 4, Super Market Complex, 2nd Floor, Agrasen Chowk, Bilaspur (C.G.) 495001</p>
-              <p>Email: <span className="text-[#217044]">bspccontinental@gmail.com</span> | Phone: +91 95750 59137</p>
+          </div>
+
+          <div className="space-y-3">
+            <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-[#052516]">
+              6. Payment Information Security
+            </h2>
+            <p className="text-slate-600 font-normal">
+              Online service transactions are processed directly through 256-bit encrypted third-party payment gateway infrastructure (Razorpay). The Company does not store complete debit/credit card numbers or banking passwords on internal servers.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-[#052516]">
+              7. Client Rights & Consent Withdrawal
+            </h2>
+            <p className="text-slate-600 font-normal">
+              Clients retain the right to review, update, correct inaccuracies, or formally withdraw consent for non-statutory data processing by writing to our designated grievance officer. Withdrawal may restrict further advisory assistance if data is operationally essential.
+            </p>
+          </div>
+
+          {/* Grievance & Corporate Entity Details */}
+          <div className="p-6 rounded-2xl bg-slate-100/80 font-mono text-xs text-slate-800 space-y-2">
+            <p className="font-bold text-sm text-[#052516]">BSP CONTINENTAL PRIVATE LIMITED</p>
+            <p>CIN: U72900CT2020PTC010373</p>
+            <p>Privacy & Grievance Contact: Krisna Gedaam (Founder & CEO)</p>
+            <p>Registered Office: Shop No OAS – 4, 2nd Floor, Super Market Complex, Agrasen Chowk, Link Road, Bilaspur (C.G.) 495001</p>
+            <p>Email: bspccontinental@gmail.com | Phone: 09575905173</p>
+            <p className="text-slate-500 pt-1">Website: www.bspccontinental.com • Last Updated: 06/09/2026</p>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ─── 3. START WITH CLARITY CTA BANNER ─── */}
+      <section className="w-full pb-20 sm:pb-28 px-6 sm:px-12 lg:px-20">
+        <div className="max-w-7xl mx-auto relative w-full bg-[#052516] text-white py-14 sm:py-20 px-6 sm:px-12 lg:px-16 overflow-hidden rounded-3xl shadow-2xl">
+          <div className="absolute top-1/2 -right-32 w-[520px] h-[520px] rounded-full border border-[#217044]/25 pointer-events-none -translate-y-1/2" />
+          <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-[#217044]/20 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 max-w-4xl space-y-6 text-left">
+            <span className="text-xs sm:text-[13px] font-black uppercase tracking-[0.24em] text-[#f3c251] block">
+              READY FOR THE NEXT STEP?
+            </span>
+
+            <h2 className="text-3xl sm:text-5xl lg:text-[56px] font-black uppercase tracking-tight text-white leading-[1.04]">
+              START WITH CLARITY.
+            </h2>
+
+            <p className="text-sm sm:text-base text-emerald-100/85 font-medium max-w-xl leading-relaxed">
+              Discuss your institutional finance, loan-readiness audit or property compliance documentation with our Bilaspur consulting team.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <Link
+                href="/contact"
+                className="px-8 py-3.5 bg-[#f3c251] hover:bg-[#e4b443] text-[#052516] text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center cursor-pointer"
+              >
+                REQUEST A CONSULTATION
+              </Link>
+
+              <a
+                href="tel:9575059137"
+                className="px-8 py-3.5 bg-transparent hover:bg-white/10 text-white border border-white/40 hover:border-white text-xs font-black uppercase tracking-wider rounded-xl transition-all active:scale-95 text-center cursor-pointer"
+              >
+                CALL DESK NOW
+              </a>
+            </div>
+
+            <div className="pt-6 sm:pt-8 flex flex-wrap items-center gap-x-6 gap-y-1 text-xs font-medium text-emerald-200/70">
+              <span className="font-bold uppercase text-white tracking-wider text-[11px]">
+                BSP Ccontinental Pvt Ltd
+              </span>
+              <span className="tracking-wide text-emerald-200/90 font-mono text-[11px] sm:text-xs">
+                +91 95750 59137 | +91 95759 59137
+              </span>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="pt-6 text-center border-t border-slate-100">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 bg-[#217044] hover:bg-[#185332] text-white font-black text-xs uppercase tracking-wider px-8 py-3.5 rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
-            >
-              <span>Have Privacy Questions? Contact Us</span>
-              <FiArrowUpRight className="text-base" />
-            </Link>
-          </div>
-
-        </section>
-
-      </div>
-    </div>
+    </main>
   );
 }

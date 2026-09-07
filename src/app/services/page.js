@@ -11,18 +11,18 @@ import {
   FiShield, 
   FiPieChart, 
   FiHelpCircle, 
-  FiPhone 
+  FiPhone,
+  FiSend,
+  FiCheck
 } from "react-icons/fi";
 
-/* ─── REUSABLE CLARITY CTA BANNER (EXACT SCREENSHOT MATCH) ─── */
+/* ─── REUSABLE CLARITY CTA BANNER (REAL BRAND COLORS) ─── */
 function ClarityCtaBanner() {
   return (
-    <div className="relative w-full bg-[#052313] text-white py-14 sm:py-20 px-6 sm:px-12 lg:px-16 select-none antialiased overflow-hidden rounded-3xl border border-emerald-950/60 shadow-xl">
-      {/* Background Concentric Curves */}
-      <div className="absolute top-1/2 -right-32 w-[520px] h-[520px] rounded-full border border-emerald-500/15 pointer-events-none -translate-y-1/2" />
-      <div className="absolute top-1/2 -right-56 w-[700px] h-[700px] rounded-full border border-emerald-500/10 pointer-events-none -translate-y-1/2" />
-      <div className="absolute top-1/2 -right-80 w-[880px] h-[880px] rounded-full border border-emerald-500/5 pointer-events-none -translate-y-1/2" />
-      <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-[#0c4427]/30 rounded-full blur-3xl pointer-events-none" />
+    <div className="relative w-full bg-[#052516] text-white py-14 sm:py-20 px-6 sm:px-12 lg:px-16 select-none antialiased overflow-hidden rounded-3xl shadow-2xl border border-emerald-950/60">
+      <div className="absolute top-1/2 -right-32 w-[520px] h-[520px] rounded-full border border-[#217044]/25 pointer-events-none -translate-y-1/2" />
+      <div className="absolute top-1/2 -right-56 w-[700px] h-[700px] rounded-full border border-[#217044]/15 pointer-events-none -translate-y-1/2" />
+      <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-[#217044]/20 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl space-y-6 text-left">
         <span className="text-xs sm:text-[13px] font-black uppercase tracking-[0.24em] text-[#f3c251] block">
@@ -33,23 +33,23 @@ function ClarityCtaBanner() {
           START WITH CLARITY.
         </h2>
 
-        <p className="text-sm sm:text-base text-emerald-100/80 font-medium max-w-xl leading-relaxed">
-          Discuss your financial, loan-readiness or property-compliance requirement with our advisory team.
+        <p className="text-sm sm:text-base text-emerald-100/85 font-medium max-w-xl leading-relaxed">
+          Discuss your institutional finance, loan-readiness audit or property compliance documentation with our Bilaspur consulting team.
         </p>
 
         <div className="flex flex-wrap items-center gap-4 pt-2">
           <Link
             href="/contact"
-            className="px-8 py-3.5 bg-[#f3c251] hover:bg-[#e4b443] text-[#052313] text-xs font-black uppercase tracking-wider rounded-lg transition-all shadow-md active:scale-95 text-center cursor-pointer"
+            className="px-8 py-3.5 bg-[#f3c251] hover:bg-[#e4b443] text-[#052516] text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center cursor-pointer"
           >
             REQUEST A CONSULTATION
           </Link>
 
           <a
             href="tel:9575059137"
-            className="px-8 py-3.5 bg-transparent hover:bg-white/10 text-white border border-white/60 hover:border-white text-xs font-black uppercase tracking-wider rounded-lg transition-all active:scale-95 text-center cursor-pointer"
+            className="px-8 py-3.5 bg-transparent hover:bg-white/10 text-white border border-white/40 hover:border-white text-xs font-black uppercase tracking-wider rounded-xl transition-all active:scale-95 text-center cursor-pointer"
           >
-            CALL NOW
+            CALL DESK NOW
           </a>
         </div>
 
@@ -81,7 +81,7 @@ const services = [
     number: "01",
     title: "Financial Consulting",
     tagline: "Corporate & Business Capital",
-    icon: <FiPieChart className="text-xl" />,
+    icon: <FiPieChart className="text-2xl" />,
     items: [
       "Secured Business Loan Assistance",
       "Mortgage Loan Assistance",
@@ -89,6 +89,7 @@ const services = [
       "Project Finance",
       "DPR & CMA Preparation",
     ],
+    inquiryLink: "/contact?service=financial-consulting",
     overviewPara1:
       "Specialized financial guidance engineered for MSMEs, corporate entities, and entrepreneurs across Chhattisgarh looking to structure institutional debt effectively.",
     overviewPara2:
@@ -131,7 +132,7 @@ const services = [
     number: "02",
     title: "Loan Readiness",
     tagline: "Eligibility & Dispute Resolution",
-    icon: <FiFileText className="text-xl" />,
+    icon: <FiFileText className="text-2xl" />,
     items: [
       "Loan Eligibility Assessment",
       "Pre-Application File Review",
@@ -139,6 +140,7 @@ const services = [
       "Debt Consolidation",
       "Loan Difficulties & Rejection Resolution",
     ],
+    inquiryLink: "/contact?service=loan-readiness",
     overviewPara1:
       "Comprehensive diagnostic screening for retail, MSME, and mortgage loan applicants who want to eliminate rejection risks beforehand.",
     overviewPara2:
@@ -151,7 +153,7 @@ const services = [
       "Loan Difficulties and Rejection Resolution",
     ],
     documents: [
-      "Applicant & Co-applicant KYC (PAN, Aadhaar)",
+      "Applicant & Co-applicant KYC (PAN, Government Issued Photo Identity)",
       "Income Proof (Salary Slips / 3-Year ITR Computations)",
       "Detailed Statements for All Active Debt Lines",
       "Previous Rejection or Inquiry Letters (if any)",
@@ -180,7 +182,7 @@ const services = [
     number: "03",
     title: "CIBIL Score Management",
     tagline: "Credit Restoration & Disputes",
-    icon: <FiTrendingUp className="text-xl" />,
+    icon: <FiTrendingUp className="text-2xl" />,
     items: [
       "CIBIL Score Analysis",
       "Credit Report Audit",
@@ -188,6 +190,7 @@ const services = [
       "Credit Report Error Identification",
       "CIBIL, CRIF & Experian Dispute Assistance",
     ],
+    inquiryLink: "/contact?service=cibil-management",
     overviewPara1:
       "Targeted credit profile assessment and dispute facilitation across all four major credit bureaus in India (CIBIL, CRIF, Experian, Equifax).",
     overviewPara2:
@@ -201,7 +204,7 @@ const services = [
     ],
     documents: [
       "Updated Full Credit Bureau Reports (CIBIL/CRIF)",
-      "Government KYC Documents",
+      "Government Issued Identity Documentation",
       "Loan Closure NOCs / Settlement Certificates (if disputed)",
       "Bank Account Statements reflecting disputed payments",
     ],
@@ -229,7 +232,7 @@ const services = [
     number: "04",
     title: "Property Compliance",
     tagline: "Certified Title & Registry Vetting",
-    icon: <FiShield className="text-xl" />,
+    icon: <FiShield className="text-2xl" />,
     items: [
       "Title Deed & Ownership Verification",
       "Search & Survey Reports",
@@ -237,6 +240,7 @@ const services = [
       "Mortgage Legal Assistance",
       "Property Risk & Dispute Resolution",
     ],
+    inquiryLink: "/contact?service=property-compliance",
     overviewPara1:
       "Institutional-grade property title vetting, legal chain search, and revenue documentation verification across Bilaspur and Chhattisgarh.",
     overviewPara2:
@@ -314,27 +318,18 @@ export default function ServicesCombinedSection() {
   };
 
   return (
-    <div className="w-full select-none antialiased bg-[#F8FAFC]">
+    <div className="w-full select-none antialiased bg-[#FAFBFD]">
       
-      {/* ─── PART 1: TOP SERVICE HERO / SNAPSHOT BANNER ─── */}
-      <section className="relative w-full bg-[#032012] text-white py-14 sm:py-20 px-4 sm:px-6 lg:px-12 overflow-hidden border-b border-emerald-950">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#07361f] rounded-full blur-2xl opacity-40 pointer-events-none translate-x-1/3 -translate-y-1/4" />
-        <div className="absolute top-1/2 -right-24 w-[520px] h-[520px] rounded-full border border-emerald-500/15 pointer-events-none -translate-y-1/2" />
-        <div className="absolute top-1/2 -right-48 w-[680px] h-[680px] rounded-full border border-emerald-500/10 pointer-events-none -translate-y-1/2" />
+      {/* ─── PART 1: TOP HERO BANNER (NO FILE PATHS) ─── */}
+      <section className="relative w-full bg-[#052516] text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-12 overflow-hidden border-b border-emerald-950">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#217044]/20 rounded-full blur-3xl opacity-40 pointer-events-none translate-x-1/3 -translate-y-1/4" />
+        <div className="absolute top-1/2 -right-24 w-[520px] h-[520px] rounded-full border border-[#217044]/20 pointer-events-none -translate-y-1/2" />
+        <div className="absolute top-1/2 -right-48 w-[680px] h-[680px] rounded-full border border-[#217044]/10 pointer-events-none -translate-y-1/2" />
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
             
-            {/* Left Headline & Tags */}
             <div className="lg:col-span-8 flex flex-col items-start space-y-6">
-              <div className="flex items-center gap-1.5 text-[11px] font-mono tracking-widest text-emerald-200/50 uppercase">
-                <Link href="/" className="hover:text-white transition-colors">HOME</Link>
-                <span>/</span>
-                <Link href="/services" className="hover:text-white transition-colors">SERVICES</Link>
-                <span>/</span>
-                <span className="text-emerald-300/80">LOAN READINESS</span>
-              </div>
-
               <span className="text-xs sm:text-[13px] font-black uppercase tracking-[0.24em] text-[#f3c251] block">
                 LOAN READINESS CONSULTING
               </span>
@@ -344,8 +339,8 @@ export default function ServicesCombinedSection() {
                 YOU APPLY.
               </h1>
 
-              <p className="text-sm sm:text-base text-emerald-100/75 font-medium max-w-xl leading-relaxed">
-                Assess eligibility, organize documents and address readiness gaps before approaching a lender.
+              <p className="text-sm sm:text-base text-emerald-100/85 font-medium max-w-xl leading-relaxed">
+                Assess eligibility, organize verified legal documents, and address readiness gaps before approaching an institutional lender[cite: 1].
               </p>
 
               <div className="flex flex-wrap gap-2.5 pt-2">
@@ -361,10 +356,10 @@ export default function ServicesCombinedSection() {
 
               <div className="pt-3">
                 <a
-                  href="#detailed-breakdown"
+                  href="#services-grid"
                   className="inline-flex items-center justify-center px-8 py-4 bg-[#f3c251] hover:bg-[#e5b33d] text-[#052516] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center cursor-pointer"
                 >
-                  REQUEST ASSESSMENT
+                  START SERVICE INQUIRY
                 </a>
               </div>
             </div>
@@ -387,7 +382,7 @@ export default function ServicesCombinedSection() {
 
                 <div className="pt-2 border-t border-slate-100">
                   <p className="text-[11px] text-slate-400 font-medium tracking-wide">
-                    No approval guarantee.
+                    Standard compliance model. No direct approval guarantees[cite: 1].
                   </p>
                 </div>
               </div>
@@ -397,8 +392,8 @@ export default function ServicesCombinedSection() {
         </div>
       </section>
 
-      {/* ─── PART 2: THE 4 SERVICES ARCHITECTURAL CARDS ─── */}
-      <section id="services" className="pt-14 pb-16 bg-[#F8FAFC] text-slate-900 border-b border-slate-200/80">
+      {/* ─── PART 2: THE 4 SERVICES ARCHITECTURAL CARDS (MODERNIZED LENGTH & ICONS) ─── */}
+      <section id="services-grid" className="pt-16 pb-20 bg-[#F8FAFC] text-slate-900 border-b border-slate-200/80 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
           <motion.div 
@@ -418,7 +413,7 @@ export default function ServicesCombinedSection() {
             </h2>
 
             <p className="text-xs sm:text-sm text-slate-500 font-medium tracking-wide max-w-2xl leading-relaxed pt-0.5">
-              One integrated service structure for financial readiness and property compliance.
+              One integrated service structure for financial readiness, loan diagnostics, and property compliance in Bilaspur and Chhattisgarh[cite: 1].
             </p>
           </motion.div>
 
@@ -427,57 +422,79 @@ export default function ServicesCombinedSection() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 items-stretch"
           >
-            {services.map((item) => (
-              <motion.div
-                key={item.number}
-                variants={cardVariants}
-                whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                onClick={() => handleCardClick(item.id)}
-                className={`bg-white rounded-3xl p-6 border shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(33,112,68,0.12)] hover:border-[#217044] transition-all flex flex-col justify-between group relative overflow-hidden cursor-pointer ${
-                  activeTab === item.id ? "border-[#217044] ring-2 ring-[#217044]/20" : "border-slate-200/90"
-                }`}
-              >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-[#217044]/5 rounded-bl-full pointer-events-none group-hover:bg-[#217044]/10 transition-colors" />
+            {services.map((item) => {
+              const isSelected = activeTab === item.id;
+              return (
+                <motion.div
+                  key={item.number}
+                  variants={cardVariants}
+                  whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                  onClick={() => handleCardClick(item.id)}
+                  className={`bg-white rounded-3xl p-7 border shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(33,112,68,0.12)] hover:border-[#217044] transition-all flex flex-col justify-between group relative overflow-hidden cursor-pointer min-h-[460px] ${
+                    isSelected ? "border-[#217044] ring-2 ring-[#217044]/25" : "border-slate-200/90"
+                  }`}
+                >
+                  <div className="absolute top-0 right-0 w-28 h-28 bg-[#217044]/5 rounded-bl-full pointer-events-none group-hover:bg-[#217044]/10 transition-colors" />
 
-                <div className="space-y-5">
-                  <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-2xl bg-[#217044]/10 text-[#217044] group-hover:bg-[#217044] group-hover:text-white transition-all flex items-center justify-center shadow-xs">
-                      {item.icon}
+                  <div className="space-y-6">
+                    {/* Header: Icon & Number Badge */}
+                    <div className="flex items-center justify-between">
+                      <div className="w-14 h-14 rounded-2xl bg-[#217044]/10 text-[#217044] group-hover:bg-[#217044] group-hover:text-white transition-all flex items-center justify-center shadow-xs">
+                        {item.icon}
+                      </div>
+                      <span className="text-xs font-mono font-black text-[#f3c251] tracking-wider px-3 py-1 rounded-lg bg-[#f3c251]/15 border border-[#f3c251]/35">
+                        {item.number}
+                      </span>
                     </div>
-                    <span className="text-xs font-mono font-black text-[#f3c251] tracking-wider px-2.5 py-1 rounded-lg bg-[#f3c251]/15 border border-[#f3c251]/35">
-                      {item.number}
-                    </span>
+
+                    {/* Title & Tagline */}
+                    <div className="space-y-1">
+                      <h3 className="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight leading-snug group-hover:text-[#217044] transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-[11px] font-bold text-[#b8860b] uppercase tracking-wider">
+                        {item.tagline}
+                      </p>
+                    </div>
+
+                    {/* Detailed Bullet Points with Refined Icons */}
+                    <ul className="space-y-3 pt-3 border-t border-slate-100">
+                      {item.items.map((subItem, idx) => (
+                        <li key={idx} className="flex items-start gap-2.5 text-xs font-semibold text-slate-600 leading-snug">
+                          <span className="w-4 h-4 rounded-full bg-emerald-100 text-[#217044] flex items-center justify-center shrink-0 mt-0.5 text-[10px]">
+                            <FiCheck strokeWidth={3} />
+                          </span>
+                          <span>{subItem}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
-                  <div>
-                    <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight leading-snug group-hover:text-[#217044] transition-colors">
-                      {item.title}
-                    </h3>
-                    <p className="text-[11px] font-bold text-[#f3c251] uppercase tracking-wider mt-0.5">
-                      {item.tagline}
-                    </p>
-                  </div>
+                  {/* Dynamic Action Buttons (INQUIRY READY) */}
+                  <div className="pt-6 mt-6 border-t border-slate-100 space-y-2">
+                    <Link
+                      href={item.inquiryLink}
+                      onClick={(e) => e.stopPropagation()}
+                      className="w-full flex items-center justify-center gap-2 py-3.5 bg-[#217044] hover:bg-[#164e2e] text-white text-[11px] font-black uppercase tracking-wider rounded-xl transition-all shadow-xs active:scale-95 group/btn"
+                    >
+                      <FiSend className="text-xs" />
+                      <span>START INQUIRY</span>
+                      <FiArrowRight className="text-xs group-hover/btn:translate-x-1 transition-transform" />
+                    </Link>
 
-                  <ul className="space-y-2.5 pt-2 border-t border-slate-100">
-                    {item.items.map((subItem, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-xs font-semibold text-slate-600 leading-snug">
-                        <FiCheckCircle className="text-[#217044] shrink-0 text-sm mt-0.5" />
-                        <span>{subItem}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="pt-6 mt-4 border-t border-slate-100">
-                  <div className="w-full flex items-center justify-center gap-2 py-3 bg-[#217044] hover:bg-[#164e2e] text-white text-[11px] font-black uppercase tracking-wider rounded-xl transition-all shadow-xs active:scale-95 group/btn">
-                    <span>VIEW DETAILS</span>
-                    <FiArrowRight className="text-xs group-hover/btn:translate-x-1 transition-transform" />
+                    <button
+                      type="button"
+                      onClick={() => handleCardClick(item.id)}
+                      className="w-full py-2 bg-slate-50 hover:bg-emerald-50/70 text-slate-600 hover:text-[#217044] text-[10px] font-black uppercase tracking-wider rounded-xl transition-colors border border-slate-100"
+                    >
+                      VIEW AUDIT CRITERIA
+                    </button>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </motion.div>
 
         </div>
@@ -637,7 +654,7 @@ export default function ServicesCombinedSection() {
 
             {/* Right Column: Sticky Advisory Card */}
             <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-8">
-              <div className="bg-[#062415] text-white rounded-3xl p-7 sm:p-8 space-y-5 shadow-xl border border-emerald-950">
+              <div className="bg-[#052516] text-white rounded-3xl p-7 sm:p-8 space-y-5 shadow-xl border border-emerald-950">
                 <span className="text-[11px] font-mono font-black uppercase tracking-[0.22em] text-[#f3c251] block">
                   NEED GUIDANCE?
                 </span>
@@ -674,7 +691,7 @@ export default function ServicesCombinedSection() {
                   SERVICE NOTICE
                 </span>
                 <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                  BSP Continental Pvt Ltd provides independent pre-application consultation, revenue compliance verification, and bureau analysis. We do not provide credit guarantees or issue loans directly.
+                  BSP Continental Pvt Ltd provides independent pre-application consultation, revenue compliance verification, and bureau analysis[cite: 1]. We do not provide credit guarantees or issue loans directly[cite: 1].
                 </p>
                 <div className="pt-2 flex items-center gap-2 text-[11px] font-bold text-[#217044]">
                   <FiCheckCircle />

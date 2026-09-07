@@ -21,62 +21,55 @@ const snapshotPoints = [
   "Guided next steps",
 ];
 
+// ─── EXACT 4 CORE SERVICES WITH UPDATED STREAMLINED BULLETS ───
 const services = [
   {
     number: "01",
+    title: "Property Compliance",
+    tagline: "Title & Legal Verification",
+    icon: <FiShield className="text-xl" />,
+    items: [
+      "Title Deed Verification",
+      "Search Reports & Survey Reports",
+      "Mortgage Legal Assistance",
+      "Dispute Resolutions",
+    ],
+    link: "/services/property-compliance",
+  },
+  {
+    number: "02",
+    title: "CIBIL Score Management",
+    tagline: "Credit Health & Dispute Filing",
+    icon: <FiTrendingUp className="text-xl" />,
+    items: [
+      "CIBIL Score Analysis",
+      "CIBIL Score Improvement",
+      "CIBIL Errors & Disputes Handling",
+    ],
+    link: "/services/cibil-management",
+  },
+  {
+    number: "03",
     title: "Financial Consulting",
-    tagline: "Corporate & Business Capital",
+    tagline: "Corporate & Capital Advisory",
     icon: <FiPieChart className="text-xl" />,
     items: [
       "Secured Business Loan Assistance",
       "Mortgage Loan Assistance",
-      "MSME & Business Finance",
-      "Project Finance",
-      "DPR & CMA Preparation",
     ],
-    link: "/dashboard/finance",
-  },
-  {
-    number: "02",
-    title: "Loan Readiness",
-    tagline: "Eligibility & Dispute Resolution",
-    icon: <FiFileText className="text-xl" />,
-    items: [
-      "Loan Eligibility Assessment",
-      "Pre-Application File Review",
-      "Loan Restructuring",
-      "Debt Consolidation",
-      "Loan Difficulties & Rejection Resolution",
-    ],
-    link: "/dashboard/finance",
-  },
-  {
-    number: "03",
-    title: "CIBIL Score Management",
-    tagline: "Credit Restoration & Disputes",
-    icon: <FiTrendingUp className="text-xl" />,
-    items: [
-      "CIBIL Score Analysis",
-      "Credit Report Audit",
-      "Credit Score Improvement",
-      "Credit Report Error Identification",
-      "CIBIL, CRIF & Experian Dispute Assistance",
-    ],
-    link: "/dashboard/credit-score-management",
+    link: "/services/financial-consulting",
   },
   {
     number: "04",
-    title: "Property Compliance",
-    tagline: "Certified Title & Registry Vetting",
-    icon: <FiShield className="text-xl" />,
+    title: "Project Finance Assistance",
+    tagline: "Eligibility & Loan Readiness",
+    icon: <FiFileText className="text-xl" />,
     items: [
-      "Title Deed & Ownership Verification",
-      "Search & Survey Reports",
-      "Registry, Khasra & B-1 Verification",
-      "Mortgage Legal Assistance",
-      "Property Risk & Dispute Resolution",
+      "Loan Eligibility Check",
+      "Loan Restructuring",
+      "Debt Consolidation",
     ],
-    link: "/dashboard/property-compliance",
+    link: "/services/Project-Finance-Assistance",
   },
 ];
 
@@ -107,7 +100,7 @@ export default function ServicesCombinedSection() {
   return (
     <div className="w-full select-none antialiased">
       
-      {/* ─── PART 1: 4 SERVICES ARCHITECTURAL CARDS (AB TOP PAR) ─── */}
+      {/* ─── PART 1: 4 SERVICES ARCHITECTURAL CARDS ─── */}
       <section id="services" className="pt-16 pb-16 bg-[#F8FAFC] text-slate-900 border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
@@ -200,7 +193,7 @@ export default function ServicesCombinedSection() {
         </div>
       </section>
 
-      {/* ─── PART 2: SERVICE SNAPSHOT BANNER (AB NICHE HAI + BREADCRUMB REMOVED) ─── */}
+      {/* ─── PART 2: SERVICE SNAPSHOT BANNER ─── */}
       <section className="relative w-full bg-[#032012] text-white py-14 sm:py-20 px-4 sm:px-6 lg:px-12 overflow-hidden border-b border-emerald-950">
         
         {/* Background Curved Aesthetics */}
@@ -211,10 +204,10 @@ export default function ServicesCombinedSection() {
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
             
-            {/* Left Headline & Tags (Home/Services path removed) */}
+            {/* Left Headline & Tags */}
             <div className="lg:col-span-8 flex flex-col items-start space-y-6">
               <span className="text-xs sm:text-[13px] font-black uppercase tracking-[0.24em] text-[#f3c251] block">
-                LOAN READINESS CONSULTING
+                PROJECT FINANCE ASSISTANCE
               </span>
 
               <h2 className="text-4xl sm:text-6xl lg:text-[68px] font-black uppercase tracking-tight text-white leading-[1.02]">
@@ -239,7 +232,7 @@ export default function ServicesCombinedSection() {
 
               <div className="pt-3">
                 <Link
-                  href="/contact"
+                  href="/services/Project-Finance-Assistance"
                   className="inline-flex items-center justify-center px-8 py-4 bg-[#f3c251] hover:bg-[#e5b33d] text-[#052516] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center"
                 >
                   REQUEST ASSESSMENT
