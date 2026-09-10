@@ -6,22 +6,13 @@ import Link from "next/link";
 import { 
   FiArrowRight, 
   FiCheckCircle, 
-  FiFileText, 
   FiTrendingUp, 
   FiShield, 
-  FiPieChart 
+  FiPieChart,
+  FiFileText
 } from "react-icons/fi";
 
-const tags = ["ELIGIBILITY REVIEW", "DOCUMENT READINESS", "FILE STRUCTURING"];
-
-const snapshotPoints = [
-  "Eligibility assessment",
-  "Document checklist",
-  "Application readiness",
-  "Guided next steps",
-];
-
-// ─── EXACT 4 CORE SERVICES WITH UPDATED STREAMLINED BULLETS ───
+// ─── 3 CORE SERVICES ───
 const services = [
   {
     number: "01",
@@ -56,20 +47,9 @@ const services = [
     items: [
       "Secured Business Loan Assistance",
       "Mortgage Loan Assistance",
+      "Project Finance Assistance",
     ],
     link: "/services/financial-consulting",
-  },
-  {
-    number: "04",
-    title: "Project Finance Assistance",
-    tagline: "Eligibility & Loan Readiness",
-    icon: <FiFileText className="text-xl" />,
-    items: [
-      "Loan Eligibility Check",
-      "Loan Restructuring",
-      "Debt Consolidation",
-    ],
-    link: "/services/Project-Finance-Assistance",
   },
 ];
 
@@ -100,7 +80,7 @@ export default function ServicesCombinedSection() {
   return (
     <div className="w-full select-none antialiased">
       
-      {/* ─── PART 1: 4 SERVICES ARCHITECTURAL CARDS ─── */}
+      {/* ─── PART 1: 3 SERVICES ARCHITECTURAL CARDS ─── */}
       <section id="services" className="pt-16 pb-16 bg-[#F8FAFC] text-slate-900 border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
@@ -117,31 +97,30 @@ export default function ServicesCombinedSection() {
             </span>
 
             <h2 className="text-3xl sm:text-5xl lg:text-[54px] font-black uppercase tracking-tight text-[#0F1E11] leading-[1.08]">
-              FINANCIAL GUIDANCE, <br />
+              PROPERTY COMPLIANCE, <br />
               STRUCTURED AROUND YOU.
             </h2>
 
             <p className="text-xs sm:text-sm text-slate-500 font-medium tracking-wide max-w-2xl leading-relaxed pt-0.5">
-              One integrated service structure for financial readiness and property compliance.
+              One integrated service structure for certified title vetting, credit restoration, and institutional capital structuring.
             </p>
           </motion.div>
 
-          {/* 4 Cards Grid */}
+          {/* 3 Cards Grid */}
           <motion.div 
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch"
           >
             {services.map((item) => (
               <motion.div
                 key={item.number}
                 variants={cardVariants}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(33,112,68,0.12)] hover:border-[#217044] transition-all flex flex-col justify-between group relative overflow-hidden"
+                className="bg-white rounded-3xl p-7 border border-slate-200/90 shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(33,112,68,0.12)] hover:border-[#217044] transition-all flex flex-col justify-between group relative overflow-hidden"
               >
-                {/* Subtle Accent Tint */}
                 <div className="absolute top-0 right-0 w-24 h-24 bg-[#217044]/5 rounded-bl-full pointer-events-none group-hover:bg-[#217044]/10 transition-colors" />
 
                 <div className="space-y-5">
@@ -180,9 +159,9 @@ export default function ServicesCombinedSection() {
                 <div className="pt-6 mt-4 border-t border-slate-100">
                   <Link
                     href={item.link}
-                    className="w-full flex items-center justify-center gap-2 py-3 bg-[#217044] hover:bg-[#164e2e] text-white text-[11px] font-black uppercase tracking-wider rounded-xl transition-all shadow-xs active:scale-95 group/btn"
+                    className="w-full flex items-center justify-center gap-2 py-3.5 bg-[#217044] hover:bg-[#164e2e] text-white text-[11px] font-black uppercase tracking-wider rounded-xl transition-all shadow-xs active:scale-95 group/btn"
                   >
-                    <span>START CONSULTATION</span>
+                    <span>INQUIRY NOW</span>
                     <FiArrowRight className="text-xs group-hover/btn:translate-x-1 transition-transform" />
                   </Link>
                 </div>
@@ -193,78 +172,92 @@ export default function ServicesCombinedSection() {
         </div>
       </section>
 
-      {/* ─── PART 2: SERVICE SNAPSHOT BANNER ─── */}
-      <section className="relative w-full bg-[#032012] text-white py-14 sm:py-20 px-4 sm:px-6 lg:px-12 overflow-hidden border-b border-emerald-950">
+      {/* ─── PART 2: DUAL PROMO BANNER (SPECIAL SERVICES) ─── */}
+      <section className="relative w-full bg-[#032012] text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-12 overflow-hidden border-b border-emerald-950">
         
-        {/* Background Curved Aesthetics */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#07361f] rounded-full blur-2xl opacity-40 pointer-events-none translate-x-1/3 -translate-y-1/4" />
-        <div className="absolute top-1/2 -right-24 w-[520px] h-[520px] rounded-full border border-emerald-500/15 pointer-events-none -translate-y-1/2" />
-        <div className="absolute top-1/2 -right-48 w-[680px] h-[680px] rounded-full border border-emerald-500/10 pointer-events-none -translate-y-1/2" />
+        {/* Background Aesthetics */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#07361f] rounded-full blur-3xl opacity-40 pointer-events-none translate-x-1/3 -translate-y-1/4" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#217044]/15 rounded-full blur-3xl pointer-events-none -translate-x-1/4 translate-y-1/4" />
 
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+        <div className="max-w-7xl mx-auto relative z-10 space-y-10">
+          
+          {/* Header */}
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-white">
+              SPECIAL SERVICES
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             
-            {/* Left Headline & Tags */}
-            <div className="lg:col-span-8 flex flex-col items-start space-y-6">
-              <span className="text-xs sm:text-[13px] font-black uppercase tracking-[0.24em] text-[#f3c251] block">
-                PROJECT FINANCE ASSISTANCE
-              </span>
+            {/* Box 1: Property Compliance (₹1,599) */}
+            <div className="bg-[#052d1b]/90 border border-emerald-500/25 rounded-3xl p-8 sm:p-10 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-[#f3c251]/50 transition-all">
+              <div className="space-y-6">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-[#f3c251] flex items-center justify-center text-2xl">
+                  <FiFileText />
+                </div>
 
-              <h2 className="text-4xl sm:text-6xl lg:text-[68px] font-black uppercase tracking-tight text-white leading-[1.02]">
-                PREPARE BEFORE <br />
-                YOU APPLY.
-              </h2>
+                <div className="space-y-2">
+                  <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white">
+                    Property Compliance
+                  </h3>
+                  <p className="text-xs sm:text-sm text-emerald-100/75 leading-relaxed">
+                    Title deed scrutiny, revenue survey checks, sub-registrar search reports, and boundary dispute vetting.
+                  </p>
+                </div>
 
-              <p className="text-sm sm:text-base text-emerald-100/75 font-medium max-w-xl leading-relaxed">
-                Assess eligibility, organize documents and address readiness gaps before approaching a lender.
-              </p>
-
-              <div className="flex flex-wrap gap-2.5 pt-2">
-                {tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-4 py-2 rounded-full bg-[#0a331f]/80 border border-emerald-500/25 text-[11px] font-mono font-bold tracking-wider text-emerald-100/90 shadow-inner"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                <div className="flex items-baseline gap-2 pt-2 border-t border-emerald-500/20">
+                  <span className="text-xs font-mono font-bold text-emerald-300 uppercase tracking-wider">In Just</span>
+                  <span className="text-3xl sm:text-4xl font-black font-mono text-[#f3c251]">₹1,599/-</span>
+                </div>
               </div>
 
-              <div className="pt-3">
+              <div className="pt-8">
                 <Link
-                  href="/services/Project-Finance-Assistance"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-[#f3c251] hover:bg-[#e5b33d] text-[#052516] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center"
+                  href="/services/property-compliance"
+                  className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#f3c251] hover:bg-[#e5b33d] text-[#052516] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center"
                 >
-                  REQUEST ASSESSMENT
+                  <span>INQUIRY NOW</span>
+                  <FiArrowRight className="text-sm" />
                 </Link>
               </div>
             </div>
 
-            {/* Right White Snapshot Card */}
-            <div className="lg:col-span-4 flex justify-start lg:justify-end">
-              <div className="w-full max-w-[340px] bg-white text-slate-900 rounded-3xl p-8 sm:p-9 shadow-2xl space-y-6">
-                <span className="text-[11px] font-mono font-black uppercase tracking-[0.22em] text-[#f3c251] block">
-                  SERVICE SNAPSHOT
-                </span>
+            {/* Box 2: CIBIL Score Management (₹996) */}
+            <div className="bg-[#052d1b]/90 border border-emerald-500/25 rounded-3xl p-8 sm:p-10 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-[#f3c251]/50 transition-all">
+              <div className="space-y-6">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-[#f3c251] flex items-center justify-center text-2xl">
+                  <FiTrendingUp />
+                </div>
 
-                <ul className="space-y-4">
-                  {snapshotPoints.map((item, idx) => (
-                    <li key={idx} className="flex items-center gap-3 text-sm font-bold text-slate-800">
-                      <span className="w-1.5 h-1.5 rounded-full bg-slate-900 shrink-0" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="pt-2 border-t border-slate-100">
-                  <p className="text-[11px] text-slate-400 font-medium tracking-wide">
-                    No approval guarantee.
+                <div className="space-y-2">
+                  <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white">
+                    CIBIL Score Management
+                  </h3>
+                  <p className="text-xs sm:text-sm text-emerald-100/75 leading-relaxed">
+                    Multi-bureau report diagnostics, error identification, credit dispute resolution, and score restoration strategy.
                   </p>
                 </div>
+
+                <div className="flex items-baseline gap-2 pt-2 border-t border-emerald-500/20">
+                  <span className="text-xs font-mono font-bold text-emerald-300 uppercase tracking-wider">In Just</span>
+                  <span className="text-3xl sm:text-4xl font-black font-mono text-[#f3c251]">₹996/-</span>
+                </div>
+              </div>
+
+              <div className="pt-8">
+                <Link
+                  href="/services/cibil-management"
+                  className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#f3c251] hover:bg-[#e5b33d] text-[#052516] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center"
+                >
+                  <span>INQUIRY NOW</span>
+                  <FiArrowRight className="text-sm" />
+                </Link>
               </div>
             </div>
 
           </div>
+
         </div>
       </section>
 

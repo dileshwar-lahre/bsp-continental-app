@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 export default function Footer() {
@@ -11,14 +10,12 @@ export default function Footer() {
 
   const servicesLinks = [
     { title: "Financial Consulting", href: "/services/financial-consulting" },
-    { title: "Loan Readiness", href: "/services/Project-Finance-Assistance" },
     { title: "CIBIL Score Management", href: "/services/cibil-management" },
     { title: "Property Compliance", href: "/services/property-compliance" },
   ];
 
   const companyLinks = [
     { title: "About Us", href: "/about" },
-    { title: "How It Works", href: "/#how-it-works" },
     { title: "Contact", href: "/contact" },
     { title: "Track Request", href: "/my-requests" },
     { title: "Client Login", href: "/login" },
@@ -32,29 +29,51 @@ export default function Footer() {
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 space-y-12">
         
-        {/* 4 COLUMNS TOP ALIGNED */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+        {/* 3 COLUMNS GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           
-          <div className="lg:col-span-4 space-y-3">
-            <Link href="/" className="inline-block">
-              <div className="bg-white rounded border border-white/60 p-0 w-[190px] sm:w-[220px] h-[58px] sm:h-[68px] flex items-center justify-center overflow-hidden shadow-sm">
-                <Image
-                  src="/images/Bsp Ccontinental financial logo PNG (1).png"
-                  alt="BSP Ccontinental"
-                  width={400}
-                  height={130}
-                  className="w-full h-full object-contain scale-[1.65] sm:scale-[1.45] origin-center select-none"
-                  priority
-                />
-              </div>
-            </Link>
-            <p className="text-xs sm:text-[13px] text-white/85 font-normal leading-relaxed max-w-xs">
-              Integrated financial and property compliance advisory serving clients across Chhattisgarh.
+          {/* CORPORATE DETAILS SECTION */}
+          <div className="lg:col-span-6 space-y-3 font-mono text-xs sm:text-[13px] leading-relaxed text-white/90">
+            <h2 className="text-base sm:text-lg font-black tracking-wide text-white font-sans uppercase">
+              BSP CONTINENTAL PRIVATE LIMITED
+            </h2>
+            
+            <p className="text-[#f3c251] font-bold">
+              CIN: U72900CT2020PTC010373
+            </p>
+
+            <p className="text-white/80">
+              <span className="text-white font-semibold">Registered Office:</span> Shop No OAS - 4, 2nd Floor, Super Market Complex, Agrasen Chowk, Link Road, Bilaspur (C.G.) 495001
+            </p>
+
+            <div className="flex flex-wrap items-center gap-x-2 text-white/80 pt-1">
+              <span>Email:</span>
+              <a href="mailto:bspccontinental@gmail.com" className="text-white hover:text-[#f3c251] transition-colors underline">
+                bspccontinental@gmail.com
+              </a>
+              <span>|</span>
+              <span>Phone:</span>
+              <a href="tel:9575059137" className="text-white hover:text-[#f3c251] transition-colors">
+                +91 95750 59137
+              </a>
+            </div>
+
+            <p className="text-white/80">
+              Website:{" "}
+              <a 
+                href="https://www.bspccontinental.com" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="text-[#f3c251] hover:underline"
+              >
+                www.bspccontinental.com
+              </a>
             </p>
           </div>
 
+          {/* SERVICES LINKS */}
           <div className="lg:col-span-3 space-y-3.5">
-            <h3 className="text-sm sm:text-base font-bold text-[#f3c251] tracking-wide">
+            <h3 className="text-sm sm:text-base font-bold text-[#f3c251] tracking-wide uppercase font-sans">
               Services
             </h3>
             <ul className="space-y-2 text-xs sm:text-[13px] text-white/85">
@@ -71,8 +90,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="lg:col-span-2 space-y-3.5">
-            <h3 className="text-sm sm:text-base font-bold text-[#f3c251] tracking-wide">
+          {/* COMPANY LINKS */}
+          <div className="lg:col-span-3 space-y-3.5">
+            <h3 className="text-sm sm:text-base font-bold text-[#f3c251] tracking-wide uppercase font-sans">
               Company
             </h3>
             <ul className="space-y-2 text-xs sm:text-[13px] text-white/85">
@@ -87,32 +107,6 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div className="lg:col-span-3 space-y-3.5">
-            <h3 className="text-sm sm:text-base font-bold text-[#f3c251] tracking-wide">
-              Contact
-            </h3>
-            <div className="space-y-2 text-xs sm:text-[13px] text-white/85 font-normal">
-              <p>
-                <a href="tel:9575059137" className="hover:text-[#f3c251] transition-colors">
-                  +91 95750 59137
-                </a>
-              </p>
-              <p>
-                <a href="tel:9575959137" className="hover:text-[#f3c251] transition-colors">
-                  +91 95759 59137
-                </a>
-              </p>
-              <p>
-                <a href="mailto:bspccontinental@gmail.com" className="hover:text-[#f3c251] transition-colors">
-                  bspccontinental@gmail.com
-                </a>
-              </p>
-              <p className="text-white/80">
-                Bilaspur, Chhattisgarh
-              </p>
-            </div>
           </div>
 
         </div>
@@ -135,8 +129,8 @@ export default function Footer() {
             <p className="text-xs sm:text-sm font-bold text-[#f3c251] tracking-wide">
               Secure Finance. Compliant Properties. Sustainable Growth.
             </p>
-            <p className="text-xs text-white/70 font-normal">
-              Copyright 2026 BSP Ccontinental Pvt Ltd
+            <p className="text-xs text-white/70 font-normal font-mono">
+              Copyright 2026 BSP CONTINENTAL PRIVATE LIMITED
             </p>
           </div>
         </div>

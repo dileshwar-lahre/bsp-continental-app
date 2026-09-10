@@ -8,7 +8,8 @@ import {
   FiMail, 
   FiMapPin, 
   FiClock, 
-  FiCheckCircle 
+  FiCheckCircle,
+  FiAlertCircle
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -23,7 +24,9 @@ export default function ContactPage() {
     agreeToContact: false,
   });
 
+  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -33,17 +36,46 @@ export default function ContactPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
-    setSubmitted(true);
+    setLoading(true);
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to submit contact request.");
+      }
+
+      setSubmitted(true);
+      setFormData({
+        fullName: "",
+        mobileNumber: "",
+        serviceRequired: "",
+        cityDistrict: "",
+        preferredContact: "",
+        message: "",
+        agreeToContact: false,
+      });
+    } catch (err) {
+      setErrorMessage(err.message || "Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 select-none antialiased">
       
       {/* ─── 1. CONTACT PAGE HEADER ─── */}
-      <section className="pt-16 pb-12 bg-white border-b border-slate-200">
+      <section className="pt-28 pb-12 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
           <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-slate-400 uppercase">
             <Link href="/" className="hover:text-slate-900 transition-colors">HOME</Link>
@@ -90,7 +122,6 @@ export default function ContactPage() {
 
               {/* Action Cards */}
               <div className="space-y-3 pt-2">
-                {/* Call Primary */}
                 <a
                   href="tel:9575059137"
                   className="flex items-center gap-3.5 p-3.5 rounded-xl bg-[#0e3b25] hover:bg-[#134d31] transition-all duration-200 group border border-emerald-800/40"
@@ -108,7 +139,6 @@ export default function ContactPage() {
                   </div>
                 </a>
 
-                {/* Call Secondary */}
                 <a
                   href="tel:9575959137"
                   className="flex items-center gap-3.5 p-3.5 rounded-xl bg-[#0e3b25] hover:bg-[#134d31] transition-all duration-200 group border border-emerald-800/40"
@@ -126,7 +156,6 @@ export default function ContactPage() {
                   </div>
                 </a>
 
-                {/* Email Action Card */}
                 <a
                   href="mailto:bspccontinental@gmail.com"
                   className="flex items-center gap-3.5 p-3.5 rounded-xl bg-[#0e3b25] hover:bg-[#134d31] transition-all duration-200 group border border-emerald-800/40"
@@ -236,10 +265,9 @@ export default function ContactPage() {
                         className="w-full px-3.5 py-2.5 bg-[#F8FAFC] rounded-lg border border-slate-200 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-[#052516] transition-colors cursor-pointer"
                       >
                         <option value="" disabled>Select a service</option>
-                        <option value="financial-consulting">Financial Consulting</option>
-                        <option value="loan-readiness">Loan Readiness Assessment</option>
-                        <option value="cibil-management">CIBIL Score Management</option>
-                        <option value="property-compliance">Property Compliance & Title Search</option>
+                        <option value="Financial Consulting">Financial Consulting</option>
+                        <option value="CIBIL Score Management">CIBIL Score Management</option>
+                        <option value="Property Compliance">Property Compliance &amp; Title Search</option>
                       </select>
                     </div>
 
@@ -308,13 +336,22 @@ export default function ContactPage() {
                       </label>
                     </div>
 
+                    {/* Error Alert */}
+                    {errorMessage && (
+                      <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg flex items-center gap-2 text-rose-700 text-xs font-semibold">
+                        <FiAlertCircle className="shrink-0" />
+                        <span>{errorMessage}</span>
+                      </div>
+                    )}
+
                     {/* Submit Button */}
                     <div className="pt-1">
                       <button
                         type="submit"
-                        className="px-6 py-3 bg-[#0A3D24] hover:bg-[#052516] text-white text-[11px] font-black uppercase tracking-wider rounded-lg transition-all shadow-sm active:scale-98 cursor-pointer"
+                        disabled={loading}
+                        className="px-6 py-3 bg-[#0A3D24] hover:bg-[#052516] text-white text-[11px] font-black uppercase tracking-wider rounded-lg transition-all shadow-sm active:scale-98 cursor-pointer disabled:opacity-60"
                       >
-                        SUBMIT REQUIREMENT
+                        {loading ? "SUBMITTING..." : "SUBMIT REQUIREMENT"}
                       </button>
                     </div>
 

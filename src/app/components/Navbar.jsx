@@ -11,7 +11,6 @@ import {
   FiHome, 
   FiInfo, 
   FiBriefcase, 
-  FiHelpCircle, 
   FiFileText, 
   FiShield, 
   FiBell, 
@@ -45,13 +44,13 @@ export default function Navbar() {
 
   const isLoggedIn = status === "authenticated";
   const isHomePage = pathname === "/";
-  // Dashboard option sirf login hone par aur strictly '/' par render hoga
   const showDashboardLink = isLoggedIn && isHomePage;
 
   const userImageUrl = session?.user?.image || "";
   const userName = session?.user?.name || "User";
   const brandColor = "#217044";
 
+  // 3 Core Services (Project Finance Assistance removed)
   const servicesDropdownList = [
     {
       id: "property-compliance",
@@ -67,11 +66,6 @@ export default function Navbar() {
       id: "financial-consulting",
       title: "Financial Consulting",
       href: "/services/financial-consulting",
-    },
-    {
-      id: "Project-Finance-Assistance",
-      title: "Project Finance Assistance",
-      href: "/services/Project-Finance-Assistance",
     },
   ];
 
@@ -95,25 +89,6 @@ export default function Navbar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const handleNavClick = (e, targetId) => {
-    setIsOpen(false);
-    setIsServicesOpen(false);
-    setIsMoreOpen(false);
-
-    if (targetId) {
-      if (pathname === "/") {
-        e.preventDefault();
-        const el = document.getElementById(targetId);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      } else {
-        e.preventDefault();
-        router.push(`/#${targetId}`);
-      }
-    }
-  };
 
   const handleServiceSelect = (href) => {
     setIsServicesOpen(false);
@@ -146,7 +121,6 @@ export default function Navbar() {
 
           {/* Desktop Center Links */}
           <div className="hidden md:flex items-center gap-8 h-full">
-            {/* Home Link: Always '/' */}
             <Link
               href="/"
               onClick={() => { setIsServicesOpen(false); setIsMoreOpen(false); }}
@@ -156,7 +130,6 @@ export default function Navbar() {
               Home
             </Link>
 
-            {/* Dashboard Link: Sirf logged in hone par aur '/' page par */}
             {showDashboardLink && (
               <Link
                 href="/dashboard"
@@ -203,7 +176,7 @@ export default function Navbar() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
                     transition={{ duration: 0.16, ease: "easeOut" }}
-                    className="absolute top-20 left-1/2 -translate-x-1/2 w-[370px] bg-white rounded-2xl shadow-[0_15px_40px_rgba(5,37,22,0.12)] border border-slate-100 p-2 space-y-1 z-50 select-none overflow-hidden"
+                    className="absolute top-20 left-1/2 -translate-x-1/2 w-[340px] bg-white rounded-2xl shadow-[0_15px_40px_rgba(5,37,22,0.12)] border border-slate-100 p-2 space-y-1 z-50 select-none overflow-hidden"
                   >
                     {servicesDropdownList.map((service) => (
                       <button
@@ -225,14 +198,6 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
-
-            <Link
-              href="/#how-it-works"
-              onClick={(e) => handleNavClick(e, "how-it-works")}
-              className="text-base font-bold transition-colors py-1.5 cursor-pointer text-slate-700 hover:text-[#217044]"
-            >
-              How It Works
-            </Link>
 
             {/* More Dropdown */}
             <div 
@@ -284,9 +249,8 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Right Action Utilities (Notification, Login Button, Profile, Logout) */}
+          {/* Right Action Utilities */}
           <div className="flex items-center gap-3">
-            {/* Notification Bell */}
             <button 
               type="button"
               className="relative w-11 h-11 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:text-[#217044] hover:bg-emerald-50 transition-all active:scale-95 cursor-pointer"
@@ -295,7 +259,6 @@ export default function Navbar() {
               <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-[#217044] rounded-full ring-2 ring-white" />
             </button>
 
-            {/* Login Button (Visible when NOT logged in) */}
             {!isLoggedIn && (
               <Link
                 href="/login"
@@ -307,7 +270,6 @@ export default function Navbar() {
               </Link>
             )}
 
-            {/* User Profile Avatar */}
             <button 
               type="button"
               onClick={() => router.push(isLoggedIn ? "/profile" : "/login")}
@@ -326,7 +288,6 @@ export default function Navbar() {
               )}
             </button>
 
-            {/* Logout Button (Visible when logged in) */}
             {isLoggedIn && (
               <button
                 type="button"
@@ -370,14 +331,16 @@ export default function Navbar() {
               transition={{ type: "spring", damping: 28, stiffness: 220 }}
               className="fixed top-0 right-0 bottom-0 w-[88%] max-w-[340px] bg-white border-l border-slate-100 z-50 p-6 flex flex-col justify-between md:hidden shadow-[-20px_0_50px_rgba(0,0,0,0.05)] overflow-y-auto"
             >
-              <div className="space-y-6">
-                <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+              <div className="space-y-5">
+                
+                {/* Drawer Top Header: Logo + Close */}
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                   <Image 
                     src="/images/Bsp Ccontinental financial logo PNG (1).png" 
                     alt="BSP Continental Logo" 
                     width={450} 
                     height={140} 
-                    className="h-20 w-auto object-contain scale-110 origin-left"
+                    className="h-16 w-auto object-contain scale-110 origin-left"
                   />
                   <button 
                     type="button"
@@ -388,22 +351,65 @@ export default function Navbar() {
                   </button>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                {/* Profile Card & Logout Widget */}
+                {isLoggedIn ? (
+                  <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div 
+                      onClick={() => { setIsOpen(false); router.push("/profile"); }}
+                      className="flex items-center gap-3 cursor-pointer overflow-hidden pr-2"
+                    >
+                      <div className="w-10 h-10 rounded-full overflow-hidden bg-white border border-slate-200 flex items-center justify-center shrink-0">
+                        {userImageUrl ? (
+                          <img src={userImageUrl} alt="Profile" className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="text-sm font-black text-[#217044]">{userName.trim().charAt(0)}</span>
+                        )}
+                      </div>
+                      <div className="truncate">
+                        <p className="text-xs font-bold text-slate-800 truncate">{userName}</p>
+                        <p className="text-[10px] font-mono text-[#217044] uppercase font-bold">Active Account</p>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsOpen(false);
+                        signOut({ callbackUrl: "/login" });
+                      }}
+                      className="p-2 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors shrink-0 cursor-pointer"
+                      title="Logout"
+                    >
+                      <FiLogOut size={16} />
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    href="/login"
+                    onClick={() => setIsOpen(false)}
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-[#217044] text-white font-black text-xs uppercase tracking-wider active:scale-95 shadow-sm"
+                  >
+                    <FiLogIn size={15} />
+                    Client Login
+                  </Link>
+                )}
+
+                {/* Main Navigation Links */}
+                <div className="flex flex-col gap-1.5 pt-1">
                   <Link
                     href="/"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-3 text-base font-black px-4 py-2.5 rounded-xl text-slate-800 hover:text-[#217044]"
+                    className="flex items-center gap-3 text-sm font-black px-4 py-2.5 rounded-xl text-slate-800 hover:text-[#217044] hover:bg-slate-50"
                   >
                     <FiHome size={18} className="text-slate-400" />
                     Home
                   </Link>
 
-                  {/* Mobile Dashboard Link: Sirf jab user login ho aur currently '/' par ho */}
                   {showDashboardLink && (
                     <Link
                       href="/dashboard"
                       onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-3 text-base font-black px-4 py-2.5 rounded-xl text-slate-800 hover:text-[#217044]"
+                      className="flex items-center gap-3 text-sm font-black px-4 py-2.5 rounded-xl text-slate-800 hover:text-[#217044] hover:bg-slate-50"
                     >
                       <FiGrid size={18} className="text-[#217044]" />
                       Dashboard
@@ -413,7 +419,7 @@ export default function Navbar() {
                   <Link
                     href="/about"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-3 text-base font-black px-4 py-2.5 rounded-xl text-slate-800 hover:text-[#217044]"
+                    className="flex items-center gap-3 text-sm font-black px-4 py-2.5 rounded-xl text-slate-800 hover:text-[#217044] hover:bg-slate-50"
                   >
                     <FiInfo size={18} className="text-slate-400" />
                     About
@@ -424,7 +430,7 @@ export default function Navbar() {
                     <button
                       type="button"
                       onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                      className="w-full flex items-center justify-between px-4 py-3 text-base font-black text-slate-800 cursor-pointer"
+                      className="w-full flex items-center justify-between px-4 py-3 text-sm font-black text-slate-800 cursor-pointer"
                     >
                       <span className="flex items-center gap-3">
                         <FiBriefcase size={18} className="text-[#217044]" />
@@ -454,21 +460,12 @@ export default function Navbar() {
                     )}
                   </div>
 
-                  <Link
-                    href="/#how-it-works"
-                    onClick={(e) => handleNavClick(e, "how-it-works")}
-                    className="flex items-center gap-3 text-base font-black px-4 py-2.5 rounded-xl text-slate-800 hover:text-[#217044]"
-                  >
-                    <FiHelpCircle size={18} className="text-slate-400" />
-                    How It Works
-                  </Link>
-
                   {/* Mobile More Accordion */}
                   <div className="rounded-2xl overflow-hidden bg-slate-50 border border-slate-100">
                     <button
                       type="button"
                       onClick={() => setMobileMoreOpen(!mobileMoreOpen)}
-                      className="w-full flex items-center justify-between px-4 py-3 text-base font-black text-slate-800 cursor-pointer"
+                      className="w-full flex items-center justify-between px-4 py-3 text-sm font-black text-slate-800 cursor-pointer"
                     >
                       <span className="flex items-center gap-3">
                         <FiPhoneCall size={18} className="text-[#217044]" />
@@ -500,36 +497,11 @@ export default function Navbar() {
                 </div>
               </div>
 
-              {/* Mobile Drawer Bottom User Utility */}
-              <div className="space-y-4 pt-4 border-t border-slate-100">
-                {isLoggedIn ? (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsOpen(false);
-                      signOut({ callbackUrl: "/login" });
-                    }}
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-rose-50 text-rose-600 font-black text-xs uppercase tracking-wider active:scale-95"
-                  >
-                    <FiLogOut size={16} />
-                    Logout
-                  </button>
-                ) : (
-                  <Link
-                    href="/login"
-                    onClick={() => setIsOpen(false)}
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#217044] text-white font-black text-xs uppercase tracking-wider active:scale-95"
-                  >
-                    <FiLogIn size={16} />
-                    Login
-                  </Link>
-                )}
-
-                <div className="text-center">
-                  <p className="text-[10px] text-slate-400 font-bold uppercase">
-                    © 2026 BSP CONTINENTAL
-                  </p>
-                </div>
+              {/* Bottom Copyright */}
+              <div className="text-center pt-4 border-t border-slate-100">
+                <p className="text-[10px] text-slate-400 font-bold uppercase">
+                  © 2026 BSP CONTINENTAL
+                </p>
               </div>
             </motion.div>
           </>
