@@ -160,12 +160,25 @@ export const authOptions = {
     },
 
     async redirect({ url, baseUrl }) {
+      // 1. Agar URL relative hai (jaise /services/cibil-management)
       if (url.startsWith("/")) {
         return url === "/" ? `${baseUrl}/dashboard` : `${baseUrl}${url}`;
-      } else if (new URL(url).origin === baseUrl) {
-        const parsed = new URL(url);
-        return parsed.pathname === "/" ? `${baseUrl}/dashboard` : url;
       }
+      
+      // 2. Agar URL absolute hai aur same domain ka hai
+      try {
+        const parsedUrl = new URL(url);
+        if (parsedUrl.origin === baseUrl) {
+          if (parsedUrl.pathname === "/" || parsedUrl.pathname === "") {
+            return `${baseUrl}/dashboard`;
+          }
+          return url; // ✅ Yeh exact requested page ya service par wapas bhej dega
+        }
+      } catch (e) {
+        // Fallback catch
+      }
+
+      // 3. Default fallback
       return `${baseUrl}/dashboard`;
     },
   },

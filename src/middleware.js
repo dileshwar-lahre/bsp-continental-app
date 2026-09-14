@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 export async function middleware(request) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl; // 👈 yahan 'search' add kiya hai
 
   // 🛡️ 1. ADMIN ROUTE PROTECTION
   if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
@@ -32,7 +32,8 @@ export async function middleware(request) {
   if (!userToken) {
     if (pathname.startsWith("/dashboard")) {
       const loginUrl = new URL("/login", request.url);
-      loginUrl.searchParams.set("callbackUrl", pathname);
+      // ✅ Yahan pathname + search kar diya hai taki query params miss na ho
+      loginUrl.searchParams.set("callbackUrl", pathname + search); 
       return NextResponse.redirect(loginUrl);
     }
   }

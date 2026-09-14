@@ -8,29 +8,29 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const slides = [
   {
-    tag: "CIBIL SCORE MANAGEMENT",
-    title: "IMPROVE YOUR CREDIT\nPROFILE WITH A CLEAR PLAN.",
-    description:
-      "CIBIL analysis, error and dispute support, and structured guidance for long-term credit-profile improvement across Chhattisgarh.",
-    primaryBtn: { text: "EXPLORE CIBIL SERVICES", href: "/services/cibil-management" },
-    secondaryBtn: { text: "START A CONSULTATION", href: "/contact" },
-    image: "/images/Structured credit planning with expert guidance.png",
-  },
-  {
     tag: "PROPERTY COMPLIANCE",
-    title: "PROTECT THE PROPERTY\nBEHIND YOUR LOAN.",
+    title: "SECURE PROPERTY\nBEFORE YOU INVEST.",
     description:
-      "Title verification, search and survey reports, mortgage legal assistance, and dispute-resolution support across Bilaspur and surrounding districts.",
-    primaryBtn: { text: "VIEW PROPERTY SERVICES", href: "/services/property-compliance" },
-    secondaryBtn: { text: "REQUEST CONSULTATION", href: "/contact" },
+      "Certified title checks, search reports, and legal verification to protect your property and loan assets across Bilaspur.",
+    primaryBtn: { text: "PROPERTY COMPLIANCE", href: "/services/property-compliance" },
+    secondaryBtn: { text: "START A CONSULTATION", href: "/contact" },
     image: "/images/Premiumproperty.png",
   },
   {
-    tag: "FINANCIAL CONSULTING",
-    title: "FINANCIAL CLARITY.\nSTRONGER DECISIONS.",
+    tag: "CIBIL SCORE MANAGEMENT",
+    title: "FIX YOUR CIBIL.\nBOOST YOUR APPROVAL.",
     description:
-      "Strategic guidance for secured loans, MSME capital, working capital optimization, and institutional DPR/CMA file preparation.",
-    primaryBtn: { text: "EXPLORE OUR SERVICES", href: "/services/financial-consulting" },
+      "Expert credit report audits, dispute resolution, and error removal across CIBIL, CRIF, and Experian.",
+    primaryBtn: { text: "CIBIL MANAGEMENT", href: "/services/cibil-management" },
+    secondaryBtn: { text: "REQUEST CONSULTATION", href: "/contact" },
+    image: "/images/Structured credit planning with expert guidance.png",
+  },
+  {
+    tag: "FINANCIAL CONSULTING",
+    title: "SECURED FINANCING &\nEXPERT ADVISORY.",
+    description:
+      "Tailored capital structuring, mortgage guidance, and loan-readiness support from verified financial consultants.",
+    primaryBtn: { text: "FINANCIAL CONSULTING", href: "/services/financial-consulting" },
     secondaryBtn: { text: "TALK TO AN ADVISOR", href: "/contact" },
     image: "/images/Strategic Financial Guidance for Indian Businesses.png",
   },
@@ -38,7 +38,7 @@ const slides = [
     tag: "PROJECT FINANCE ASSISTANCE",
     title: "BE LOAN-READY\nBEFORE YOU APPLY.",
     description:
-      "Eligibility guidance, document preparedness, restructuring, and debt-consolidation support—before your file reaches the banking underwriter.",
+      "Professional CMA data formulation, project reports, and documentation preparedness before banking submission.",
     primaryBtn: { text: "CHECK LOAN READINESS", href: "/services/loan-readiness" },
     secondaryBtn: { text: "START CONSULTATION", href: "/contact" },
     image: "/images/ReadywithaStrongLoanApplication.png",
@@ -113,7 +113,7 @@ export default function HomeSection() {
         </button>
       </div>
 
-      {/* Foreground Content - Perfectly Centered for Both Desktop & Mobile */}
+      {/* Foreground Content */}
       <div className="relative z-10 max-w-7xl mx-auto w-full px-6 sm:px-12 lg:px-16 flex flex-col justify-center py-16 sm:py-20">
         <div className="max-w-2xl">
           <AnimatePresence mode="wait">

@@ -9,7 +9,8 @@ import {
   FiTrendingUp, 
   FiShield, 
   FiPieChart,
-  FiFileText
+  FiFileText,
+  FiDollarSign
 } from "react-icons/fi";
 
 // ─── 3 CORE SERVICES ───
@@ -172,7 +173,7 @@ export default function ServicesCombinedSection() {
         </div>
       </section>
 
-      {/* ─── PART 2: DUAL PROMO BANNER (SPECIAL SERVICES) ─── */}
+      {/* ─── PART 2: SPECIAL SERVICES (PROPERTY COMPLIANCE, CIBIL, FINANCIAL CONSULTING) ─── */}
       <section className="relative w-full bg-[#032012] text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-12 overflow-hidden border-b border-emerald-950">
         
         {/* Background Aesthetics */}
@@ -188,17 +189,17 @@ export default function ServicesCombinedSection() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
             
             {/* Box 1: Property Compliance (₹1,599) */}
-            <div className="bg-[#052d1b]/90 border border-emerald-500/25 rounded-3xl p-8 sm:p-10 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-[#f3c251]/50 transition-all">
+            <div className="bg-[#052d1b]/90 border border-emerald-500/25 rounded-3xl p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-[#f3c251]/50 transition-all">
               <div className="space-y-6">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-[#f3c251] flex items-center justify-center text-2xl">
                   <FiFileText />
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white">
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-white">
                     Property Compliance
                   </h3>
                   <p className="text-xs sm:text-sm text-emerald-100/75 leading-relaxed">
@@ -208,14 +209,14 @@ export default function ServicesCombinedSection() {
 
                 <div className="flex items-baseline gap-2 pt-2 border-t border-emerald-500/20">
                   <span className="text-xs font-mono font-bold text-emerald-300 uppercase tracking-wider">In Just</span>
-                  <span className="text-3xl sm:text-4xl font-black font-mono text-[#f3c251]">₹1,599/-</span>
+                  <span className="text-3xl font-black font-mono text-[#f3c251]">₹1,599/-</span>
                 </div>
               </div>
 
               <div className="pt-8">
                 <Link
                   href="/services/property-compliance"
-                  className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#f3c251] hover:bg-[#e5b33d] text-[#052516] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center"
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-[#f3c251] hover:bg-[#e5b33d] text-[#052516] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center"
                 >
                   <span>INQUIRY NOW</span>
                   <FiArrowRight className="text-sm" />
@@ -224,14 +225,14 @@ export default function ServicesCombinedSection() {
             </div>
 
             {/* Box 2: CIBIL Score Management (₹996) */}
-            <div className="bg-[#052d1b]/90 border border-emerald-500/25 rounded-3xl p-8 sm:p-10 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-[#f3c251]/50 transition-all">
+            <div className="bg-[#052d1b]/90 border border-emerald-500/25 rounded-3xl p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-[#f3c251]/50 transition-all">
               <div className="space-y-6">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-[#f3c251] flex items-center justify-center text-2xl">
                   <FiTrendingUp />
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white">
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-white">
                     CIBIL Score Management
                   </h3>
                   <p className="text-xs sm:text-sm text-emerald-100/75 leading-relaxed">
@@ -241,14 +242,47 @@ export default function ServicesCombinedSection() {
 
                 <div className="flex items-baseline gap-2 pt-2 border-t border-emerald-500/20">
                   <span className="text-xs font-mono font-bold text-emerald-300 uppercase tracking-wider">In Just</span>
-                  <span className="text-3xl sm:text-4xl font-black font-mono text-[#f3c251]">₹996/-</span>
+                  <span className="text-3xl font-black font-mono text-[#f3c251]">₹996/-</span>
                 </div>
               </div>
 
               <div className="pt-8">
                 <Link
                   href="/services/cibil-management"
-                  className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#f3c251] hover:bg-[#e5b33d] text-[#052516] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center"
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-[#f3c251] hover:bg-[#e5b33d] text-[#052516] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center"
+                >
+                  <span>INQUIRY NOW</span>
+                  <FiArrowRight className="text-sm" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Box 3: Financial Consulting (₹5,999) */}
+            <div className="bg-[#052d1b]/90 border border-emerald-500/25 rounded-3xl p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-[#f3c251]/50 transition-all">
+              <div className="space-y-6">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-[#f3c251] flex items-center justify-center text-2xl">
+                  <FiDollarSign />
+                </div>
+
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-white">
+                    Financial Consulting
+                  </h3>
+                  <p className="text-xs sm:text-sm text-emerald-100/75 leading-relaxed">
+                    Secured business loans, mortgage financing, CMA data formulation, and comprehensive project reports preparation.
+                  </p>
+                </div>
+
+                <div className="flex items-baseline gap-2 pt-2 border-t border-emerald-500/20">
+                  <span className="text-xs font-mono font-bold text-emerald-300 uppercase tracking-wider">In Just</span>
+                  <span className="text-3xl font-black font-mono text-[#f3c251]">₹5,999/-</span>
+                </div>
+              </div>
+
+              <div className="pt-8">
+                <Link
+                  href="/services/financial-consulting"
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-[#f3c251] hover:bg-[#e5b33d] text-[#052516] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center"
                 >
                   <span>INQUIRY NOW</span>
                   <FiArrowRight className="text-sm" />

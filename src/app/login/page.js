@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import { FiMail, FiLock, FiArrowRight, FiX, FiCheck, FiAlertTriangle } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
@@ -16,12 +16,16 @@ export default function LoginPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
 
-  // 🔄 Agar user pehle se logged in hai aur cookie valid hai, toh direct /dashboard bhejo
+  // 🔍 URL se callbackUrl read kar rahe hain (jaise /services/cibil-management)
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+
+  // 🔄 Agar user pehle se logged in hai, toh callbackUrl ya /dashboard bhejo
   useEffect(() => {
     if (status === "authenticated") {
-      router.replace("/dashboard");
+      router.replace(callbackUrl);
     }
-  }, [status, router]);
+  }, [status, router, callbackUrl]);
 
   // 📧 Trigger One-Time Welcome Mail with PDF
   const triggerWelcomeEmail = async (userEmail, userName) => {
@@ -36,7 +40,7 @@ export default function LoginPage() {
     }
   };
 
-  // 📋 MANUAL LOGIN HANDLER -> REDIRECT TO /dashboard
+  // 📋 MANUAL LOGIN HANDLER -> REDIRECT TO callbackUrl
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -60,8 +64,8 @@ export default function LoginPage() {
         setError(res.error);
       } else {
         await triggerWelcomeEmail(email.toLowerCase().trim(), email.split("@")[0]);
-        // 🚀 Login successful -> Seedhe Dashboard bhejo
-        router.push("/dashboard");
+        // 🚀 Login successful -> Redirect to callbackUrl
+        router.push(callbackUrl);
         router.refresh();
       }
     } catch (err) {
@@ -71,7 +75,7 @@ export default function LoginPage() {
     }
   };
 
-  // 🌐 GOOGLE OAUTH HANDLER -> REDIRECT TO /dashboard
+  // 🌐 GOOGLE OAUTH HANDLER -> REDIRECT TO callbackUrl
   const handleGoogleLogin = async () => {
     setError("");
 
@@ -82,8 +86,8 @@ export default function LoginPage() {
     }
 
     try {
-      // 🚀 Google callbackUrl seedhe /dashboard par point karega
-      await signIn("google", { callbackUrl: "/dashboard" });
+      // 🚀 Google callbackUrl ab exact requested page par point karega
+      await signIn("google", { callbackUrl: callbackUrl });
     } catch (err) {
       setError("Google Authentication failed!");
     }
@@ -245,5 +249,18 @@ export default function LoginPage() {
       <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-[#FFDA50]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-[#387515]/10 rounded-full blur-3xl pointer-events-none" />
     </div>
+  );
+}
+
+// 🛡️ Suspense Wrapper for Next.js App Router useSearchParams
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#F4F6F2] flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-[#387515] border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

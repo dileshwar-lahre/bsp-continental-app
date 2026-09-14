@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { 
@@ -16,7 +17,7 @@ import {
   FiCheck
 } from "react-icons/fi";
 
-/* ─── REUSABLE CLARITY CTA BANNER (REAL BRAND COLORS) ─── */
+/* ─── REUSABLE CLARITY CTA BANNER ─── */
 function ClarityCtaBanner() {
   return (
     <div className="relative w-full bg-[#052516] text-white py-14 sm:py-20 px-6 sm:px-12 lg:px-16 select-none antialiased overflow-hidden rounded-3xl shadow-2xl border border-emerald-950/60">
@@ -55,7 +56,7 @@ function ClarityCtaBanner() {
 
         <div className="pt-6 sm:pt-8 flex flex-wrap items-center gap-x-6 gap-y-1 text-xs font-medium text-emerald-200/70">
           <span className="font-bold uppercase text-white tracking-wider text-[11px]">
-            BSP Ccontinental Pvt Ltd
+            BSP Continental Pvt Ltd
           </span>
           <span className="tracking-wide text-emerald-200/90 font-mono text-[11px] sm:text-xs">
             +91 95750 59137 | +91 95759 59137
@@ -89,7 +90,7 @@ const services = [
       "Project Finance",
       "DPR & CMA Preparation",
     ],
-    inquiryLink: "/contact?service=financial-consulting",
+    inquiryLink: "/dashboard/financial-consulting",
     overviewPara1:
       "Specialized financial guidance engineered for MSMEs, corporate entities, and entrepreneurs across Chhattisgarh looking to structure institutional debt effectively.",
     overviewPara2:
@@ -140,7 +141,7 @@ const services = [
       "Debt Consolidation",
       "Loan Difficulties & Rejection Resolution",
     ],
-    inquiryLink: "/contact?service=loan-readiness",
+    inquiryLink: "/dashboard/loan-readiness",
     overviewPara1:
       "Comprehensive diagnostic screening for retail, MSME, and mortgage loan applicants who want to eliminate rejection risks beforehand.",
     overviewPara2:
@@ -190,7 +191,7 @@ const services = [
       "Credit Report Error Identification",
       "CIBIL, CRIF & Experian Dispute Assistance",
     ],
-    inquiryLink: "/contact?service=cibil-management",
+    inquiryLink: "/dashboard/cibil-management",
     overviewPara1:
       "Targeted credit profile assessment and dispute facilitation across all four major credit bureaus in India (CIBIL, CRIF, Experian, Equifax).",
     overviewPara2:
@@ -230,29 +231,29 @@ const services = [
   {
     id: "property-compliance",
     number: "04",
-    title: "Property Compliance",
-    tagline: "Certified Title & Registry Vetting",
+    title: "Property Compliance Services",
+    tagline: "Secure Property Before Investment",
     icon: <FiShield className="text-2xl" />,
     items: [
-      "Title Deed & Ownership Verification",
-      "Search & Survey Reports",
-      "Registry, Khasra & B-1 Verification",
-      "Mortgage Legal Assistance",
-      "Property Risk & Dispute Resolution",
+      "Title Verification",
+      "Ownership Verification",
+      "Fake Ownership Detection",
+      "Encumbrance Verification",
+      "Search Report Preparation",
     ],
-    inquiryLink: "/contact?service=property-compliance",
+    inquiryLink: "/dashboard/property-compliance",
     overviewPara1:
-      "Institutional-grade property title vetting, legal chain search, and revenue documentation verification across Bilaspur and Chhattisgarh.",
+      "Buying or mortgaging a property without proper verification can result in legal disputes and financial loss. We perform comprehensive legal and technical due diligence & proper analysis to ensure every property is genuine and compliant.",
     overviewPara2:
       "Designed for property buyers, builders, and mortgage borrowers seeking complete clarity on ownership authenticity, municipal diversions, and encumbrances.",
     scopeItems: [
-      "Title Deed Verification",
+      "Title Verification",
       "Ownership Verification",
-      "Search and Survey Reports",
-      "Registry, Khasra and B-1 Verification",
-      "Mortgage Legal Assistance",
+      "Fake Ownership Detection",
+      "Encumbrance Verification",
+      "Search Report Preparation",
+      "Survey Report Preparation",
       "Property Risk Assessment",
-      "Property Dispute Resolution",
     ],
     documents: [
       "Registered Sale Deed / Title Deed Copy",
@@ -268,7 +269,7 @@ const services = [
       "Search Report Delivery",
     ],
     deliverables:
-      "Certified 13–30 Year Search and Survey Legal Opinion Report detailing ownership continuity, encumbrance findings, and compliance status.",
+      "Certified 13–30 Year Search and Survey Legal Opinion Report detailing ownership continuity, encumbrance findings, and compliance status. Benefits: Safe Investment, Legal Protection, Fraud Prevention, Complete Due Diligence.",
     faqs: [
       {
         q: "What areas of Chhattisgarh are covered?",
@@ -320,71 +321,80 @@ export default function ServicesCombinedSection() {
   return (
     <div className="w-full select-none antialiased bg-[#FAFBFD]">
       
-      {/* ─── PART 1: TOP HERO BANNER (NO FILE PATHS) ─── */}
-      <section className="relative w-full bg-[#052516] text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-12 overflow-hidden border-b border-emerald-950">
+      {/* ─── PART 1: TOP HERO BANNER ─── */}
+      <section className="relative w-full bg-[#052516] text-white py-12 sm:py-20 px-4 sm:px-6 lg:px-12 overflow-hidden border-b border-emerald-950">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#217044]/20 rounded-full blur-3xl opacity-40 pointer-events-none translate-x-1/3 -translate-y-1/4" />
         <div className="absolute top-1/2 -right-24 w-[520px] h-[520px] rounded-full border border-[#217044]/20 pointer-events-none -translate-y-1/2" />
         <div className="absolute top-1/2 -right-48 w-[680px] h-[680px] rounded-full border border-[#217044]/10 pointer-events-none -translate-y-1/2" />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            <div className="lg:col-span-8 flex flex-col items-start space-y-6">
+            <div className="order-1 lg:order-1 lg:col-span-5 flex justify-center items-center">
+              <div className="relative w-full max-w-[420px] aspect-[4/3] sm:aspect-square rounded-3xl overflow-hidden shadow-2xl border border-emerald-500/20 bg-[#07331f]/60">
+                <Image
+                  src="/images/ser1.png"
+                  alt="BSP Continental Loan Readiness & Services"
+                  fill
+                  priority
+                  className="object-cover object-center transition-transform duration-500 hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#052516]/80 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-4 left-4 right-4 bg-[#052516]/90 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-emerald-500/20">
+                  <p className="text-[11px] font-mono text-emerald-200 uppercase tracking-widest font-bold">
+                    Direct Advisory Desk • Bilaspur
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="order-2 lg:order-2 lg:col-span-7 flex flex-col items-start space-y-6">
               <span className="text-xs sm:text-[13px] font-black uppercase tracking-[0.24em] text-[#f3c251] block">
                 LOAN READINESS CONSULTING
               </span>
 
-              <h1 className="text-4xl sm:text-6xl lg:text-[68px] font-black uppercase tracking-tight text-white leading-[1.02]">
+              <h1 className="text-3xl sm:text-5xl lg:text-[62px] font-black uppercase tracking-tight text-white leading-[1.05]">
                 PREPARE BEFORE <br />
                 YOU APPLY.
               </h1>
 
               <p className="text-sm sm:text-base text-emerald-100/85 font-medium max-w-xl leading-relaxed">
-                Assess eligibility, organize verified legal documents, and address readiness gaps before approaching an institutional lender[cite: 1].
+                Assess eligibility, organize verified legal documents, and address readiness gaps before approaching an institutional lender.
               </p>
 
-              <div className="flex flex-wrap gap-2.5 pt-2">
+              <div className="flex flex-wrap gap-2.5 pt-1">
                 {tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-4 py-2 rounded-full bg-[#0a331f]/80 border border-emerald-500/25 text-[11px] font-mono font-bold tracking-wider text-emerald-100/90 shadow-inner"
+                    className="px-3.5 py-1.5 rounded-full bg-[#0a331f]/80 border border-emerald-500/25 text-[11px] font-mono font-bold tracking-wider text-emerald-100/90 shadow-inner"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
 
-              <div className="pt-3">
+              <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
+                {snapshotPoints.map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-2 bg-[#0a331f]/60 border border-emerald-500/15 rounded-xl px-3 py-2 text-[11px] font-semibold text-emerald-100/90">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#f3c251] shrink-0" />
+                    <span className="truncate">{item}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-2 flex flex-wrap gap-4 items-center">
                 <a
                   href="#services-grid"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-[#f3c251] hover:bg-[#e5b33d] text-[#052516] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center cursor-pointer"
+                  className="inline-flex items-center justify-center px-8 py-3.5 bg-[#f3c251] hover:bg-[#e5b33d] text-[#052516] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center cursor-pointer"
                 >
-                  START SERVICE INQUIRY
+                  EXPLORE SERVICES
                 </a>
-              </div>
-            </div>
-
-            {/* Right White Snapshot Card */}
-            <div className="lg:col-span-4 flex justify-start lg:justify-end">
-              <div className="w-full max-w-[340px] bg-white text-slate-900 rounded-3xl p-8 sm:p-9 shadow-2xl space-y-6">
-                <span className="text-[11px] font-mono font-black uppercase tracking-[0.22em] text-[#f3c251] block">
-                  SERVICE SNAPSHOT
-                </span>
-
-                <ul className="space-y-4">
-                  {snapshotPoints.map((item, idx) => (
-                    <li key={idx} className="flex items-center gap-3 text-sm font-bold text-slate-800">
-                      <span className="w-1.5 h-1.5 rounded-full bg-slate-900 shrink-0" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="pt-2 border-t border-slate-100">
-                  <p className="text-[11px] text-slate-400 font-medium tracking-wide">
-                    Standard compliance model. No direct approval guarantees[cite: 1].
-                  </p>
-                </div>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center px-7 py-3.5 bg-transparent hover:bg-white/10 text-white border border-white/30 text-xs font-black uppercase tracking-wider rounded-xl transition-all active:scale-95 text-center cursor-pointer"
+                >
+                  TALK TO CONSULTANT
+                </Link>
               </div>
             </div>
 
@@ -392,7 +402,7 @@ export default function ServicesCombinedSection() {
         </div>
       </section>
 
-      {/* ─── PART 2: THE 4 SERVICES ARCHITECTURAL CARDS (MODERNIZED LENGTH & ICONS) ─── */}
+      {/* ─── PART 2: THE 4 SERVICES ARCHITECTURAL CARDS ─── */}
       <section id="services-grid" className="pt-16 pb-20 bg-[#F8FAFC] text-slate-900 border-b border-slate-200/80 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
@@ -413,7 +423,7 @@ export default function ServicesCombinedSection() {
             </h2>
 
             <p className="text-xs sm:text-sm text-slate-500 font-medium tracking-wide max-w-2xl leading-relaxed pt-0.5">
-              One integrated service structure for financial readiness, loan diagnostics, and property compliance in Bilaspur and Chhattisgarh[cite: 1].
+              One integrated service structure for financial readiness, loan diagnostics, and property compliance in Bilaspur and Chhattisgarh.
             </p>
           </motion.div>
 
@@ -439,7 +449,6 @@ export default function ServicesCombinedSection() {
                   <div className="absolute top-0 right-0 w-28 h-28 bg-[#217044]/5 rounded-bl-full pointer-events-none group-hover:bg-[#217044]/10 transition-colors" />
 
                   <div className="space-y-6">
-                    {/* Header: Icon & Number Badge */}
                     <div className="flex items-center justify-between">
                       <div className="w-14 h-14 rounded-2xl bg-[#217044]/10 text-[#217044] group-hover:bg-[#217044] group-hover:text-white transition-all flex items-center justify-center shadow-xs">
                         {item.icon}
@@ -449,7 +458,6 @@ export default function ServicesCombinedSection() {
                       </span>
                     </div>
 
-                    {/* Title & Tagline */}
                     <div className="space-y-1">
                       <h3 className="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight leading-snug group-hover:text-[#217044] transition-colors">
                         {item.title}
@@ -459,7 +467,6 @@ export default function ServicesCombinedSection() {
                       </p>
                     </div>
 
-                    {/* Detailed Bullet Points with Refined Icons */}
                     <ul className="space-y-3 pt-3 border-t border-slate-100">
                       {item.items.map((subItem, idx) => (
                         <li key={idx} className="flex items-start gap-2.5 text-xs font-semibold text-slate-600 leading-snug">
@@ -472,7 +479,6 @@ export default function ServicesCombinedSection() {
                     </ul>
                   </div>
 
-                  {/* Dynamic Action Buttons (INQUIRY READY) */}
                   <div className="pt-6 mt-6 border-t border-slate-100 space-y-2">
                     <Link
                       href={item.inquiryLink}
@@ -518,7 +524,6 @@ export default function ServicesCombinedSection() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            {/* Left Column: Bento Cards */}
             <div className="lg:col-span-8 space-y-6">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -529,7 +534,6 @@ export default function ServicesCombinedSection() {
                   transition={{ duration: 0.25 }}
                   className="space-y-6"
                 >
-                  {/* CARD 01: OVERVIEW */}
                   <div className="bg-[#F8FAFC] rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xs space-y-4">
                     <span className="text-[11px] font-mono font-black uppercase tracking-[0.2em] text-[#f3c251] block">
                       01 OVERVIEW
@@ -543,7 +547,6 @@ export default function ServicesCombinedSection() {
                     </div>
                   </div>
 
-                  {/* CARD 02: WHAT WE REVIEW */}
                   <div className="bg-[#F8FAFC] rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xs space-y-5">
                     <span className="text-[11px] font-mono font-black uppercase tracking-[0.2em] text-[#f3c251] block">
                       02 WHAT WE REVIEW
@@ -586,7 +589,6 @@ export default function ServicesCombinedSection() {
                     </div>
                   </div>
 
-                  {/* SPLIT ROW: PROCESS & DELIVERABLES */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-[#F8FAFC] rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xs space-y-4">
                       <span className="text-[11px] font-mono font-black uppercase tracking-[0.2em] text-[#f3c251] block">
@@ -624,7 +626,6 @@ export default function ServicesCombinedSection() {
                     </div>
                   </div>
 
-                  {/* CARD 05: FAQS */}
                   <div className="bg-[#F8FAFC] rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xs space-y-5">
                     <span className="text-[11px] font-mono font-black uppercase tracking-[0.2em] text-[#f3c251] block">
                       05 FREQUENTLY ASKED QUESTIONS
@@ -652,7 +653,6 @@ export default function ServicesCombinedSection() {
               </AnimatePresence>
             </div>
 
-            {/* Right Column: Sticky Advisory Card */}
             <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-8">
               <div className="bg-[#052516] text-white rounded-3xl p-7 sm:p-8 space-y-5 shadow-xl border border-emerald-950">
                 <span className="text-[11px] font-mono font-black uppercase tracking-[0.22em] text-[#f3c251] block">
@@ -685,13 +685,12 @@ export default function ServicesCombinedSection() {
                 </div>
               </div>
 
-              {/* Service Disclaimer Box */}
               <div className="bg-[#F8FAFC] rounded-3xl p-6 border border-slate-200/90 space-y-3">
                 <span className="text-[11px] font-mono font-black uppercase tracking-[0.2em] text-slate-400 block">
                   SERVICE NOTICE
                 </span>
                 <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                  BSP Continental Pvt Ltd provides independent pre-application consultation, revenue compliance verification, and bureau analysis[cite: 1]. We do not provide credit guarantees or issue loans directly[cite: 1].
+                  BSP Continental Pvt Ltd provides independent pre-application consultation, revenue compliance verification, and bureau analysis. We do not provide credit guarantees or issue loans directly.
                 </p>
                 <div className="pt-2 flex items-center gap-2 text-[11px] font-bold text-[#217044]">
                   <FiCheckCircle />
