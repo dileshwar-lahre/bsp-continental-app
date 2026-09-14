@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -81,6 +81,14 @@ export default function FinancialConsultingPage() {
     message: ""
   });
 
+  // 💳 Load Razorpay script dynamically on client side
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "message" && value.length > 100) return;
@@ -96,30 +104,77 @@ export default function FinancialConsultingPage() {
     setIsModalOpen(true);
   };
 
+  // 💳 Real Razorpay Payment Trigger & Form Submission
   const handleInquirySubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setStatusMessage("");
 
     try {
-      const inqRes = await fetch("/api/inquiry", {
+      // 1. Call backend inquiry endpoint to create database record and generate Razorpay Order
+      const res = await fetch("/api/inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
           service: "Financial Consultancy",
-          amount: 1 // Test amount (₹1)
+          amount: 5999 // 👈 Exact amount passed to backend
         }),
       });
-      const inqData = await inqRes.json();
-      if (!inqRes.ok || !inqData.success) {
-        throw new Error(inqData.error || "Failed to submit inquiry details.");
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to initialize inquiry payment order.");
       }
 
-      setIsModalOpen(false);
-      // 🚀 Redirecting directly to dashboard financial-consulting subroute after form submit
-      router.push("/dashboard/financial-consulting");
-      router.refresh();
+      // 2. Open Real Razorpay Payment Gateway Popup
+      if (typeof window !== "undefined" && window.Razorpay) {
+        const options = {
+          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_placeholder", // Aapki key
+          amount: 5999 * 100, // Amount in paise (₹5,999 = 599900 paise)
+          currency: "INR",
+          name: "BSP Continental Pvt Ltd",
+          description: "Financial Consultancy Advisory Fee",
+          order_id: data.orderId, // Backend se aaya hua order ID
+          handler: async function (response) {
+            // Payment Success hone par verification API call karein (optional/standard)
+            try {
+              await fetch("/api/verify-payment", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_signature: response.razorpay_signature,
+                  inquiryId: data.inquiryId
+                }),
+              });
+            } catch (err) {
+              console.error("Verification notice:", err);
+            }
+
+            // Success -> Redirect to /dashboard/finance
+            setIsModalOpen(false);
+            setLoading(false);
+            router.push("/dashboard/finance");
+            router.refresh();
+          },
+          prefill: {
+            name: formData.name,
+            email: formData.email,
+            contact: formData.phone,
+          },
+          theme: {
+            color: "#217044",
+          },
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+        setLoading(false);
+      } else {
+        throw new Error("Razorpay SDK failed to load. Check your internet connection.");
+      }
 
     } catch (err) {
       setLoading(false);
@@ -130,7 +185,7 @@ export default function FinancialConsultingPage() {
   return (
     <main className="w-full bg-[#FAFBFD] text-slate-900 select-none antialiased pt-0 m-0">
       
-      {/* ─── 1. TOP HEADER BANNER (Original Image Untouched) ─── */}
+      {/* ─── 1. TOP HEADER BANNER ─── */}
       <section className="relative w-full bg-[#052516] text-white pt-28 pb-16 sm:pt-32 sm:pb-20 px-6 sm:px-12 lg:px-20 overflow-hidden">
         <div className="absolute inset-0 w-full h-full opacity-35">
           <Image
@@ -174,10 +229,9 @@ export default function FinancialConsultingPage() {
       {/* ─── 2. DETAILED SPECIFICATION BREAKDOWN ─── */}
       <section className="py-16 sm:py-20 max-w-5xl mx-auto px-6 sm:px-12 space-y-12">
         
-        {/* Overview Section: Phone mein Image Top par, Desktop mein Side-by-Side (Fully Visible Image) */}
+        {/* Overview Section */}
         <article className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center border-b border-slate-200 pb-12">
           
-          {/* Image Block: Natural scaling ensures no height clipping/hiding */}
           <div className="lg:col-span-6 order-1 lg:order-2 w-full rounded-3xl overflow-hidden shadow-xl border border-emerald-950/10 bg-slate-50 flex items-center justify-center">
             <Image
               src="/images/ser3.png"
@@ -189,7 +243,6 @@ export default function FinancialConsultingPage() {
             />
           </div>
 
-          {/* Text Block */}
           <div className="lg:col-span-6 order-2 lg:order-1 space-y-4">
             <span className="text-xs font-mono font-black uppercase tracking-[0.22em] text-[#217044] block">
               OVERVIEW
@@ -326,7 +379,7 @@ export default function FinancialConsultingPage() {
         </div>
       </section>
 
-      {/* ─── 4. INQUIRY MODAL ─── */}
+      {/* ─── 4. INQUIRY MODAL (Triggers Razorpay Gateway Popup for ₹5999) ─── */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
           <div className="relative w-full max-w-lg bg-white rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
@@ -430,7 +483,7 @@ export default function FinancialConsultingPage() {
                 className="w-full py-3.5 bg-[#217044] hover:bg-[#164e2e] text-white font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
               >
                 <FiSend size={15} />
-                <span>{loading ? "SUBMITTING..." : "SUBMIT & PROCEED"}</span>
+                <span>{loading ? "INITIALIZING PAYMENT..." : "SUBMIT & PAY ₹5,999"}</span>
               </button>
             </form>
           </div>
