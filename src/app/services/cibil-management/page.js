@@ -8,12 +8,13 @@ import { useSession } from "next-auth/react";
 import { 
   FiTrendingUp, 
   FiArrowRight, 
+  FiX, 
   FiLock,
-  FiX,
   FiUser,
   FiPhone,
   FiMail,
-  FiSend
+  FiSend,
+  FiCheck
 } from "react-icons/fi";
 
 const cibilServices = [
@@ -87,7 +88,6 @@ export default function CibilManagementPage() {
     setStatusMessage("");
 
     try {
-      // 1. Submit Inquiry to DB via API
       const inqRes = await fetch("/api/inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -102,13 +102,11 @@ export default function CibilManagementPage() {
         throw new Error(inqData.error || "Failed to submit inquiry details.");
       }
 
-      // 2. Load SDK
       const isLoaded = await loadRazorpayScript();
       if (!isLoaded) {
         throw new Error("Razorpay gateway failed to load. Please check your connection.");
       }
 
-      // 3. Create Fixed 996 Order
       const orderRes = await fetch("/api/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -123,7 +121,6 @@ export default function CibilManagementPage() {
         throw new Error(orderData.error || "Order creation failed.");
       }
 
-      // 4. Open Razorpay Checkout
       const options = {
         key: orderData.key_id,
         amount: orderData.amount || 99600,
@@ -152,7 +149,6 @@ export default function CibilManagementPage() {
             const verifyData = await verifyRes.json();
             if (verifyData.success) {
               setIsModalOpen(false);
-              // Direct redirect to Credit Score Dashboard
               router.push("/dashboard/credit-score-management");
             } else {
               setStatusMessage("Payment verification failed. Please contact our desk.");
@@ -214,43 +210,93 @@ export default function CibilManagementPage() {
         </div>
       </section>
 
-      {/* ─── 2. SUB-SERVICES (CARDS WITHOUT CHECKBOX OR PRICE) ─── */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-16 sm:py-20 space-y-12">
-        <div className="space-y-1">
-          <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#217044] block">
-            CREDIT ADVISORY MODULES
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-[#052516]">
-            Credit Diagnostic Scope
-          </h2>
-          <p className="text-xs text-slate-500 font-medium">
-            Systematic credit file auditing, dispute filing, and debt restructuring for bank eligibility.
-          </p>
-        </div>
+      {/* ─── 2. DETAILED SPECIFICATION BREAKDOWN ─── */}
+      <section className="py-16 sm:py-20 max-w-5xl mx-auto px-6 sm:px-12 space-y-12">
+        
+        {/* Overview Article with Full Size Un-cropped Image */}
+        <article className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center border-b border-slate-200 pb-12">
+          
+          <div className="lg:col-span-6 order-1 lg:order-2 w-full rounded-3xl overflow-hidden shadow-xl border border-emerald-950/10 bg-slate-50 flex items-center justify-center">
+            <Image 
+              src="/images/ser2.png" 
+              alt="CIBIL Score Management Overview" 
+              width={1000} 
+              height={800} 
+              className="w-full h-auto object-contain" 
+              priority 
+            />
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {cibilServices.map((svc) => (
-            <div
-              key={svc.id}
-              className="bg-white p-6 rounded-2xl shadow-[0_4px_20px_rgba(5,37,22,0.04)] border border-slate-100 flex flex-col justify-between"
-            >
-              <div className="space-y-3">
-                <div className="p-3 bg-emerald-50 text-[#217044] rounded-xl w-fit">
-                  <FiTrendingUp size={22} />
-                </div>
-                <h3 className="text-base font-black text-slate-900 uppercase tracking-tight">
-                  {svc.title}
-                </h3>
-                <p className="text-xs text-slate-600 font-normal leading-relaxed">
-                  {svc.desc}
-                </p>
+          <div className="lg:col-span-6 order-2 lg:order-1 space-y-4">
+            <span className="text-xs font-mono font-black uppercase tracking-[0.22em] text-[#217044] block">
+              OVERVIEW
+            </span>
+            <div className="space-y-3 text-sm sm:text-base text-slate-700 leading-relaxed font-normal">
+              <p>
+                A low credit score or negative remarks can lead to loan rejections across banks and financial institutions. We perform comprehensive bureau audits and dispute filings to ensure your credit report is accurate and lender-ready.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
+                <FiCheck className="text-[#217044] shrink-0" size={16} />
+                <span>Bureau Analysis</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
+                <FiCheck className="text-[#217044] shrink-0" size={16} />
+                <span>Error Rectification</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
+                <FiCheck className="text-[#217044] shrink-0" size={16} />
+                <span>Dispute Support</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
+                <FiCheck className="text-[#217044] shrink-0" size={16} />
+                <span>Loan Readiness</span>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* PROCEED BUTTON (OPENS MODAL WITHOUT SHOWING ANY PRICE) */}
-        <div className="max-w-md mx-auto pt-6 text-center space-y-3">
+        </article>
+
+        {/* Services Include Grid */}
+        <article className="space-y-5 border-b border-slate-200 pb-12">
+          <span className="text-xs font-mono font-black uppercase tracking-[0.22em] text-[#217044] block">
+            SERVICES INCLUDE
+          </span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {cibilServices.map((svc) => (
+              <div
+                key={svc.id}
+                className="bg-white p-6 rounded-2xl shadow-xs border border-slate-200/90 flex flex-col justify-between"
+              >
+                <div className="space-y-3">
+                  <div className="p-3 bg-emerald-50 text-[#217044] rounded-xl w-fit">
+                    <FiTrendingUp size={22} />
+                  </div>
+                  <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight">
+                    {svc.title}
+                  </h3>
+                  <p className="text-xs text-slate-600 font-normal leading-relaxed">
+                    {svc.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        {/* PROCEED BOX */}
+        <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-sm text-center space-y-4 max-w-xl mx-auto">
+          <div className="space-y-1">
+            <h3 className="text-xl font-black uppercase text-[#052516]">
+              Ready to Improve Your CIBIL Score?
+            </h3>
+            <p className="text-xs text-slate-500">
+              Submit your credit diagnostic inquiry to start expert bureau evaluation.
+            </p>
+          </div>
+
           <button
             type="button"
             onClick={handleOpenConsultation}
@@ -265,40 +311,48 @@ export default function CibilManagementPage() {
             <span>Encrypted institutional bureau audit advisory</span>
           </div>
         </div>
+
       </section>
 
       {/* ─── 3. CLARITY CTA BANNER ─── */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 pb-20">
-        <div className="relative w-full bg-[#052516] text-white py-14 sm:py-20 px-6 sm:px-12 lg:px-16 overflow-hidden rounded-3xl shadow-2xl">
-          <div className="relative z-10 max-w-4xl space-y-6 text-left">
-            <span className="text-xs sm:text-[13px] font-black uppercase tracking-[0.24em] text-[#f3c251] block">
-              READY FOR THE NEXT STEP?
+      <section className="max-w-5xl mx-auto px-6 sm:px-12 pb-20">
+        <div className="relative w-full bg-[#052516] text-white py-12 px-8 sm:px-12 overflow-hidden rounded-3xl shadow-xl space-y-6 text-left">
+          <span className="text-xs font-mono font-black uppercase tracking-[0.24em] text-[#f3c251] block">
+            READY FOR THE NEXT STEP?
+          </span>
+
+          <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white leading-tight">
+            START WITH CLARITY.
+          </h2>
+
+          <p className="text-sm sm:text-base text-emerald-100/85 font-medium max-w-xl leading-relaxed">
+            Discuss your institutional finance, loan-readiness audit or property compliance documentation with our Bilaspur consulting team.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-4 pt-2">
+            <Link className="px-7 py-3 bg-[#f3c251] hover:bg-[#e4b443] text-[#052516] text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center cursor-pointer" href="/contact">
+              REQUEST A CONSULTATION
+            </Link>
+            <a
+              href="tel:9575059137"
+              className="px-7 py-3 bg-transparent hover:bg-white/10 text-white border border-white/40 hover:border-white text-xs font-black uppercase tracking-wider rounded-xl transition-all active:scale-95 text-center cursor-pointer"
+            >
+              CALL DESK NOW
+            </a>
+          </div>
+
+          <div className="pt-4 flex flex-wrap items-center gap-x-6 gap-y-1 text-xs font-medium text-emerald-200/70">
+            <span className="font-bold uppercase text-white tracking-wider text-[11px]">
+              BSP Continental Pvt Ltd
             </span>
-            <h2 className="text-3xl sm:text-5xl lg:text-[56px] font-black uppercase tracking-tight text-white leading-[1.04]">
-              START WITH CLARITY.
-            </h2>
-            <p className="text-sm sm:text-base text-emerald-100/85 font-medium max-w-xl leading-relaxed">
-              Discuss your institutional finance, loan-readiness audit or property compliance documentation with our Bilaspur consulting team.
-            </p>
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Link
-                href="/contact"
-                className="px-8 py-3.5 bg-[#f3c251] hover:bg-[#e4b443] text-[#052516] text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 text-center cursor-pointer"
-              >
-                REQUEST A CONSULTATION
-              </Link>
-              <a
-                href="tel:9575059137"
-                className="px-8 py-3.5 bg-transparent hover:bg-white/10 text-white border border-white/40 hover:border-white text-xs font-black uppercase tracking-wider rounded-xl transition-all active:scale-95 text-center cursor-pointer"
-              >
-                CALL DESK NOW
-              </a>
-            </div>
+            <span className="tracking-wide text-emerald-200/90 font-mono text-[11px] sm:text-xs">
+              +91 95750 59137 | +91 95759 59137
+            </span>
           </div>
         </div>
       </section>
 
-      {/* ─── 4. INQUIRY MODAL (100 CHAR LIMIT & DIRECT 996 PAYMENT) ─── */}
+      {/* ─── 4. INQUIRY MODAL ─── */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
           <div className="relative w-full max-w-lg bg-white rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">

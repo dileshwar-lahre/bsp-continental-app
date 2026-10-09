@@ -17,7 +17,7 @@ export default function Footer() {
   const companyLinks = [
     { title: "About Us", href: "/about" },
     { title: "Contact", href: "/contact" },
-    { title: "Track Request", href: "/my-requests" },
+    { title: "Track Request", href: "/dashboard/my-requests" },
     { title: "Client Login", href: "/login" },
   ];
 

@@ -28,8 +28,8 @@ const SERVICES_LIST = [
 ];
 
 const REQUIRED_DOCUMENTS = [
-  { id: "registry", label: "Registry / Sale Deed Copy", required: true, note: "Main property ownership document" },
-  { id: "khasra", label: "Khasra / Khatauni / B-1 Copy", required: true, note: "Revenue / land record paper" },
+  { id: "registry", label: "Registry / Sale Deed Copy", required: false, note: "Main property ownership document (Optional)" },
+  { id: "khasra", label: "Khasra / Khatauni / B-1 Copy", required: false, note: "Revenue / land record paper (Optional)" },
   { id: "layout_map", label: "Layout Map / Site Plan / Agreement", required: false, note: "Plot layout or seller agreement (Optional)" }
 ];
 
@@ -102,14 +102,6 @@ export default function PropertyVettingPage() {
       return;
     }
 
-    if (selectedFiles.length === 0) {
-      setSubmitStatus({
-        success: false,
-        msg: 'Please upload at least one required document (Registry or Khasra Copy)!'
-      });
-      return;
-    }
-
     setIsSubmitting(true);
     setSubmitStatus({ success: false, msg: '' });
 
@@ -170,13 +162,14 @@ export default function PropertyVettingPage() {
       if (!dbResponse.ok || !dbResult.success) throw new Error(dbResult.message || "DB transaction fault.");
 
       setIsSubmitting(false);
-      setSubmitStatus({ success: true, msg: 'Property Compliance request submitted! Redirecting to your ledger...' });
+      setSubmitStatus({ success: true, msg: 'Property Compliance request submitted! Redirecting to your requests...' });
 
       setFormData({ ownerName: '', userPhone: '', propertyLocation: '', customMessage: '' });
       setSelectedFiles([]);
       setSelectedServices([]);
 
-      setTimeout(() => router.push('/my-requests'), 1500);
+      // Redirecting to dashboard/my-requests as requested
+      setTimeout(() => router.push('/dashboard/my-requests'), 1500);
 
     } catch (dbError) {
       setIsSubmitting(false);
@@ -250,7 +243,7 @@ export default function PropertyVettingPage() {
     <div className="w-full min-h-screen bg-[#FAFBFD] text-slate-900 antialiased pt-20 pb-12 px-4 sm:px-6 md:px-8 font-sans select-none lg:pl-64 transition-all duration-300">
       <div className="w-full max-w-6xl mx-auto space-y-6">
         
-        {/* ─── 1. TOP HERO BANNER (MATCHES DASHBOARD SLIDER RATIO & CRISP ON PHONE) ─── */}
+        {/* TOP HERO BANNER */}
         <section className="relative overflow-hidden rounded-3xl bg-[#062415] text-white shadow-xl h-[340px] sm:h-[260px] md:aspect-[980/260] md:h-auto flex flex-col justify-end">
           <Image
             src="/images/Premiumproperty.png"
@@ -259,7 +252,6 @@ export default function PropertyVettingPage() {
             priority
             className="object-cover object-[80%_center] sm:object-center"
           />
-          {/* Enhanced Mobile Contrast Gradient */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#051f12] via-[#051f12]/85 via-50% to-black/35 sm:bg-gradient-to-r sm:from-[#051f12] sm:via-[#051f12]/90 sm:via-55% sm:to-transparent" />
 
           <div className="relative z-10 p-5 sm:p-8 md:p-10 space-y-2 sm:space-y-3 max-w-2xl">
@@ -288,7 +280,7 @@ export default function PropertyVettingPage() {
           </div>
         )}
 
-        {/* ─── 2. CATEGORY TILES (BORDER-FREE OPEN LUXURY ROW) ─── */}
+        {/* CATEGORY TILES */}
         <section className="space-y-3">
           <div className="flex items-center justify-between px-1">
             <span className="text-xs font-black uppercase tracking-wider text-slate-500">
@@ -332,9 +324,8 @@ export default function PropertyVettingPage() {
           </div>
         </section>
 
-        {/* ─── 3. FORM & UPLOAD (BORDER-FREE OPEN FLAT TILES) ─── */}
+        {/* FORM & UPLOAD */}
         <section className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm space-y-8">
-          
           <div className="space-y-1">
             <h2 className="text-lg sm:text-xl font-black text-slate-950 uppercase tracking-tight flex items-center gap-2">
               <FiShield className="text-[#217044]" size={22} />
@@ -392,11 +383,11 @@ export default function PropertyVettingPage() {
               </div>
             </div>
 
-            {/* Step 2: Clean Document Upload Row */}
+            {/* Step 2: Document Uploads (All Optional) */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono font-black uppercase tracking-wider text-[#217044] block">
-                  2. Required Document Uploads
+                  2. Document Uploads (Optional)
                 </span>
                 <span className="text-[10px] font-mono text-slate-400">PDF, PNG, JPG accepted</span>
               </div>
@@ -411,11 +402,7 @@ export default function PropertyVettingPage() {
                       <div className="space-y-1">
                         <div className="flex items-center justify-between">
                           <FiFile className="text-[#217044]" size={18} />
-                          {doc.required ? (
-                            <span className="text-[8px] font-mono font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">REQUIRED</span>
-                          ) : (
-                            <span className="text-[8px] font-mono font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">OPTIONAL</span>
-                          )}
+                          <span className="text-[8px] font-mono font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">OPTIONAL</span>
                         </div>
                         <h4 className="text-xs font-bold text-slate-900">{doc.label}</h4>
                         <p className="text-[10px] text-slate-500 font-normal leading-relaxed">{doc.note}</p>
@@ -480,10 +467,9 @@ export default function PropertyVettingPage() {
             </button>
 
           </form>
-
         </section>
 
-        {/* ─── 4. SIGNATURE BOTTOM CLARITY CTA BANNER (CALL DESK REMOVED) ─── */}
+        {/* BOTTOM CLARITY CTA BANNER */}
         <section className="relative overflow-hidden bg-[#052516] text-white p-6 sm:p-8 rounded-3xl shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
           <div className="relative z-10 space-y-1.5">
             <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#f3c251]">

@@ -93,11 +93,6 @@ export default function CreditScoreManagementPage() {
       return;
     }
 
-    if (!aadhaarFront || !aadhaarBack || !panCardFile) {
-      alert('Please upload all mandatory documents (Aadhaar Front & Back, PAN Card)!');
-      return;
-    }
-
     setIsSubmitting(true);
     setSuccessMsg('');
 
@@ -133,8 +128,8 @@ export default function CreditScoreManagementPage() {
 
       const result = await response.json();
       if (response.ok && result.success) {
-        setSuccessMsg('Your Credit Score Application has been successfully submitted!');
-        setTimeout(() => router.push('/my-requests'), 2000);
+        setSuccessMsg('Your Credit Score Application has been successfully submitted! Redirecting...');
+        setTimeout(() => router.push('/dashboard/my-requests'), 2000);
       } else {
         alert(result.message || 'Submission failed');
       }
@@ -212,7 +207,7 @@ export default function CreditScoreManagementPage() {
     <div className="w-full min-h-screen bg-[#FAFBFD] text-slate-900 antialiased pt-20 pb-12 px-4 sm:px-6 md:px-8 font-sans select-none lg:pl-64 transition-all duration-300">
       <div className="w-full max-w-6xl mx-auto space-y-6">
         
-        {/* ─── 1. TOP HERO BANNER (MATCHES DASHBOARD SLIDER RATIO) ─── */}
+        {/* TOP HERO BANNER */}
         <section className="relative overflow-hidden rounded-3xl bg-[#062415] text-white shadow-xl h-[340px] sm:h-[260px] md:aspect-[980/260] md:h-auto flex flex-col justify-end">
           <Image
             src="/images/Structured credit planning with expert guidance.png"
@@ -239,7 +234,7 @@ export default function CreditScoreManagementPage() {
           </div>
         </section>
 
-        {/* ─── 2. CATEGORY TILES (BORDER-FREE OPEN LUXURY TILES) ─── */}
+        {/* CATEGORY TILES */}
         <section className="space-y-3">
           <div className="flex items-center justify-between px-1">
             <span className="text-xs font-black uppercase tracking-wider text-slate-500">
@@ -283,7 +278,7 @@ export default function CreditScoreManagementPage() {
           </div>
         </section>
 
-        {/* ─── 3. FORM & UPLOAD (BORDER-FREE FLAT TILES) ─── */}
+        {/* FORM & UPLOAD */}
         <section className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm space-y-8">
           
           <div className="space-y-1">
@@ -300,7 +295,7 @@ export default function CreditScoreManagementPage() {
             <div className="bg-emerald-50 p-6 rounded-2xl text-center space-y-2">
               <FiCheckCircle className="w-10 h-10 text-[#217044] mx-auto" />
               <h3 className="text-xs font-black text-[#217044] uppercase">{successMsg}</h3>
-              <p className="text-xs text-slate-500 font-medium">Redirecting to `/my-requests` ledger...</p>
+              <p className="text-xs text-slate-500 font-medium">Redirecting to your requests ledger...</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-8">
@@ -366,11 +361,11 @@ export default function CreditScoreManagementPage() {
                 </div>
               </div>
 
-              {/* Step 2: Upload Row */}
+              {/* Step 2: Upload Row (Optional) */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-mono font-black uppercase tracking-wider text-[#217044] block">
-                    2. Mandatory Identity Proofs
+                    2. Identity Proofs (Optional)
                   </span>
                   <span className="text-[10px] font-mono text-slate-400">PDF, PNG, JPG accepted</span>
                 </div>
@@ -382,7 +377,7 @@ export default function CreditScoreManagementPage() {
                     <div className="space-y-1">
                       <div className="flex items-center justify-between">
                         <FiFileText className="text-[#217044]" size={18} />
-                        <span className="text-[8px] font-mono font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">REQUIRED</span>
+                        <span className="text-[8px] font-mono font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">OPTIONAL</span>
                       </div>
                       <h4 className="text-xs font-bold text-slate-900">Aadhaar Card (Front)</h4>
                       <p className="text-[10px] text-slate-500 font-normal leading-relaxed">Official Government Issued Front Copy</p>
@@ -394,7 +389,6 @@ export default function CreditScoreManagementPage() {
                       <input
                         type="file"
                         accept="image/*,.pdf"
-                        required
                         className="hidden"
                         onChange={(e) => setAadhaarFront(e.target.files[0])}
                       />
@@ -418,7 +412,7 @@ export default function CreditScoreManagementPage() {
                     <div className="space-y-1">
                       <div className="flex items-center justify-between">
                         <FiFileText className="text-[#217044]" size={18} />
-                        <span className="text-[8px] font-mono font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">REQUIRED</span>
+                        <span className="text-[8px] font-mono font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">OPTIONAL</span>
                       </div>
                       <h4 className="text-xs font-bold text-slate-900">Aadhaar Card (Back)</h4>
                       <p className="text-[10px] text-slate-500 font-normal leading-relaxed">Address Record Reverse Side</p>
@@ -430,7 +424,6 @@ export default function CreditScoreManagementPage() {
                       <input
                         type="file"
                         accept="image/*,.pdf"
-                        required
                         className="hidden"
                         onChange={(e) => setAadhaarBack(e.target.files[0])}
                       />
@@ -454,7 +447,7 @@ export default function CreditScoreManagementPage() {
                     <div className="space-y-1">
                       <div className="flex items-center justify-between">
                         <FiCreditCard className="text-[#217044]" size={18} />
-                        <span className="text-[8px] font-mono font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">REQUIRED</span>
+                        <span className="text-[8px] font-mono font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">OPTIONAL</span>
                       </div>
                       <h4 className="text-xs font-bold text-slate-900">PAN Card</h4>
                       <p className="text-[10px] text-slate-500 font-normal leading-relaxed">Tax Document Identity Face</p>
@@ -466,7 +459,6 @@ export default function CreditScoreManagementPage() {
                       <input
                         type="file"
                         accept="image/*,.pdf"
-                        required
                         className="hidden"
                         onChange={(e) => setPanCardFile(e.target.files[0])}
                       />
@@ -515,7 +507,7 @@ export default function CreditScoreManagementPage() {
 
         </section>
 
-        {/* ─── 4. SIGNATURE BOTTOM CLARITY CTA BANNER (CALL DESK REMOVED) ─── */}
+        {/* BOTTOM CLARITY CTA BANNER */}
         <section className="relative overflow-hidden bg-[#052516] text-white p-6 sm:p-8 rounded-3xl shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
           <div className="relative z-10 space-y-1.5">
             <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#f3c251]">

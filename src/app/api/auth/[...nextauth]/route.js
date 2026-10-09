@@ -8,7 +8,6 @@ import nodemailer from "nodemailer";
 import path from "path";
 import fs from "fs";
 
-// 📧 Background Safe Email Helper
 async function sendWelcomeTermsEmail(email, name) {
   try {
     if (!email) return;
@@ -37,7 +36,7 @@ async function sendWelcomeTermsEmail(email, name) {
         });
       }
     } catch (e) {
-      console.warn("⚠️ PDF attachment skipped (Serverless FS check):", e.message);
+      console.warn("⚠️ PDF attachment skipped:", e.message);
     }
 
     const mailOptions = {
@@ -52,7 +51,7 @@ async function sendWelcomeTermsEmail(email, name) {
           </div>
           <div style="padding: 20px 0;">
             <p style="font-size: 15px; color: #1e293b;">Hello <strong>${name || "Valued Client"}</strong>,</p>
-            <p style="font-size: 13px; color: #475569; line-height: 1.6;">Aapka account BSP Continental portal par successfully authenticate ho chuka hai.</p>
+            <p style="font-size: 13px; color: #475569; line-height: 1.6;">Your account has been successfully authenticated on the BSP Continental portal.</p>
           </div>
         </div>
       `,
@@ -86,31 +85,42 @@ export const authOptions = {
     }),
     CredentialsProvider({
       name: "Credentials",
+      credentials: {
+        phone: { label: "Mobile Number", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
       async authorize(credentials) {
         await connectDB();
 
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Email aur Password dono bharo!");
+        const inputPhone = credentials?.phone || credentials?.email;
+        const password = credentials?.password;
+
+        if (!inputPhone || !password) {
+          throw new Error("Please enter both mobile number and password.");
         }
 
-        const user = await User.findOne({ email: credentials.email.toLowerCase().trim() });
+        const cleanPhone = inputPhone.trim();
+        console.log("🔍 Attempting login for phone:", cleanPhone);
+
+        const user = await User.findOne({ phone: cleanPhone });
         if (!user) {
-          throw new Error("Is email se koi account nahi mila! Pehle Sign Up karein.");
+          throw new Error("No account found with this mobile number. Please sign up first.");
         }
 
         if (!user.password) {
-          throw new Error("Aapne Google se account banaya tha. Kripya 'Continue with Google' use karein.");
+          throw new Error("This account was created using Google. Please use 'Continue with Google' to sign in.");
         }
 
-        const isMatch = await bcrypt.compare(credentials.password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-          throw new Error("Galat password! Kripya dobara check karein.");
+          throw new Error("Invalid password! Please check your credentials and try again.");
         }
 
         return {
           id: user._id.toString(),
           name: user.name,
-          email: user.email,
+          email: user.email || "",
+          phone: user.phone || "",
           role: user.role || "user",
         };
       },
@@ -120,23 +130,25 @@ export const authOptions = {
     async signIn({ user, account }) {
       try {
         await connectDB();
-        const cleanEmail = user.email.toLowerCase().trim();
+        const cleanEmail = user.email ? user.email.toLowerCase().trim() : "";
 
-        if (account?.provider === "google") {
+        if (account?.provider === "google" && cleanEmail) {
           const existingUser = await User.findOne({ email: cleanEmail });
           if (!existingUser) {
             await User.create({
               name: user.name || "User",
               email: cleanEmail,
               image: user.image || "",
+              phone: "",
               role: "user",
               hasReceivedTermsPdf: false,
             });
           }
         }
 
-        // Email execution non-blocking async
-        sendWelcomeTermsEmail(cleanEmail, user.name).catch(() => {});
+        if (cleanEmail) {
+          sendWelcomeTermsEmail(cleanEmail, user.name).catch(() => {});
+        }
       } catch (err) {
         console.error("SignIn callback error:", err);
       }
@@ -147,6 +159,7 @@ export const authOptions = {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.phone = user.phone;
       }
       return token;
     },
@@ -155,30 +168,24 @@ export const authOptions = {
       if (session?.user && token) {
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.phone = token.phone;
       }
       return session;
     },
 
     async redirect({ url, baseUrl }) {
-      // 1. Agar URL relative hai (jaise /services/cibil-management)
       if (url.startsWith("/")) {
         return url === "/" ? `${baseUrl}/dashboard` : `${baseUrl}${url}`;
       }
-      
-      // 2. Agar URL absolute hai aur same domain ka hai
       try {
         const parsedUrl = new URL(url);
         if (parsedUrl.origin === baseUrl) {
           if (parsedUrl.pathname === "/" || parsedUrl.pathname === "") {
             return `${baseUrl}/dashboard`;
           }
-          return url; // ✅ Yeh exact requested page ya service par wapas bhej dega
+          return url;
         }
-      } catch (e) {
-        // Fallback catch
-      }
-
-      // 3. Default fallback
+      } catch (e) {}
       return `${baseUrl}/dashboard`;
     },
   },
@@ -188,18 +195,7 @@ export const authOptions = {
   },
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 Days
-  },
-  cookies: {
-    sessionToken: {
-      name: isProduction ? `__Secure-next-auth.session-token` : `next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: isProduction,
-      },
-    },
+    maxAge: 30 * 24 * 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

@@ -1,6 +1,5 @@
 import connectDB from "@/lib/db";
 import User from "@/model/User";
-import nodemailer from "nodemailer";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 
@@ -10,83 +9,83 @@ export async function POST(req) {
     const db = conn.connection.db;
 
     const body = await req.json();
-    const { action, name, email, otp, password } = body;
+    const { action, name, email, phone, otp, password } = body;
 
-    if (!email) {
-      return NextResponse.json({ error: "Email address is required." }, { status: 400 });
+    if (!phone) {
+      return NextResponse.json({ error: "Mobile number is required." }, { status: 400 });
     }
-    const targetEmail = email.toLowerCase().trim();
+    const targetPhone = phone.trim();
+    const targetEmail = email ? email.toLowerCase().trim() : `${targetPhone}@bspcontinental.local`;
 
     // ==========================================
-    // ⚡ ACTION 1: INITIALIZE REGISTRATION & DISPATCH SECURE OTP
+    // ⚡ ACTION 1: INITIALIZE REGISTRATION & DISPATCH WHATSAPP OTP
     // ==========================================
     if (action === "INIT") {
-      const existingUser = await User.findOne({ email: targetEmail });
+      const existingUser = await User.findOne({ $or: [{ phone: targetPhone }, { email: targetEmail }] });
       if (existingUser) {
         return NextResponse.json(
-          { error: "This email address is already registered. Please sign in." },
+          { error: "This mobile number or email is already registered. Please sign in." },
           { status: 400 }
         );
       }
 
       // Flush existing OTPs for clean state
-      await db.collection("otps").deleteMany({ email: targetEmail });
+      await db.collection("otps").deleteMany({ phone: targetPhone });
 
       // Generate 6-digit secure token
       const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
 
       // Store in database with creation timestamp
       await db.collection("otps").insertOne({
+        phone: targetPhone,
         email: targetEmail,
         code: otpCode,
         createdAt: new Date(),
       });
 
-      // Nodemailer Dispatcher
-      const emailUser = process.env.EMAIL_USER;
-      const emailPass = process.env.EMAIL_PASS;
-
-      if (!emailUser || !emailPass) {
+      // 🔐 Strictly Secure Environment Variable Check (No hardcoded fallback token)
+      const apiToken = process.env.RESILIO_API_TOKEN;
+      if (!apiToken) {
+        console.error("❌ RESILIO_API_TOKEN is missing in environment variables.");
         return NextResponse.json(
-          { error: "SMTP mail service is not configured. Please check environment variables." },
+          { error: "Server configuration error: WhatsApp gateway token is missing." },
           { status: 500 }
         );
       }
 
-      const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-          user: emailUser,
-          pass: emailPass,
-        },
-      });
+      try {
+        const response = await fetch('https://resiliohub.com/api/v1/send_templet', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            sendTo: targetPhone,
+            templetName: 'auth',
+            exampleArr: [otpCode],
+          }),
+        });
 
-      await transporter.sendMail({
-        from: `"BSP Continental" <${emailUser}>`,
-        to: targetEmail,
-        subject: "Security Verification Code - BSP Continental",
-        html: `
-          <div style="font-family: Arial, sans-serif; padding: 25px; border: 1px solid #e2e8f0; border-radius: 16px; max-width: 420px; margin: auto; background-color: #ffffff;">
-            <h2 style="color: #387515; text-align: center; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;">BSP CONTINENTAL</h2>
-            <p style="font-size: 13px; color: #475569; text-align: center; line-height: 1.5;">Hello <strong>${name || "User"}</strong>, your account registration verification code is:</p>
-            <div style="background: #f8fafc; padding: 16px; text-align: center; border-radius: 12px; font-size: 28px; font-weight: 800; color: #387515; letter-spacing: 6px; margin: 20px 0; border: 1px dashed #387515;">
-              ${otpCode}
-            </div>
-            <p style="font-size: 11px; color: #94a3b8; text-align: center;">This code is valid for 10 minutes. Please do not share it with anyone.</p>
-          </div>
-        `,
-      });
+        const resData = await response.json();
 
-      return NextResponse.json({ success: true, message: "Verification code sent to your email." });
+        if (!response.ok) {
+          console.error("Resiliohub API Error Response:", resData);
+          return NextResponse.json({ error: "Failed to dispatch WhatsApp OTP. Please check the mobile number format." }, { status: 400 });
+        }
+      } catch (fetchErr) {
+        console.error("Fetch Network Error to Resiliohub:", fetchErr);
+        return NextResponse.json({ error: "Network error while connecting to WhatsApp gateway." }, { status: 500 });
+      }
+
+      return NextResponse.json({ success: true, message: "WhatsApp verification code sent successfully." });
     }
 
     // ==========================================
     // ⚡ ACTION 2: VERIFY OTP CODE
     // ==========================================
     if (action === "VERIFY") {
-      const otpRecord = await db.collection("otps").findOne({ email: targetEmail });
+      const otpRecord = await db.collection("otps").findOne({ phone: targetPhone });
 
       if (!otpRecord || otpRecord.code !== otp?.trim()) {
         return NextResponse.json({ error: "Invalid or expired verification code." }, { status: 400 });
@@ -95,7 +94,7 @@ export async function POST(req) {
       // Check 10-Minute Expiry Window (600,000 ms)
       const timeElapsed = new Date() - new Date(otpRecord.createdAt);
       if (timeElapsed > 600000) {
-        await db.collection("otps").deleteOne({ email: targetEmail });
+        await db.collection("otps").deleteOne({ phone: targetPhone });
         return NextResponse.json({ error: "Verification code has expired. Please request a new one." }, { status: 400 });
       }
 
@@ -103,10 +102,10 @@ export async function POST(req) {
     }
 
     // ==========================================
-    // ⚡ ACTION 3: COMMIT REGISTRATION
+    // ⚡ ACTION 3: COMMIT REGISTRATION (PASSWORD SETUP & SAVE)
     // ==========================================
     if (action === "FINAL") {
-      const otpRecord = await db.collection("otps").findOne({ email: targetEmail });
+      const otpRecord = await db.collection("otps").findOne({ phone: targetPhone });
 
       if (!otpRecord || otpRecord.code !== otp?.trim()) {
         return NextResponse.json(
@@ -115,10 +114,10 @@ export async function POST(req) {
         );
       }
 
-      const existingUser = await User.findOne({ email: targetEmail });
+      const existingUser = await User.findOne({ phone: targetPhone });
       if (existingUser) {
         return NextResponse.json(
-          { error: "This email address is already registered. Please sign in." },
+          { error: "This mobile number is already registered. Please sign in." },
           { status: 400 }
         );
       }
@@ -127,14 +126,15 @@ export async function POST(req) {
 
       const newUser = await User.create({
         name,
-        email: targetEmail,
+        email: otpRecord.email || targetEmail,
+        phone: targetPhone,
         password: hashedPassword,
         role: "user",
         hasReceivedTermsPdf: false,
       });
 
       // Clear OTP record after successful registration
-      await db.collection("otps").deleteMany({ email: targetEmail });
+      await db.collection("otps").deleteMany({ phone: targetPhone });
 
       return NextResponse.json({
         success: true,

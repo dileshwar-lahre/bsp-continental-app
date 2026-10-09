@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
@@ -21,7 +21,8 @@ import {
   FiArrowRight,
   FiRefreshCw,
   FiCheckSquare,
-  FiGrid
+  FiGrid,
+  FiList
 } from "react-icons/fi";
 
 export default function Navbar() {
@@ -50,7 +51,7 @@ export default function Navbar() {
   const userName = session?.user?.name || "User";
   const brandColor = "#217044";
 
-  // 3 Core Services (Project Finance Assistance removed)
+  // 3 Core Services
   const servicesDropdownList = [
     {
       id: "property-compliance",
@@ -70,6 +71,7 @@ export default function Navbar() {
   ];
 
   const moreMenuItems = [
+    { name: "My Requests", href: "/dashboard/my-requests", icon: <FiList size={16} /> },
     { name: "Contact Desk", href: "/contact", icon: <FiPhoneCall size={16} /> },
     { name: "Terms of Service", href: "/terms", icon: <FiFileText size={16} /> },
     { name: "Privacy Policy", href: "/privacy", icon: <FiShield size={16} /> },
@@ -213,7 +215,7 @@ export default function Navbar() {
                   setIsServicesOpen(false);
                 }}
                 className="flex items-center gap-1.5 text-base font-bold transition-colors py-1.5 hover:text-[#217044]"
-                style={{ color: isMoreOpen || ["/contact", "/privacy", "/terms", "/refund-policy", "/client-consent"].includes(pathname) ? brandColor : "#334155" }}
+                style={{ color: isMoreOpen || ["/contact", "/privacy", "/terms", "/refund-policy", "/client-consent", "/dashboard/my-requests"].includes(pathname) ? brandColor : "#334155" }}
               >
                 <span>More</span>
                 <FiChevronDown 
@@ -415,6 +417,15 @@ export default function Navbar() {
                       Dashboard
                     </Link>
                   )}
+
+                  <Link
+                    href="/dashboard/my-requests"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-3 text-sm font-black px-4 py-2.5 rounded-xl text-slate-800 hover:text-[#217044] hover:bg-slate-50"
+                  >
+                    <FiList size={18} className="text-slate-400" />
+                    My Requests
+                  </Link>
 
                   <Link
                     href="/about"

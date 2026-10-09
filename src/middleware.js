@@ -2,13 +2,23 @@ import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 export async function middleware(request) {
-  const { pathname, search } = request.nextUrl; // 👈 yahan 'search' add kiya hai
+  const { pathname, search } = request.nextUrl;
 
   // 🛡️ 1. ADMIN ROUTE PROTECTION
   if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
     const adminToken = request.cookies.get("bsp_admin_token")?.value;
+
     if (!adminToken) {
-      return NextResponse.redirect(new URL("/admin/login", request.url));
+      const loginUrl = new URL("/admin/login", request.url);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
+  // Agar admin already logged-in hai aur login page khol raha hai
+  if (pathname === "/admin/login") {
+    const adminToken = request.cookies.get("bsp_admin_token")?.value;
+    if (adminToken) {
+      return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     }
   }
 
@@ -19,26 +29,32 @@ export async function middleware(request) {
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
     secureCookie: isHttps,
-  });
+  }).catch(() => null);
 
-  // CASE A: User logged-in hai (Redirect to Dashboard)
   if (userToken) {
     if (pathname === "/" || pathname === "/login" || pathname === "/register") {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
   }
 
-  // CASE B: User logged-in nahi hai (Redirect to Login)
   if (!userToken) {
     if (pathname.startsWith("/dashboard")) {
       const loginUrl = new URL("/login", request.url);
-      // ✅ Yahan pathname + search kar diya hai taki query params miss na ho
       loginUrl.searchParams.set("callbackUrl", pathname + search); 
       return NextResponse.redirect(loginUrl);
     }
   }
 
-  return NextResponse.next();
+  const response = NextResponse.next();
+
+  // 🚫 CRITICAL: Prevent browser caching on all admin pages so logout hides dashboard instantly
+  if (pathname.startsWith("/admin")) {
+    response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    response.headers.set("Pragma", "no-cache");
+    response.headers.set("Expires", "0");
+  }
+
+  return response;
 }
 
 export const config = {

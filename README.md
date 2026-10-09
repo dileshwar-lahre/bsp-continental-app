@@ -34,3 +34,24 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+1 date 22/09/2026
+
+1 sign up jarte time pdf send ho gmail pe 
+2 whatsapp business setup notification and otp number verification alert warning 
+3 admin page me data saaf clear dikhe 
+4 fonts chack and branding fonts use maun hedres 
+5 property and cibil and finacial cundt ka service pe image overveiw ko banifit details ke sath shioiw karna hai 
+6 dynamic offer slider dynamic 
+7 path error my- request reqired optionel 
+8 https://www.bspccontinental.com/services/Project-Finance-Assistance dashboard pe erre file path 
+9 https://www.bspccontinental.com/dashboard/profile stup
+profile me data dikhe user ka and uska request ko dikhaye 
+
+10 path sidebar 
+11 admin login 
+12 u chabnge admin ka 
+13 admin ko customer [anel data dikhe unka request dikhe active ]
+14 
+

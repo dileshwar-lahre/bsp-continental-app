@@ -15,13 +15,13 @@ import {
   ShieldCheck
 } from "lucide-react";
 
-// Admin Menu List (Strictly 5 Core Admin Links)
+// Admin Menu List (Added Leads page)
 const adminMenus = [
   { title: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-  { title: "Requests", href: "/admin/requests", icon: Inbox },
-  { title: "Users", href: "/admin/users", icon: Users },
-  { title: "Approved", href: "/admin/approved", icon: CheckCircle2 },
-  { title: "Rejected", href: "/admin/rejected", icon: XCircle },
+  { title: "Requests", href: "/admin/dashboard/requests", icon: Inbox },
+  { title: "Leads", href: "/admin/dashboard/leads", icon: Users },
+  { title: "Approved", href: "/admin/dashboard/approved", icon: CheckCircle2 },
+  { title: "Rejected", href: "/admin/dashboard/rejected", icon: XCircle },
 ];
 
 export default function AdminNavigation() {
@@ -55,7 +55,7 @@ export default function AdminNavigation() {
             </button>
           </div>
 
-          {/* Navigation Links (5 Items) */}
+          {/* Navigation Links */}
           <nav className="flex flex-col gap-1.5 pt-2">
             {adminMenus.map((item) => {
               const isActive = pathname === item.href || (item.href !== "/admin/dashboard" && pathname.startsWith(item.href));
@@ -109,7 +109,7 @@ export default function AdminNavigation() {
         </div>
       </motion.aside>
 
-      {/* ================= MOBILE BOTTOM BAR (5 Items) ================= */}
+      {/* ================= MOBILE BOTTOM BAR ================= */}
       <div className="block md:hidden fixed bottom-0 left-0 right-0 z-50 w-full px-2 pb-2">
         <div className="relative flex items-center justify-around bg-white/95 backdrop-blur-xl border border-slate-200 px-1 py-2 rounded-2xl shadow-2xl">
           

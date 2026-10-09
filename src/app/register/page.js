@@ -3,14 +3,14 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FiArrowRight, FiX, FiCheckCircle, FiRefreshCw, FiShield, FiUser, FiMail, FiLock } from "react-icons/fi";
+import { FiArrowRight, FiX, FiCheckCircle, FiRefreshCw, FiShield, FiUser, FiPhone, FiLock } from "react-icons/fi";
 
 export default function RegisterPage() {
   const router = useRouter();
   const [step, setStep] = useState("details"); 
   
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -50,7 +50,7 @@ export default function RegisterPage() {
     setError("");
     setLoading(true);
     try {
-      await executeAuthAction({ action: "INIT", name, email });
+      await executeAuthAction({ action: "INIT", name, phone });
       setResendTimer(30);
       setCanResend(false);
       setStep("otp");
@@ -66,7 +66,7 @@ export default function RegisterPage() {
     setLoading(true);
     setOtp(""); 
     try {
-      await executeAuthAction({ action: "INIT", name, email });
+      await executeAuthAction({ action: "INIT", name, phone });
       setResendTimer(30);
       setCanResend(false);
     } catch (err) {
@@ -81,7 +81,7 @@ export default function RegisterPage() {
     setError("");
     setLoading(true);
     try {
-      await executeAuthAction({ action: "VERIFY", email, otp });
+      await executeAuthAction({ action: "VERIFY", phone, otp });
       setStep("password");
     } catch (err) {
       setError(err.message);
@@ -101,7 +101,7 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      await executeAuthAction({ action: "FINAL", name, email, otp, password });
+      await executeAuthAction({ action: "FINAL", name, phone, otp, password });
       router.push("/login"); 
     } catch (err) {
       setError(err.message);
@@ -124,15 +124,15 @@ export default function RegisterPage() {
 
         <div className="text-center space-y-1 mb-6 pt-2">
           <div className="inline-block px-3 py-1 rounded-full bg-[#FFDA50]/30 text-[#387515] font-black text-[10px] uppercase tracking-widest mb-1 border border-[#FFDA50]/60">
-            {step === "details" && "Step 1: Account Creation"}
-            {step === "otp" && "Step 2: Security Verification"}
+            {step === "details" && "Step 1: Account Details"}
+            {step === "otp" && "Step 2: WhatsApp Verification"}
             {step === "password" && "Step 3: Setup Password"}
           </div>
           <h1 className="text-3xl font-black tracking-tight text-slate-900 uppercase">
             SIGN <span className="text-[#387515]">UP</span>
           </h1>
           <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-            BSP Continental Registration Node
+            BSP Continental WhatsApp Auth
           </p>
         </div>
 
@@ -158,14 +158,14 @@ export default function RegisterPage() {
 
             <div className="relative flex items-center">
               <input 
-                type="email" 
+                type="text" 
                 required 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
-                placeholder="Email Address" 
+                value={phone} 
+                onChange={(e) => setPhone(e.target.value)} 
+                placeholder="WhatsApp Number (e.g. 919752...)" 
                 className="w-full bg-[#F4F6F2] border border-neutral-200/60 rounded-2xl py-3.5 pl-5 pr-12 text-xs font-bold text-black placeholder-neutral-400 focus:outline-none focus:bg-white focus:border-[#387515] transition-all" 
               />
-              <FiMail className="absolute right-4 text-neutral-400 text-sm pointer-events-none" />
+              <FiPhone className="absolute right-4 text-neutral-400 text-sm pointer-events-none" />
             </div>
 
             <button 
@@ -174,7 +174,7 @@ export default function RegisterPage() {
               className="w-full text-slate-950 font-black text-xs uppercase tracking-widest py-4 rounded-2xl transition-all flex items-center justify-center gap-2 active:scale-[0.98] shadow-md mt-6 hover:brightness-105 disabled:opacity-50 cursor-pointer" 
               style={{ backgroundColor: "#FFDA50", boxShadow: "0 6px 20px rgba(255, 218, 80, 0.35)" }}
             >
-              <span>{loading ? "SENDING VERIFICATION CODE..." : "VERIFY EMAIL"}</span>
+              <span>{loading ? "SENDING WHATSAPP OTP..." : "SEND WHATSAPP OTP"}</span>
               {!loading && <FiArrowRight className="text-sm" />}
             </button>
           </form>
@@ -183,7 +183,7 @@ export default function RegisterPage() {
         {step === "otp" && (
           <form onSubmit={handleOtpVerify} className="space-y-4">
             <p className="text-[11px] font-bold text-neutral-500 text-center mb-2">
-              A 6-digit verification code has been sent to <span className="text-[#387515] font-black">{email}</span>
+              WhatsApp OTP sent to <span className="text-[#387515] font-black">{phone}</span>
             </p>
             
             <input 
@@ -214,7 +214,7 @@ export default function RegisterPage() {
                   disabled={loading} 
                   className="text-xs font-bold flex items-center justify-center gap-1.5 mx-auto uppercase tracking-wider text-[#387515] hover:underline active:scale-95 transition-all cursor-pointer"
                 >
-                  <FiRefreshCw className={loading ? "animate-spin" : ""} /> Resend Verification Code
+                  <FiRefreshCw className={loading ? "animate-spin" : ""} /> Resend WhatsApp OTP
                 </button>
               ) : (
                 <p className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest">
@@ -277,9 +277,6 @@ export default function RegisterPage() {
         </div>
 
       </div>
-
-      <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-[#FFDA50]/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-[#387515]/10 rounded-full blur-3xl pointer-events-none" />
     </div>
   );
 }

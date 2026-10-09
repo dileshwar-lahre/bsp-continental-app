@@ -9,18 +9,16 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 const slides = [
   {
     tag: "PROPERTY COMPLIANCE",
-    title: "SECURE PROPERTY\nBEFORE YOU INVEST.",
-    description:
-      "Certified title checks, search reports, and legal verification to protect your property and loan assets across Bilaspur.",
+    title: "SECURE YOUR PROPERTY\nBEFORE YOU INVEST.",
+    description: "Certified legal checks.",
     primaryBtn: { text: "PROPERTY COMPLIANCE", href: "/services/property-compliance" },
     secondaryBtn: { text: "START A CONSULTATION", href: "/contact" },
     image: "/images/Premiumproperty.png",
   },
   {
     tag: "CIBIL SCORE MANAGEMENT",
-    title: "FIX YOUR CIBIL.\nBOOST YOUR APPROVAL.",
-    description:
-      "Expert credit report audits, dispute resolution, and error removal across CIBIL, CRIF, and Experian.",
+    title: "FIX YOUR CIBIL &\nBOOST APPROVALS.",
+    description: "Expert credit report audits.",
     primaryBtn: { text: "CIBIL MANAGEMENT", href: "/services/cibil-management" },
     secondaryBtn: { text: "REQUEST CONSULTATION", href: "/contact" },
     image: "/images/Structured credit planning with expert guidance.png",
@@ -28,8 +26,7 @@ const slides = [
   {
     tag: "FINANCIAL CONSULTING",
     title: "SECURED FINANCING &\nEXPERT ADVISORY.",
-    description:
-      "Tailored capital structuring, mortgage guidance, and loan-readiness support from verified financial consultants.",
+    description: "Tailored capital structuring.",
     primaryBtn: { text: "FINANCIAL CONSULTING", href: "/services/financial-consulting" },
     secondaryBtn: { text: "TALK TO AN ADVISOR", href: "/contact" },
     image: "/images/Strategic Financial Guidance for Indian Businesses.png",
@@ -37,8 +34,7 @@ const slides = [
   {
     tag: "PROJECT FINANCE ASSISTANCE",
     title: "BE LOAN-READY\nBEFORE YOU APPLY.",
-    description:
-      "Professional CMA data formulation, project reports, and documentation preparedness before banking submission.",
+    description: "Professional CMA & project reports.",
     primaryBtn: { text: "CHECK LOAN READINESS", href: "/services/loan-readiness" },
     secondaryBtn: { text: "START CONSULTATION", href: "/contact" },
     image: "/images/ReadywithaStrongLoanApplication.png",
@@ -125,18 +121,21 @@ export default function HomeSection() {
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className="space-y-4 sm:space-y-6"
             >
-              <div className="flex items-center gap-2.5">
-                <span className="w-6 sm:w-8 h-[2px] bg-[#f3c251]" />
-                <span className="text-[10px] sm:text-xs font-mono font-black uppercase tracking-[0.22em] text-[#f3c251]">
+              {/* Category Header (Tag) - Ab aur bada kar diya hai */}
+              <div className="flex items-center gap-3.5">
+                <span className="w-10 sm:w-14 h-[3.5px] bg-[#f3c251]" />
+                <span className="text-base sm:text-lg lg:text-xl font-mono font-black uppercase tracking-[0.3em] text-[#f3c251]">
                   {slide.tag}
                 </span>
               </div>
 
-              <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-black uppercase tracking-tight text-white leading-[1.08] whitespace-pre-line drop-shadow-md">
+              {/* Main Title */}
+              <h1 className="text-3xl sm:text-5xl lg:text-[56px] font-black uppercase tracking-tight text-white leading-[1.06] whitespace-pre-line drop-shadow-md">
                 {slide.title}
               </h1>
 
-              <p className="text-xs sm:text-base text-emerald-100/85 font-medium max-w-xl leading-relaxed">
+              {/* Description - Bilkul chota aur compact */}
+              <p className="text-xs sm:text-sm text-emerald-100/75 font-medium max-w-lg leading-relaxed">
                 {slide.description}
               </p>
 

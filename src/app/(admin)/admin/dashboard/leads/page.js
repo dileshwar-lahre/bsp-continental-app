@@ -75,7 +75,7 @@ export default function AdminDashboardLeads() {
     .reduce((acc, curr) => acc + (curr.amount || 0), 0);
 
   return (
-    <div className="min-h-screen bg-[#FAFBFD] text-slate-900 select-none antialiased p-4 sm:p-8 lg:p-10">
+    <div className="min-h-screen bg-[#FAFBFD] text-slate-900 select-none antialiased p-4 sm:p-8 lg:p-10 lg:pl-72 pt-24 transition-all duration-300">
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Top Header */}

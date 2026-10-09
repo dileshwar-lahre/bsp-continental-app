@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FiLock, FiMail, FiArrowRight, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
 
@@ -11,7 +10,6 @@ export default function AdminLoginPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const brandColor = "#4933e6";
 
@@ -32,9 +30,10 @@ export default function AdminLoginPage() {
 
       if (res.ok && data.success) {
         setSuccessMsg("Access Granted! Authenticating Terminal...");
+        // ✅ router.push ki jagah window.location use karne se cookie instantly set hoke dashboard load ho jayega
         setTimeout(() => {
-          router.push("/admin/dashboard");
-        }, 500);
+          window.location.href = "/admin/dashboard";
+        }, 400);
       } else {
         setErrorMsg(data.message || "Invalid Email or Master Password!");
       }
@@ -52,7 +51,6 @@ export default function AdminLoginPage() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6"
       >
-        {/* Terminal Header */}
         <div className="text-center space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#4933e6]/10 border border-[#4933e6]/20 text-[#4933e6] text-xs font-black uppercase tracking-widest">
             <FiLock size={12} /> Restricted Terminal
@@ -65,7 +63,6 @@ export default function AdminLoginPage() {
           </p>
         </div>
 
-        {/* Error Alert Box */}
         {errorMsg && (
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
@@ -77,7 +74,6 @@ export default function AdminLoginPage() {
           </motion.div>
         )}
 
-        {/* Success Alert Box */}
         {successMsg && (
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
@@ -89,9 +85,7 @@ export default function AdminLoginPage() {
           </motion.div>
         )}
 
-        {/* Login Form */}
         <form onSubmit={handleAdminLogin} className="space-y-4">
-          
           <div className="space-y-1.5">
             <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
               Admin Email

@@ -1,30 +1,47 @@
 import connectDB from "@/lib/db";
 import User from "@/model/User";
-import nodemailer from "nodemailer";
 import { NextResponse } from "next/server";
 
 global.forgetCache = global.forgetCache || {};
+
+// Helper function to normalize mobile number to 10 digits
+function normalizePhoneNumber(rawPhone) {
+  if (!rawPhone) return "";
+  let digits = rawPhone.replace(/\D/g, "");
+  if (digits.length === 12 && digits.startsWith("91")) {
+    digits = digits.slice(2);
+  } else if (digits.length === 11 && digits.startsWith("0")) {
+    digits = digits.slice(1);
+  }
+  return digits.slice(-10);
+}
 
 export async function POST(req) {
   try {
     await connectDB();
     const body = await req.json();
-    const { email } = body;
+    const { phone } = body;
 
-    if (!email) {
+    if (!phone) {
       return NextResponse.json(
-        { error: "Email address is required." },
+        { error: "Mobile number is required." },
         { status: 400 }
       );
     }
 
-    const targetEmail = email.toLowerCase().trim();
+    const targetPhone = normalizePhoneNumber(phone);
+    if (targetPhone.length !== 10) {
+      return NextResponse.json(
+        { error: "Please enter a valid 10-digit mobile number." },
+        { status: 400 }
+      );
+    }
 
-    // 1. Check user existence
-    const user = await User.findOne({ email: targetEmail });
+    // 1. Check user existence by phone
+    const user = await User.findOne({ phone: targetPhone });
     if (!user) {
       return NextResponse.json(
-        { error: "No account found associated with this email address." },
+        { error: "No account found associated with this mobile number. Please sign up first." },
         { status: 404 }
       );
     }
@@ -36,62 +53,55 @@ export async function POST(req) {
       );
     }
 
-    // 2. Generate and store dynamic 6-digit token
+    // 2. Generate 6-digit token and store in cache
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-    global.forgetCache[targetEmail] = otpCode;
+    global.forgetCache[targetPhone] = otpCode;
 
     // ⏳ 10-Minute Expiration Cleanup (600,000 ms)
     setTimeout(() => {
-      if (global.forgetCache[targetEmail] === otpCode) {
-        delete global.forgetCache[targetEmail];
-        console.log(`🗑️ Password reset token expired for: ${targetEmail}`);
+      if (global.forgetCache[targetPhone] === otpCode) {
+        delete global.forgetCache[targetPhone];
+        console.log(`🗑️ Password reset token expired for: ${targetPhone}`);
       }
     }, 600000);
 
-    // 3. SMTP Transporter Configuration
-    const emailUser = process.env.EMAIL_USER;
-    const emailPass = process.env.EMAIL_PASS;
-
-    if (!emailUser || !emailPass) {
+    // 3. Secure Environment Variable Check for WhatsApp Gateway
+    const apiToken = process.env.RESILIO_API_TOKEN;
+    if (!apiToken) {
+      console.error("❌ RESILIO_API_TOKEN is missing in environment variables.");
       return NextResponse.json(
-        { error: "SMTP mail service is not configured. Please verify environment variables." },
+        { error: "Server configuration error: WhatsApp gateway token is missing." },
         { status: 500 }
       );
     }
 
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
-      auth: {
-        user: emailUser,
-        pass: emailPass,
+    // 4. Dispatch WhatsApp OTP using Resiliohub API
+    const response = await fetch('https://resiliohub.com/api/v1/send_templet', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiToken}`,
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        sendTo: `91${targetPhone}`,
+        templetName: 'auth',
+        exampleArr: [otpCode],
+      }),
     });
 
-    // 4. Dispatch Password Reset Token Email
-    await transporter.sendMail({
-      from: `"BSP Continental" <${emailUser}>`,
-      to: targetEmail,
-      subject: "Password Reset Security Code - BSP Continental",
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 25px; border: 1px solid #e2e8f0; border-radius: 16px; max-width: 420px; margin: auto; background-color: #ffffff;">
-          <h2 style="color: #387515; text-align: center; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;">BSP CONTINENTAL</h2>
-          <p style="font-size: 13px; color: #475569; text-align: center; line-height: 1.5;">We received a request to reset your password. Use the verification code below to proceed:</p>
-          <div style="background: #f8fafc; padding: 16px; text-align: center; border-radius: 12px; font-size: 28px; font-weight: 800; color: #387515; letter-spacing: 6px; margin: 20px 0; border: 1px dashed #387515;">
-            ${otpCode}
-          </div>
-          <p style="font-size: 11px; color: #94a3b8; text-align: center;">This code is valid for 10 minutes. If you did not request this, please disregard this email.</p>
-        </div>
-      `,
-    });
+    const resData = await response.json();
+
+    if (!response.ok) {
+      console.error("Resiliohub API Error Response:", resData);
+      return NextResponse.json({ error: "Failed to dispatch WhatsApp OTP. Please check the mobile number format." }, { status: 400 });
+    }
 
     return NextResponse.json({
       success: true,
-      message: "Password reset verification code has been dispatched to your email address.",
+      message: "Password reset verification code has been dispatched to your WhatsApp number.",
     });
   } catch (err) {
-    console.error("❌ Password reset error:", err);
+    console.error("❌ Password reset init error:", err);
     return NextResponse.json(
       { error: err.message || "An unexpected error occurred during password reset processing." },
       { status: 500 }
