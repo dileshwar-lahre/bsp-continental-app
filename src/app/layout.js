@@ -1,9 +1,8 @@
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import NextAuthProvider from "../providers/NextAuthProvider"; 
-import NavShell from "./components/NavShell";
-import Footer from "./components/Footer";
+import NextAuthProvider from "../providers/NextAuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,59 +15,70 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "BSP CCONTINENTAL PVT LTD | Financial & Property Compliance Services",
-  description: "BSP CCONTINENTAL PVT LTD is a next generation financial consultancy & property compliance service provider.",
+  title: "Website Suspended | Pending Developer Payment",
+  description:
+    "Website services are temporarily suspended due to outstanding developer payments.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function RootLayout({ children }) {
-  // 🔴 SITE AVAILABILITY SWITCH: true rakhne par transparent blur overlay aur icon/404 dikhega
-  const isSiteLocked = true; 
+  // Website remains locked until the outstanding payment issue is resolved.
+  const isSiteLocked = true;
 
   return (
     <html
       lang="en"
-      style={{ colorScheme: "light" }} 
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth bg-slate-50`}
+      className={`${geistSans.variable} ${geistMono.variable} min-h-full antialiased`}
     >
-      <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans antialiased relative">
+      <body className="min-h-screen bg-white font-sans text-slate-900 antialiased">
         <NextAuthProvider>
-          
-          {/* 🚫 FULLY TRANSPARENT OVERLAY WITH BLUR & ERROR ICON/404 (NO TEXT) */}
-          {isSiteLocked && (
-            <div className="fixed inset-0 z-[999999] bg-transparent backdrop-blur-[4px] flex flex-col items-center justify-center p-6 select-none pointer-events-auto">
-              <div className="flex flex-col items-center justify-center space-y-4">
-                
-                {/* Transparent Error / Warning Icon */}
-                <div className="w-24 h-24 sm:w-28 sm:h-28 bg-transparent text-rose-500 rounded-3xl flex items-center justify-center animate-pulse drop-shadow-[0_10px_20px_rgba(244,63,94,0.3)]">
-                  <svg 
-                    className="w-14 h-14 sm:w-16 sm:h-16 stroke-[2.5]" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke="currentColor"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" 
-                    />
-                  </svg>
+          {isSiteLocked ? (
+            <main className="flex min-h-screen items-center justify-center bg-white px-6 py-12">
+              <section className="w-full max-w-2xl text-center">
+                <p className="mb-6 text-sm font-bold uppercase tracking-[0.2em] text-red-600">
+                  Website Temporarily Suspended
+                </p>
+
+                <h1 className="mb-6 text-3xl font-extrabold leading-tight tracking-tight text-slate-950 sm:text-5xl">
+                  Outstanding Developer Payment
+                </h1>
+
+                <div className="mx-auto mb-8 h-1 w-20 bg-red-600" />
+
+                <p className="mb-5 text-base leading-8 text-slate-700 sm:text-lg">
+                  This website has been temporarily suspended
+                  because the developer's payment has remained
+                  outstanding for the past two months.
+                </p>
+
+                <p className="mb-8 text-base leading-8 text-slate-700 sm:text-lg">
+                  The website will remain unavailable until the
+                  pending development dues are settled in
+                  accordance with the agreed terms.
+                </p>
+
+                <div className="border-y border-slate-200 py-5">
+                  <p className="text-sm font-bold uppercase tracking-wider text-red-600">
+                    Payment Pending
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    Please contact the developer and clear the
+                    outstanding payment to initiate the
+                    restoration process.
+                  </p>
                 </div>
 
-                {/* Transparent 404 Badge */}
-                <div className="px-5 py-1.5 rounded-xl bg-transparent text-rose-500 font-mono text-xl sm:text-2xl font-black tracking-widest drop-shadow-[0_4px_10px_rgba(244,63,94,0.3)]">
-                  404
-                </div>
-
-              </div>
-            </div>
+                <p className="mt-8 text-xs text-slate-400">
+                  Website access is currently restricted.
+                </p>
+              </section>
+            </main>
+          ) : (
+            children
           )}
-
-          <div className="flex-1">
-            <NavShell>
-              {children}
-            </NavShell>
-          </div>
-          <Footer />
         </NextAuthProvider>
       </body>
     </html>
